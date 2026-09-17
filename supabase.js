@@ -1,7 +1,10 @@
-const SUPABASE_URL = "https://qemzczsltxbiyxsvpebv.supabase.co";
-const SUPABASE_KEY = "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
-
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+if (
+  window.supabase &&
+  typeof window.supabase.from !== "function" &&
+  typeof window.supabase.createClient === "function"
+) {
+  window.supabase = window.supabase.createClient(
+    "https://qemzczsltxbiyxsvpebv.supabase.co",
+    "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm"
+  );
+}
