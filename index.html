@@ -11,206 +11,1745 @@
     content="Website resmi Karang Taruna Kecamatan Rajeg, Kabupaten Tangerang, Provinsi Banten."
   >
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      color: #222;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7f6;
+      color: #1f2937;
       line-height: 1.6;
     }
 
-    header {
-      background: #0b6b3a;
-      color: white;
-      padding: 20px;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
     }
 
     .container {
-      max-width: 1100px;
+      width: min(1180px, 92%);
       margin: auto;
-      padding: 0 20px;
     }
 
-    nav {
+    /* =========================
+       HEADER
+    ========================== */
+
+    header {
+      background: #087443;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, .12);
+    }
+
+    .navbar {
+      min-height: 75px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 25px;
     }
 
-    .logo {
-      font-size: 20px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-weight: bold;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 15px;
+    .brand-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      background: white;
+      border-radius: 50%;
+      padding: 3px;
     }
 
+    .brand-text {
+      line-height: 1.2;
+    }
+
+    .brand-title {
+      font-size: 17px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      opacity: .85;
+      margin-top: 4px;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-menu a {
+      display: block;
+      padding: 9px 11px;
+      border-radius: 7px;
+      font-size: 14px;
+      transition: .2s;
+    }
+
+    .nav-menu a:hover {
+      background: rgba(255, 255, 255, .15);
+    }
+
+    .menu-button {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: white;
+      font-size: 27px;
+      cursor: pointer;
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
     .hero {
-      background: white;
-      padding: 70px 20px;
+      min-height: 530px;
+      display: flex;
+      align-items: center;
       text-align: center;
+      background:
+        linear-gradient(
+          rgba(0, 93, 52, .90),
+          rgba(0, 93, 52, .90)
+        ),
+        linear-gradient(135deg, #087443, #064e30);
+      color: white;
+    }
+
+    .hero-content {
+      max-width: 850px;
+      margin: auto;
+      padding: 75px 0;
+    }
+
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      background: white;
+      border-radius: 50%;
+      padding: 7px;
+      margin: 0 auto 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, .14);
+      border: 1px solid rgba(255, 255, 255, .25);
+      padding: 7px 16px;
+      border-radius: 30px;
+      margin-bottom: 18px;
+      font-size: 13px;
     }
 
     .hero h1 {
-      font-size: 38px;
-      margin-bottom: 15px;
-      color: #0b6b3a;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .hero h2 {
+      font-size: 21px;
+      font-weight: normal;
+      margin-bottom: 18px;
+      opacity: .95;
     }
 
     .hero p {
       max-width: 700px;
       margin: auto;
-      color: #666;
+      font-size: 17px;
+      opacity: .92;
     }
 
-    .menu {
-      padding: 50px 0;
+    .hero-button {
+      display: inline-block;
+      margin-top: 30px;
+      background: white;
+      color: #087443;
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: .2s;
     }
 
-    .menu-grid {
+    .hero-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(0, 0, 0, .15);
+    }
+
+    /* =========================
+       SECTION
+    ========================== */
+
+    section {
+      padding: 75px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-header h2 {
+      color: #087443;
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .section-header p {
+      color: #6b7280;
+    }
+
+    /* =========================
+       CARDS
+    ========================== */
+
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
     }
 
     .card {
       background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, .07);
+      border: 1px solid #e5e7eb;
+      transition: .2s;
     }
 
-    .card h3 {
-      color: #0b6b3a;
-      margin-bottom: 10px;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .10);
     }
+
+    .card-image {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      background: #e5e7eb;
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    .card-title {
+      color: #087443;
+      font-size: 19px;
+      margin-bottom: 9px;
+    }
+
+    .card-text {
+      color: #626b76;
+      font-size: 14px;
+    }
+
+    .date {
+      font-size: 12px;
+      color: #8a939d;
+      margin-bottom: 8px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #8a939d;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px dashed #d1d5db;
+      grid-column: 1 / -1;
+    }
+
+    /* =========================
+       ABOUT
+    ========================== */
+
+    .about {
+      background: white;
+    }
+
+    .about-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .about h2 {
+      color: #087443;
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .about p {
+      color: #5d6670;
+      margin-bottom: 12px;
+    }
+
+    .about-list {
+      margin-top: 20px;
+      list-style: none;
+    }
+
+    .about-list li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .about-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #087443;
+      font-weight: bold;
+    }
+
+    .about-panel {
+      background: #087443;
+      color: white;
+      border-radius: 18px;
+      padding: 40px;
+    }
+
+    .about-panel h3 {
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+
+    .about-panel p {
+      color: white;
+    }
+
+    /* =========================
+       PENGURUS
+    ========================== */
+
+    .official-card {
+      text-align: center;
+      padding: 28px 20px;
+    }
+
+    .official-photo {
+      width: 125px;
+      height: 125px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e5e7eb;
+      border: 5px solid #eef7f2;
+    }
+
+    .official-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #087443;
+    }
+
+    .official-position {
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    /* =========================
+       GALLERY
+    ========================== */
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .gallery-item {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, .07);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+    }
+
+    .gallery-caption {
+      padding: 12px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
 
     footer {
-      background: #123;
+      background: #10251c;
       color: white;
+      padding: 50px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 35px;
+    }
+
+    footer h3 {
+      margin-bottom: 15px;
+    }
+
+    footer p,
+    footer li {
+      color: #c9d2cd;
+      font-size: 14px;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer li {
+      margin-bottom: 8px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255, 255, 255, .12);
+      padding-top: 20px;
       text-align: center;
-      padding: 30px 20px;
-      margin-top: 40px;
+      color: #aebbb4;
+      font-size: 13px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 1050px) {
+
+      .nav-menu a {
+        padding: 8px;
+        font-size: 13px;
+      }
+
+    }
+
+    @media (max-width: 950px) {
+
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .navbar {
+        flex-wrap: wrap;
+      }
+
+      .nav-menu {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        padding-bottom: 15px;
+      }
+
+      .nav-menu.show {
+        display: flex;
+      }
+
+      .nav-menu a {
+        padding: 12px;
+      }
+
     }
 
     @media (max-width: 700px) {
-      .hero h1 {
-        font-size: 28px;
+
+      section {
+        padding: 55px 0;
       }
 
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
+      .grid {
+        grid-template-columns: 1fr;
       }
 
-      nav a {
-        margin-left: 0;
-        margin-right: 12px;
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
       }
+
+      .about-box {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 500px;
+      }
+
+      .hero h2 {
+        font-size: 18px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+    }
+
+    @media (max-width: 450px) {
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-title {
+        font-size: 14px;
+      }
+
+      .brand-subtitle {
+        font-size: 10px;
+      }
+
+      .brand-logo {
+        width: 44px;
+        height: 44px;
+      }
+
+      .hero-logo {
+        width: 100px;
+        height: 100px;
+      }
+
     }
   </style>
 </head>
 
 <body>
 
+<!-- =========================
+     HEADER
+========================== -->
+
 <header>
-  <div class="container">
-    <nav>
-      <div class="logo">
-        KARANG TARUNA RAJEG
+
+  <div class="container navbar">
+
+    <a href="#beranda" class="brand">
+
+      <img
+        src="logo-karang-taruna2.webp"
+        class="brand-logo"
+        alt="Logo Karang Taruna"
+      >
+
+      <div class="brand-text">
+
+        <div class="brand-title">
+          KARANG TARUNA RAJEG
+        </div>
+
+        <div class="brand-subtitle">
+          Kec. Rajeg · Kab. Tangerang · Banten
+        </div>
+
       </div>
 
-      <div>
-        <a href="#">Beranda</a>
-        <a href="#menu">Menu</a>
-        <a href="#">Admin</a>
-      </div>
-    </nav>
+    </a>
+
+    <button
+      class="menu-button"
+      onclick="toggleMenu()"
+      aria-label="Buka menu"
+    >
+      ☰
+    </button>
+
+    <ul class="nav-menu" id="navMenu">
+
+      <li>
+        <a href="#beranda">Beranda</a>
+      </li>
+
+      <li>
+        <a href="#berita">Berita</a>
+      </li>
+
+      <li>
+        <a href="#pengurus">Pengurus</a>
+      </li>
+
+      <li>
+        <a href="#jurnal">Jurnal</a>
+      </li>
+
+      <li>
+        <a href="#pengumuman">Pengumuman</a>
+      </li>
+
+      <li>
+        <a href="#prestasi">Prestasi</a>
+      </li>
+
+      <li>
+        <a href="#kegiatan">Kegiatan</a>
+      </li>
+
+      <li>
+        <a href="#dokumentasi">Dokumentasi</a>
+      </li>
+
+    </ul>
+
   </div>
+
 </header>
 
-<section class="hero">
-  <div class="container">
-    <h1>Karang Taruna Kecamatan Rajeg</h1>
+
+<!-- =========================
+     HERO
+========================== -->
+
+<section class="hero" id="beranda">
+
+  <div class="container hero-content">
+
+    <img
+      src="logo-karang-taruna2.webp"
+      class="hero-logo"
+      alt="Logo Karang Taruna Kecamatan Rajeg"
+    >
+
+    <div class="hero-badge">
+      WEBSITE RESMI
+    </div>
+
+    <h1>
+      Karang Taruna Kecamatan Rajeg
+    </h1>
+
+    <h2>
+      Kabupaten Tangerang · Provinsi Banten
+    </h2>
 
     <p>
-      Kabupaten Tangerang – Provinsi Banten
+      Wadah generasi muda untuk berkarya, berorganisasi,
+      membangun kepedulian sosial, dan berkontribusi
+      bagi masyarakat Kecamatan Rajeg.
     </p>
 
-    <p style="margin-top:15px;">
-      Wadah generasi muda untuk berkarya, berorganisasi,
-      dan berkontribusi bagi masyarakat Kecamatan Rajeg.
-    </p>
+    <a href="#berita" class="hero-button">
+      Lihat Informasi Terbaru
+    </a>
+
   </div>
+
 </section>
 
-<section class="menu" id="menu">
+
+<!-- =========================
+     TENTANG
+========================== -->
+
+<section class="about">
+
+  <div class="container about-box">
+
+    <div>
+
+      <h2>
+        Karang Taruna Rajeg
+      </h2>
+
+      <p>
+        Karang Taruna Kecamatan Rajeg merupakan wadah
+        pengembangan generasi muda yang bergerak dalam
+        bidang sosial, kepemudaan, pemberdayaan masyarakat,
+        serta kegiatan positif lainnya.
+      </p>
+
+      <p>
+        Website ini menjadi pusat informasi kegiatan,
+        program kerja, prestasi, berita, dan dokumentasi
+        Karang Taruna Kecamatan Rajeg.
+      </p>
+
+      <ul class="about-list">
+
+        <li>
+          Pengembangan potensi generasi muda
+        </li>
+
+        <li>
+          Kegiatan sosial kemasyarakatan
+        </li>
+
+        <li>
+          Pemberdayaan pemuda dan masyarakat
+        </li>
+
+        <li>
+          Dokumentasi kegiatan Karang Taruna
+        </li>
+
+      </ul>
+
+    </div>
+
+    <div class="about-panel">
+
+      <h3>
+        Bersama Pemuda,
+        Membangun Rajeg
+      </h3>
+
+      <p>
+        Mari bersama-sama menciptakan kegiatan yang
+        bermanfaat, kreatif, produktif, dan berdampak
+        positif bagi masyarakat.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     BERITA
+========================== -->
+
+<section id="berita">
+
   <div class="container">
 
-    <div class="menu-grid">
+    <div class="section-header">
 
-      <div class="card">
-        <h3>Kabar Berita</h3>
-        <p>Informasi dan berita terbaru Karang Taruna Rajeg.</p>
-      </div>
+      <h2>
+        Kabar Berita
+      </h2>
 
-      <div class="card">
-        <h3>Profil Pengurus</h3>
-        <p>Informasi struktur dan profil pengurus.</p>
-      </div>
+      <p>
+        Berita dan informasi terbaru Karang Taruna Rajeg
+      </p>
 
-      <div class="card">
-        <h3>Jurnal</h3>
-        <p>Artikel, tulisan, dan catatan kegiatan.</p>
-      </div>
+    </div>
 
-      <div class="card">
-        <h3>Pengumuman</h3>
-        <p>Pengumuman dan informasi penting.</p>
-      </div>
+    <div class="grid" id="newsContainer">
 
-      <div class="card">
-        <h3>Prestasi</h3>
-        <p>Daftar prestasi dan pencapaian.</p>
-      </div>
-
-      <div class="card">
-        <h3>Program & Kegiatan</h3>
-        <p>Program kerja dan kegiatan Karang Taruna.</p>
-      </div>
-
-      <div class="card">
-        <h3>Dokumentasi</h3>
-        <p>Foto dan dokumentasi kegiatan.</p>
+      <div class="empty">
+        Memuat berita...
       </div>
 
     </div>
 
   </div>
+
 </section>
 
-<footer>
-  <p>
-    © 2026 Karang Taruna Kecamatan Rajeg
-  </p>
 
-  <p>
-    Kabupaten Tangerang – Provinsi Banten
-  </p>
+<!-- =========================
+     PENGURUS
+========================== -->
+
+<section id="pengurus" class="about">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <h2>
+        Profil Pengurus
+      </h2>
+
+      <p>
+        Struktur dan profil pengurus Karang Taruna Rajeg
+      </p>
+
+    </div>
+
+    <div class="grid" id="officialsContainer">
+
+      <div class="empty">
+        Memuat pengurus...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     JURNAL
+========================== -->
+
+<section id="jurnal">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <h2>
+        Jurnal
+      </h2>
+
+      <p>
+        Artikel dan tulisan Karang Taruna Rajeg
+      </p>
+
+    </div>
+
+    <div class="grid" id="journalsContainer">
+
+      <div class="empty">
+        Memuat jurnal...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     PENGUMUMAN
+========================== -->
+
+<section id="pengumuman" class="about">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <h2>
+        Pengumuman
+      </h2>
+
+      <p>
+        Informasi dan pengumuman terbaru
+      </p>
+
+    </div>
+
+    <div class="grid" id="announcementsContainer">
+
+      <div class="empty">
+        Memuat pengumuman...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     PRESTASI
+========================== -->
+
+<section id="prestasi">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <h2>
+        Prestasi
+      </h2>
+
+      <p>
+        Prestasi dan pencapaian Karang Taruna Rajeg
+      </p>
+
+    </div>
+
+    <div class="grid" id="achievementsContainer">
+
+      <div class="empty">
+        Memuat prestasi...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     PROGRAM & KEGIATAN
+========================== -->
+
+<section id="kegiatan" class="about">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <h2>
+        Program & Kegiatan
+      </h2>
+
+      <p>
+        Program kerja dan kegiatan Karang Taruna
+      </p>
+
+    </div>
+
+    <div class="grid" id="programsContainer">
+
+      <div class="empty">
+        Memuat kegiatan...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     DOKUMENTASI
+========================== -->
+
+<section id="dokumentasi">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <h2>
+        Dokumentasi
+      </h2>
+
+      <p>
+        Dokumentasi kegiatan Karang Taruna Rajeg
+      </p>
+
+    </div>
+
+    <div class="gallery-grid" id="galleryContainer">
+
+      <div class="empty">
+        Memuat dokumentasi...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <h3>
+          Karang Taruna Kecamatan Rajeg
+        </h3>
+
+        <p>
+          Kabupaten Tangerang, Provinsi Banten.
+        </p>
+
+        <p style="margin-top:10px;">
+          Bersama pemuda, membangun masyarakat
+          yang aktif, kreatif, dan produktif.
+        </p>
+
+      </div>
+
+      <div>
+
+        <h3>
+          Menu
+        </h3>
+
+        <ul>
+
+          <li>
+            <a href="#berita">Kabar Berita</a>
+          </li>
+
+          <li>
+            <a href="#pengurus">Profil Pengurus</a>
+          </li>
+
+          <li>
+            <a href="#jurnal">Jurnal</a>
+          </li>
+
+          <li>
+            <a href="#pengumuman">Pengumuman</a>
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div>
+
+        <h3>
+          Lainnya
+        </h3>
+
+        <ul>
+
+          <li>
+            <a href="#prestasi">Prestasi</a>
+          </li>
+
+          <li>
+            <a href="#kegiatan">Program & Kegiatan</a>
+          </li>
+
+          <li>
+            <a href="#dokumentasi">Dokumentasi</a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="copyright">
+
+      © 2026 Karang Taruna Kecamatan Rajeg.
+      Kabupaten Tangerang · Provinsi Banten.
+
+    </div>
+
+  </div>
+
 </footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
+
+<script>
+
+  function toggleMenu() {
+
+    const menu = document.getElementById("navMenu");
+
+    menu.classList.toggle("show");
+
+  }
+
+
+  function formatDate(date) {
+
+    if (!date) return "";
+
+    return new Date(date).toLocaleDateString(
+      "id-ID",
+      {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }
+    );
+
+  }
+
+
+  function escapeHTML(text) {
+
+    if (text === null || text === undefined) {
+      return "";
+    }
+
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* =========================
+     BERITA
+  ========================== */
+
+  async function loadNews() {
+
+    const container =
+      document.getElementById("newsContainer");
+
+    const { data, error } = await supabase
+      .from("news")
+      .select("*")
+      .eq("published", true)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(6);
+
+    if (error) {
+
+      console.error("News error:", error);
+
+      container.innerHTML = `
+        <div class="empty">
+          Belum ada berita.
+        </div>
+      `;
+
+      return;
+    }
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          Belum ada berita yang dipublikasikan.
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = data.map(item => `
+
+      <article class="card">
+
+        ${
+          item.image_url
+          ?
+          `
+          <img
+            src="${escapeHTML(item.image_url)}"
+            class="card-image"
+            alt="${escapeHTML(item.title)}"
+            loading="lazy"
+          >
+          `
+          :
+          ""
+        }
+
+        <div class="card-body">
+
+          <div class="date">
+            ${formatDate(item.created_at)}
+          </div>
+
+          <h3 class="card-title">
+            ${escapeHTML(item.title)}
+          </h3>
+
+          <p class="card-text">
+            ${escapeHTML(
+              item.excerpt ||
+              item.content?.substring(0, 160) ||
+              ""
+            )}
+          </p>
+
+        </div>
+
+      </article>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     PENGURUS
+  ========================== */
+
+  async function loadOfficials() {
+
+    const container =
+      document.getElementById("officialsContainer");
+
+    const { data, error } = await supabase
+      .from("officials")
+      .select("*")
+      .eq("active", true)
+      .order("sort_order", {
+        ascending: true
+      });
+
+    if (error) {
+
+      console.error("Officials error:", error);
+
+      container.innerHTML = `
+        <div class="empty">
+          Data pengurus belum tersedia.
+        </div>
+      `;
+
+      return;
+    }
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          Data pengurus belum tersedia.
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = data.map(item => `
+
+      <article class="card official-card">
+
+        ${
+          item.photo_url
+          ?
+          `
+          <img
+            src="${escapeHTML(item.photo_url)}"
+            class="official-photo"
+            alt="${escapeHTML(item.name)}"
+            loading="lazy"
+          >
+          `
+          :
+          `
+          <div
+            class="official-photo"
+            style="
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              font-size:40px;
+            "
+          >
+            👤
+          </div>
+          `
+        }
+
+        <div class="official-name">
+          ${escapeHTML(item.name)}
+        </div>
+
+        <div class="official-position">
+          ${escapeHTML(item.position)}
+        </div>
+
+        ${
+          item.period
+          ?
+          `
+          <div
+            class="date"
+            style="margin-top:8px;"
+          >
+            Periode ${escapeHTML(item.period)}
+          </div>
+          `
+          :
+          ""
+        }
+
+      </article>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     JURNAL
+  ========================== */
+
+  async function loadJournals() {
+
+    const container =
+      document.getElementById("journalsContainer");
+
+    const { data, error } = await supabase
+      .from("journals")
+      .select("*")
+      .eq("published", true)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(6);
+
+    if (error || !data || data.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          Belum ada jurnal.
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = data.map(item => `
+
+      <article class="card">
+
+        <div class="card-body">
+
+          ${
+            item.category
+            ?
+            `
+            <div class="date">
+              ${escapeHTML(item.category)}
+            </div>
+            `
+            :
+            ""
+          }
+
+          <h3 class="card-title">
+            ${escapeHTML(item.title)}
+          </h3>
+
+          <p class="card-text">
+            ${escapeHTML(
+              item.content?.substring(0, 180) || ""
+            )}
+          </p>
+
+          ${
+            item.author
+            ?
+            `
+            <div
+              class="date"
+              style="margin-top:15px;"
+            >
+              Oleh ${escapeHTML(item.author)}
+            </div>
+            `
+            :
+            ""
+          }
+
+        </div>
+
+      </article>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     PENGUMUMAN
+  ========================== */
+
+  async function loadAnnouncements() {
+
+    const container =
+      document.getElementById("announcementsContainer");
+
+    const { data, error } = await supabase
+      .from("announcements")
+      .select("*")
+      .eq("published", true)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(6);
+
+    if (error || !data || data.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          Belum ada pengumuman.
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = data.map(item => `
+
+      <article class="card">
+
+        <div class="card-body">
+
+          ${
+            item.event_date
+            ?
+            `
+            <div class="date">
+              📅 ${formatDate(item.event_date)}
+            </div>
+            `
+            :
+            ""
+          }
+
+          <h3 class="card-title">
+            ${escapeHTML(item.title)}
+          </h3>
+
+          <p class="card-text">
+            ${escapeHTML(
+              item.content?.substring(0, 200) || ""
+            )}
+          </p>
+
+        </div>
+
+      </article>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     PRESTASI
+  ========================== */
+
+  async function loadAchievements() {
+
+    const container =
+      document.getElementById("achievementsContainer");
+
+    const { data, error } = await supabase
+      .from("achievements")
+      .select("*")
+      .eq("published", true)
+      .order("year", {
+        ascending: false
+      })
+      .limit(6);
+
+    if (error || !data || data.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          Belum ada data prestasi.
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = data.map(item => `
+
+      <article class="card">
+
+        ${
+          item.image_url
+          ?
+          `
+          <img
+            src="${escapeHTML(item.image_url)}"
+            class="card-image"
+            alt="${escapeHTML(item.title)}"
+            loading="lazy"
+          >
+          `
+          :
+          ""
+        }
+
+        <div class="card-body">
+
+          ${
+            item.year
+            ?
+            `
+            <div class="date">
+              Tahun ${escapeHTML(item.year)}
+            </div>
+            `
+            :
+            ""
+          }
+
+          <h3 class="card-title">
+            ${escapeHTML(item.title)}
+          </h3>
+
+          <p class="card-text">
+            ${escapeHTML(item.description || "")}
+          </p>
+
+        </div>
+
+      </article>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     PROGRAM & KEGIATAN
+  ========================== */
+
+  async function loadPrograms() {
+
+    const container =
+      document.getElementById("programsContainer");
+
+    const { data, error } = await supabase
+      .from("programs")
+      .select("*")
+      .eq("published", true)
+      .order("event_date", {
+        ascending: true,
+        nullsFirst: false
+      })
+      .limit(6);
+
+    if (error || !data || data.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          Belum ada program atau kegiatan.
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = data.map(item => `
+
+      <article class="card">
+
+        ${
+          item.image_url
+          ?
+          `
+          <img
+            src="${escapeHTML(item.image_url)}"
+            class="card-image"
+            alt="${escapeHTML(item.title)}"
+            loading="lazy"
+          >
+          `
+          :
+          ""
+        }
+
+        <div class="card-body">
+
+          ${
+            item.event_date
+            ?
+            `
+            <div class="date">
+              📅 ${formatDate(item.event_date)}
+            </div>
+            `
+            :
+            ""
+          }
+
+          <h3 class="card-title">
+            ${escapeHTML(item.title)}
+          </h3>
+
+          <p class="card-text">
+            ${escapeHTML(item.description || "")}
+          </p>
+
+          ${
+            item.location
+            ?
+            `
+            <div class="date" style="margin-top:12px;">
+              📍 ${escapeHTML(item.location)}
+            </div>
+            `
+            :
+            ""
+          }
+
+          ${
+            item.status
+            ?
+            `
+            <div class="date" style="margin-top:5px;">
+              Status: ${escapeHTML(item.status)}
+            </div>
+            `
+            :
+            ""
+          }
+
+        </div>
+
+      </article>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     DOKUMENTASI
+  ========================== */
+
+  async function loadGallery() {
+
+    const container =
+      document.getElementById("galleryContainer");
+
+    const { data, error } = await supabase
+      .from("gallery")
+      .select("*")
+      .eq("published", true)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(12);
+
+    if (error || !data || data.length === 0) {
+
+      container.innerHTML = `
+        <div class="empty">
+          Belum ada dokumentasi.
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = data.map(item => `
+
+      <article class="gallery-item">
+
+        <img
+          src="${escapeHTML(item.image_url)}"
+          alt="${escapeHTML(item.title)}"
+          loading="lazy"
+        >
+
+        <div class="gallery-caption">
+
+          ${escapeHTML(item.title)}
+
+          ${
+            item.event_date
+            ?
+            `
+            <div
+              class="date"
+              style="margin-top:4px;"
+            >
+              ${formatDate(item.event_date)}
+            </div>
+            `
+            :
+            ""
+          }
+
+        </div>
+
+      </article>
+
+    `).join("");
+
+  }
+
+
+  /* =========================
+     LOAD SEMUA DATA
+  ========================== */
+
+  async function loadAllData() {
+
+    await Promise.all([
+      loadNews(),
+      loadOfficials(),
+      loadJournals(),
+      loadAnnouncements(),
+      loadAchievements(),
+      loadPrograms(),
+      loadGallery()
+    ]);
+
+  }
+
+
+  /* =========================
+     MULAI
+  ========================== */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    loadAllData
+  );
+
+</script>
 
 </body>
 </html>
