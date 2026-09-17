@@ -1,386 +1,779 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Admin - Karang Taruna Rajeg</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Dashboard Admin - Karang Taruna Rajeg
+  </title>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+
     body {
-      font-family: Arial, Helvetica, sans-serif;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
       background: #f4f7fb;
+
       color: #172033;
+
     }
 
-    .loading {
+
+    #loading {
+
       min-height: 100vh;
+
       display: flex;
-      justify-content: center;
+
       align-items: center;
-      font-size: 18px;
-      font-weight: 600;
+
+      justify-content: center;
+
+      font-size: 17px;
+
+      color: #071d49;
+
+      font-weight: bold;
+
     }
 
-    .error-box {
-      max-width: 600px;
-      margin: 80px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      text-align: center;
-    }
-
-    .error-box h2 {
-      color: #c62828;
-      margin-bottom: 15px;
-    }
-
-    .error-box p {
-      line-height: 1.6;
-      color: #555;
-    }
 
     #app {
+
       display: none;
+
       min-height: 100vh;
+
     }
+
+
+    .error-screen {
+
+      min-height: 100vh;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+
+      background: #f4f7fb;
+
+    }
+
+
+    .error-box {
+
+      width: 100%;
+
+      max-width: 550px;
+
+      background: white;
+
+      padding: 35px;
+
+      border-radius: 18px;
+
+      text-align: center;
+
+      box-shadow:
+        0 10px 40px
+        rgba(0,0,0,.08);
+
+    }
+
+
+    .error-box h2 {
+
+      color: #c62828;
+
+      margin-bottom: 15px;
+
+    }
+
+
+    .error-box p {
+
+      color: #555;
+
+      line-height: 1.6;
+
+    }
+
+
+    .error-box button {
+
+      margin-top: 20px;
+
+      padding: 11px 20px;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      background: #071d49;
+
+      color: white;
+
+      cursor: pointer;
+
+    }
+
+
+    /* SIDEBAR */
 
     .sidebar {
+
       position: fixed;
-      left: 0;
+
       top: 0;
+
+      left: 0;
+
       bottom: 0;
+
       width: 260px;
+
       background: #071d49;
+
       color: white;
-      padding: 25px 18px;
+
+      padding: 24px 17px;
+
       overflow-y: auto;
+
     }
+
 
     .brand {
+
       text-align: center;
-      padding-bottom: 25px;
-      border-bottom: 1px solid rgba(255,255,255,.15);
-      margin-bottom: 20px;
+
+      padding-bottom: 24px;
+
+      margin-bottom: 18px;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.15);
+
     }
+
 
     .brand h2 {
-      font-size: 20px;
-      line-height: 1.3;
+
+      font-size: 19px;
+
+      line-height: 1.35;
+
     }
+
 
     .brand p {
+
       margin-top: 7px;
-      font-size: 12px;
-      opacity: .75;
+
+      font-size: 11px;
+
+      opacity: .7;
+
     }
+
 
     .menu-title {
-      font-size: 11px;
+
+      margin:
+        18px 10px
+        8px;
+
+      font-size: 10px;
+
       text-transform: uppercase;
-      opacity: .55;
-      margin: 18px 10px 8px;
+
       letter-spacing: 1px;
+
+      opacity: .5;
+
     }
+
 
     .menu button {
+
       width: 100%;
+
       border: 0;
+
       background: transparent;
+
       color: white;
+
       text-align: left;
-      padding: 13px 14px;
-      border-radius: 9px;
-      margin-bottom: 4px;
+
+      padding: 12px 13px;
+
+      border-radius: 8px;
+
+      margin-bottom: 3px;
+
       cursor: pointer;
+
       font-size: 14px;
+
     }
+
 
     .menu button:hover {
-      background: rgba(255,255,255,.1);
+
+      background:
+        rgba(255,255,255,.1);
+
     }
+
 
     .menu button.active {
+
       background: #f5c400;
+
       color: #071d49;
+
       font-weight: bold;
+
     }
+
 
     .logout {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,.15);
+
+      border-top:
+        1px solid
+        rgba(255,255,255,.15);
+
+      margin-top: 18px;
+
+      padding-top: 18px;
+
     }
+
 
     .logout button {
-      width: 100%;
-      padding: 12px;
-      border: 0;
-      border-radius: 8px;
+
       background: #d62828;
-      color: white;
-      cursor: pointer;
+
+      text-align: center;
+
       font-weight: bold;
+
     }
+
+
+    /* MAIN */
 
     .main {
+
       margin-left: 260px;
+
       min-height: 100vh;
+
     }
+
 
     .topbar {
+
+      height: 72px;
+
       background: white;
-      padding: 20px 30px;
+
+      padding:
+        0 30px;
+
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,.05);
-      position: sticky;
-      top: 0;
-      z-index: 10;
+
+      box-shadow:
+        0 2px 10px
+        rgba(0,0,0,.05);
+
     }
+
 
     .topbar h1 {
+
       font-size: 23px;
+
       color: #071d49;
+
     }
+
 
     .admin-info {
+
       font-size: 13px;
-      color: #555;
+
+      color: #666;
+
     }
+
 
     .content {
+
       padding: 30px;
+
     }
+
 
     .welcome {
-      background: linear-gradient(135deg, #071d49, #123b80);
+
+      background:
+        linear-gradient(
+          135deg,
+          #071d49,
+          #123b80
+        );
+
       color: white;
-      border-radius: 18px;
+
       padding: 30px;
+
+      border-radius: 17px;
+
       margin-bottom: 25px;
+
     }
+
 
     .welcome h2 {
+
       font-size: 25px;
+
       margin-bottom: 8px;
+
     }
+
 
     .welcome p {
+
+      line-height: 1.6;
+
       opacity: .85;
-      line-height: 1.5;
+
     }
+
 
     .stats {
+
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
       gap: 18px;
+
       margin-bottom: 25px;
+
     }
+
 
     .stat-card {
+
       background: white;
-      border-radius: 15px;
+
       padding: 22px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.05);
-      border-left: 5px solid #f5c400;
+
+      border-radius: 15px;
+
+      box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.05);
+
+      border-left:
+        5px solid #f5c400;
+
     }
+
 
     .stat-card h3 {
-      font-size: 13px;
+
+      font-size: 12px;
+
       color: #777;
+
       margin-bottom: 10px;
+
     }
+
 
     .stat-number {
+
       font-size: 30px;
+
       font-weight: bold;
+
       color: #071d49;
+
     }
+
 
     .panel {
+
       background: white;
-      border-radius: 16px;
+
       padding: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.05);
+
+      border-radius: 16px;
+
+      box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.05);
+
     }
+
 
     .panel h2 {
+
       color: #071d49;
+
       margin-bottom: 10px;
+
     }
+
 
     .panel p {
+
       color: #666;
+
       line-height: 1.6;
+
     }
+
 
     .quick-menu {
+
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 15px;
+
       margin-top: 20px;
+
     }
+
 
     .quick-menu button {
-      background: #f7f9fc;
-      border: 1px solid #e5e9f0;
+
       padding: 18px;
+
+      background: #f7f9fc;
+
+      border:
+        1px solid #e5e9f0;
+
       border-radius: 12px;
-      cursor: pointer;
+
       text-align: left;
-      font-size: 14px;
+
+      cursor: pointer;
+
     }
+
 
     .quick-menu button:hover {
+
       border-color: #f5c400;
+
       background: #fffdf0;
+
     }
+
 
     .quick-menu strong {
+
       display: block;
+
       color: #071d49;
+
       margin-bottom: 5px;
+
     }
+
 
     .quick-menu span {
-      color: #777;
+
       font-size: 12px;
+
+      color: #777;
+
     }
 
-    @media (max-width: 900px) {
-      .sidebar {
-        width: 220px;
-      }
 
-      .main {
-        margin-left: 220px;
-      }
+    @media (max-width: 900px) {
 
       .stats {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
       }
 
       .quick-menu {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
       }
+
     }
 
+
     @media (max-width: 650px) {
+
       .sidebar {
+
         position: relative;
+
         width: 100%;
-        height: auto;
+
       }
 
       .main {
+
         margin-left: 0;
+
       }
 
       .stats,
       .quick-menu {
+
         grid-template-columns: 1fr;
+
       }
 
       .topbar {
-        position: relative;
+
+        height: auto;
+
+        padding: 18px;
+
+        gap: 10px;
+
       }
 
       .content {
-        padding: 20px;
+
+        padding: 18px;
+
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <div id="loading" class="loading">
-    Memuat Dashboard Admin...
+
+  <!-- LOADING -->
+
+  <div id="loading">
+
+    Memeriksa akses administrator...
+
   </div>
 
-  <div id="error" style="display:none;"></div>
+
+  <!-- ERROR -->
+
+  <div
+    id="errorScreen"
+    style="display:none;"
+  >
+
+    <div class="error-screen">
+
+      <div class="error-box">
+
+        <h2>
+          Akses Dashboard Ditolak
+        </h2>
+
+        <p id="errorText">
+          Memeriksa...
+        </p>
+
+        <button
+          onclick="goLogin()"
+        >
+          Kembali ke Login
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- APP -->
 
   <div id="app">
 
+
     <aside class="sidebar">
 
+
       <div class="brand">
-        <h2>KARANG TARUNA<br>KECAMATAN RAJEG</h2>
-        <p>Kabupaten Tangerang · Banten</p>
+
+        <h2>
+          KARANG TARUNA<br>
+          KECAMATAN RAJEG
+        </h2>
+
+        <p>
+          Kabupaten Tangerang · Banten
+        </p>
+
       </div>
+
 
       <div class="menu">
 
-        <div class="menu-title">Konten Website</div>
 
-        <button class="active" onclick="showDashboard()">
+        <div class="menu-title">
+          Konten Website
+        </div>
+
+
+        <button
+          class="active"
+          onclick="showDashboard()"
+        >
           🏠 Dashboard
         </button>
 
-        <button onclick="openBerita()">
+
+        <button
+          onclick="openBerita()"
+        >
           📰 Kabar Berita
         </button>
 
-        <button onclick="comingSoon('Profil Pengurus')">
+
+        <button
+          onclick="comingSoon('Profil Pengurus')"
+        >
           👥 Profil Pengurus
         </button>
 
-        <button onclick="comingSoon('Jurnal')">
+
+        <button
+          onclick="comingSoon('Jurnal')"
+        >
           📚 Jurnal
         </button>
 
-        <button onclick="comingSoon('Pengumuman')">
+
+        <button
+          onclick="comingSoon('Pengumuman')"
+        >
           📢 Pengumuman
         </button>
 
-        <button onclick="comingSoon('Prestasi')">
+
+        <button
+          onclick="comingSoon('Prestasi')"
+        >
           🏆 Prestasi
         </button>
 
-        <button onclick="comingSoon('Program & Kegiatan')">
+
+        <button
+          onclick="comingSoon('Program & Kegiatan')"
+        >
           📅 Program & Kegiatan
         </button>
 
-        <button onclick="comingSoon('Dokumentasi')">
+
+        <button
+          onclick="comingSoon('Dokumentasi')"
+        >
           📸 Dokumentasi
         </button>
 
-        <div class="menu-title">Sistem</div>
 
-        <button onclick="comingSoon('Pengaturan')">
+        <div class="menu-title">
+          Sistem
+        </div>
+
+
+        <button
+          onclick="comingSoon('Pengaturan')"
+        >
           ⚙️ Pengaturan
         </button>
 
+
         <div class="logout">
-          <button onclick="logout()">
+
+          <button
+            onclick="logout()"
+          >
             Keluar
           </button>
+
         </div>
 
+
       </div>
+
 
     </aside>
 
 
     <main class="main">
 
+
       <header class="topbar">
 
-        <h1>Dashboard Admin</h1>
+        <h1>
+          Dashboard Admin
+        </h1>
 
         <div class="admin-info">
-          <span id="adminName">Administrator</span>
+
+          Login sebagai:
+          <strong id="adminName">
+            Administrator
+          </strong>
+
         </div>
 
       </header>
@@ -388,14 +781,18 @@
 
       <section class="content">
 
+
         <div class="welcome">
 
-          <h2>Selamat Datang 👋</h2>
+          <h2>
+            Selamat Datang 👋
+          </h2>
 
           <p>
-            Panel administrasi website Karang Taruna Kecamatan Rajeg.
-            Kelola berita, pengurus, jurnal, pengumuman, prestasi,
-            program kegiatan, dan dokumentasi dari sini.
+            Panel administrasi website
+            Karang Taruna Kecamatan Rajeg.
+            Kelola seluruh informasi organisasi
+            melalui panel ini.
           </p>
 
         </div>
@@ -403,92 +800,215 @@
 
         <div class="stats">
 
-          <div class="stat-card">
-            <h3>Berita Terbit</h3>
-            <div class="stat-number" id="statNews">-</div>
-          </div>
 
           <div class="stat-card">
-            <h3>Pengurus Aktif</h3>
-            <div class="stat-number" id="statOfficials">-</div>
+
+            <h3>
+              Berita Terbit
+            </h3>
+
+            <div
+              class="stat-number"
+              id="statNews"
+            >
+              -
+            </div>
+
           </div>
 
-          <div class="stat-card">
-            <h3>Program Terbit</h3>
-            <div class="stat-number" id="statPrograms">-</div>
-          </div>
 
           <div class="stat-card">
-            <h3>Dokumentasi</h3>
-            <div class="stat-number" id="statGallery">-</div>
+
+            <h3>
+              Pengurus Aktif
+            </h3>
+
+            <div
+              class="stat-number"
+              id="statOfficials"
+            >
+              -
+            </div>
+
           </div>
+
+
+          <div class="stat-card">
+
+            <h3>
+              Program Terbit
+            </h3>
+
+            <div
+              class="stat-number"
+              id="statPrograms"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <h3>
+              Dokumentasi
+            </h3>
+
+            <div
+              class="stat-number"
+              id="statGallery"
+            >
+              -
+            </div>
+
+          </div>
+
 
         </div>
 
 
         <div class="panel">
 
-          <h2>Kelola Website</h2>
+          <h2>
+            Kelola Website
+          </h2>
 
           <p>
-            Pilih menu di sebelah kiri untuk mengelola isi website
-            Karang Taruna Kecamatan Rajeg.
+            Pilih menu untuk mengelola
+            konten website Karang Taruna
+            Kecamatan Rajeg.
           </p>
 
 
           <div class="quick-menu">
 
-            <button onclick="openBerita()">
-              <strong>📰 Kabar Berita</strong>
-              <span>Tambah, edit, hapus dan terbitkan berita.</span>
+
+            <button
+              onclick="openBerita()"
+            >
+
+              <strong>
+                📰 Kabar Berita
+              </strong>
+
+              <span>
+                Tambah, edit, hapus dan
+                terbitkan berita.
+              </span>
+
             </button>
 
-            <button onclick="comingSoon('Profil Pengurus')">
-              <strong>👥 Profil Pengurus</strong>
-              <span>Kelola data pengurus Karang Taruna.</span>
+
+            <button
+              onclick="comingSoon('Profil Pengurus')"
+            >
+
+              <strong>
+                👥 Profil Pengurus
+              </strong>
+
+              <span>
+                Kelola data pengurus.
+              </span>
+
             </button>
 
-            <button onclick="comingSoon('Jurnal')">
-              <strong>📚 Jurnal</strong>
-              <span>Kelola artikel dan jurnal organisasi.</span>
+
+            <button
+              onclick="comingSoon('Jurnal')"
+            >
+
+              <strong>
+                📚 Jurnal
+              </strong>
+
+              <span>
+                Kelola jurnal organisasi.
+              </span>
+
             </button>
 
-            <button onclick="comingSoon('Pengumuman')">
-              <strong>📢 Pengumuman</strong>
-              <span>Kelola pengumuman organisasi.</span>
+
+            <button
+              onclick="comingSoon('Pengumuman')"
+            >
+
+              <strong>
+                📢 Pengumuman
+              </strong>
+
+              <span>
+                Kelola pengumuman.
+              </span>
+
             </button>
 
-            <button onclick="comingSoon('Prestasi')">
-              <strong>🏆 Prestasi</strong>
-              <span>Kelola prestasi Karang Taruna.</span>
+
+            <button
+              onclick="comingSoon('Prestasi')"
+            >
+
+              <strong>
+                🏆 Prestasi
+              </strong>
+
+              <span>
+                Kelola prestasi.
+              </span>
+
             </button>
 
-            <button onclick="comingSoon('Program & Kegiatan')">
-              <strong>📅 Program & Kegiatan</strong>
-              <span>Kelola program dan kegiatan.</span>
+
+            <button
+              onclick="comingSoon('Program & Kegiatan')"
+            >
+
+              <strong>
+                📅 Program & Kegiatan
+              </strong>
+
+              <span>
+                Kelola program dan kegiatan.
+              </span>
+
             </button>
 
-            <button onclick="comingSoon('Dokumentasi')">
-              <strong>📸 Dokumentasi</strong>
-              <span>Kelola foto dokumentasi kegiatan.</span>
+
+            <button
+              onclick="comingSoon('Dokumentasi')"
+            >
+
+              <strong>
+                📸 Dokumentasi
+              </strong>
+
+              <span>
+                Kelola foto dokumentasi.
+              </span>
+
             </button>
+
 
           </div>
 
         </div>
 
+
       </section>
 
+
     </main>
+
 
   </div>
 
 
 <script>
 
-  /* =========================================
-     KONFIGURASI SUPABASE
-     ========================================= */
+  /* ==========================================
+     SUPABASE CONFIG
+     ========================================== */
 
   const SUPABASE_URL =
     "https://qemzczsltxbiyxsvpebv.supabase.co";
@@ -497,96 +1017,109 @@
     "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
 
 
-  /* =========================================
-     CLIENT SUPABASE
-     ========================================= */
+  /* ==========================================
+     CLIENT
+     ========================================== */
 
   const supabaseClient =
     window.supabase.createClient(
       SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
     );
 
-
-  /* =========================================
-     ELEMENT
-     ========================================= */
 
   const loading =
     document.getElementById("loading");
 
-  const errorBox =
-    document.getElementById("error");
-
   const app =
     document.getElementById("app");
 
+  const errorScreen =
+    document.getElementById("errorScreen");
 
-  /* =========================================
+  const errorText =
+    document.getElementById("errorText");
+
+
+  /* ==========================================
      ERROR
-     ========================================= */
+     ========================================== */
 
   function showError(message) {
 
     loading.style.display = "none";
 
-    errorBox.style.display = "block";
+    app.style.display = "none";
 
-    errorBox.innerHTML = `
-      <div class="error-box">
-        <h2>Gagal Membuka Dashboard</h2>
-        <p>${message}</p>
-        <br>
-        <button
-          onclick="location.reload()"
-          style="
-            padding:10px 18px;
-            border:0;
-            border-radius:8px;
-            background:#071d49;
-            color:white;
-            cursor:pointer;
-          "
-        >
-          Coba Lagi
-        </button>
-      </div>
-    `;
+    errorScreen.style.display = "block";
+
+    errorText.textContent =
+      message;
+
   }
 
 
-  /* =========================================
-     CEK SESSION + PROFILE
-     ========================================= */
+  /* ==========================================
+     LOGIN
+     ========================================== */
 
-  async function initDashboard() {
+  function goLogin() {
+
+    window.location.replace(
+      "admin.html"
+    );
+
+  }
+
+
+  /* ==========================================
+     SECURITY CHECK
+     ========================================== */
+
+  async function checkAdminAccess() {
 
     try {
 
+
+      /*
+        1. CEK SESSION
+      */
+
       const {
-        data: sessionData,
-        error: sessionError
+        data,
+        error
       } =
       await supabaseClient.auth.getSession();
 
 
-      if (sessionError) {
+      if (error) {
 
         throw new Error(
-          "Session error: " +
-          sessionError.message
+          "Session tidak dapat diperiksa: " +
+          error.message
         );
 
       }
 
 
       const session =
-        sessionData.session;
+        data.session;
 
+
+      /*
+        TIDAK ADA SESSION
+      */
 
       if (!session) {
 
-        window.location.href = "admin.html";
+        goLogin();
 
         return;
 
@@ -597,9 +1130,9 @@
         session.user;
 
 
-      /* =====================================
-         CEK PROFILE ADMIN
-         ===================================== */
+      /*
+        2. CEK PROFILE
+      */
 
       const {
         data: profile,
@@ -607,9 +1140,11 @@
       } =
       await supabaseClient
         .from("profiles")
-        .select("id, full_name, role")
+        .select(
+          "id, full_name, role"
+        )
         .eq("id", user.id)
-        .single();
+        .maybeSingle();
 
 
       if (profileError) {
@@ -622,40 +1157,63 @@
       }
 
 
-      if (
-        !profile ||
-        (
-          profile.role !== "admin" &&
-          profile.role !== "editor"
-        )
-      ) {
+      /*
+        PROFILE TIDAK ADA
+      */
 
-        throw new Error(
-          "Akun ini tidak memiliki akses administrator."
-        );
+      if (!profile) {
+
+        await supabaseClient.auth.signOut();
+
+        goLogin();
+
+        return;
 
       }
 
 
-      /* =====================================
-         TAMPILKAN DASHBOARD
-         ===================================== */
+      /*
+        ROLE TIDAK SESUAI
+      */
 
-      document.getElementById("adminName")
-        .textContent =
+      if (
+        profile.role !== "admin" &&
+        profile.role !== "editor"
+      ) {
+
+        await supabaseClient.auth.signOut();
+
+        showError(
+          "Akun ini tidak memiliki hak akses administrator."
+        );
+
+        return;
+
+      }
+
+
+      /*
+        3. AKSES SAH
+      */
+
+      document.getElementById(
+        "adminName"
+      ).textContent =
         profile.full_name ||
         user.email ||
         "Administrator";
 
 
-      loading.style.display = "none";
+      loading.style.display =
+        "none";
 
-      app.style.display = "block";
+      app.style.display =
+        "block";
 
 
-      /* =====================================
-         LOAD STATISTIK
-         ===================================== */
+      /*
+        4. LOAD DATA
+      */
 
       await loadStats();
 
@@ -665,86 +1223,118 @@
 
       console.error(error);
 
-      showError(error.message);
+      showError(
+        error.message
+      );
 
     }
 
   }
 
 
-  /* =========================================
-     LOAD STATISTIK
-     ========================================= */
+  /* ==========================================
+     STATISTIK
+     ========================================== */
 
   async function loadStats() {
 
     try {
 
+
       const news =
         await supabaseClient
           .from("news")
-          .select("id", {
-            count: "exact",
-            head: true
-          })
-          .eq("published", true);
+          .select(
+            "id",
+            {
+              count: "exact",
+              head: true
+            }
+          )
+          .eq(
+            "published",
+            true
+          );
 
 
-      document.getElementById("statNews")
-        .textContent =
+      document.getElementById(
+        "statNews"
+      ).textContent =
         news.count ?? 0;
 
 
       const officials =
         await supabaseClient
           .from("officials")
-          .select("id", {
-            count: "exact",
-            head: true
-          })
-          .eq("active", true);
+          .select(
+            "id",
+            {
+              count: "exact",
+              head: true
+            }
+          )
+          .eq(
+            "active",
+            true
+          );
 
 
-      document.getElementById("statOfficials")
-        .textContent =
+      document.getElementById(
+        "statOfficials"
+      ).textContent =
         officials.count ?? 0;
 
 
       const programs =
         await supabaseClient
           .from("programs")
-          .select("id", {
-            count: "exact",
-            head: true
-          })
-          .eq("published", true);
+          .select(
+            "id",
+            {
+              count: "exact",
+              head: true
+            }
+          )
+          .eq(
+            "published",
+            true
+          );
 
 
-      document.getElementById("statPrograms")
-        .textContent =
+      document.getElementById(
+        "statPrograms"
+      ).textContent =
         programs.count ?? 0;
 
 
       const gallery =
         await supabaseClient
           .from("gallery")
-          .select("id", {
-            count: "exact",
-            head: true
-          })
-          .eq("published", true);
+          .select(
+            "id",
+            {
+              count: "exact",
+              head: true
+            }
+          )
+          .eq(
+            "published",
+            true
+          );
 
 
-      document.getElementById("statGallery")
-        .textContent =
+      document.getElementById(
+        "statGallery"
+      ).textContent =
         gallery.count ?? 0;
+
 
     }
 
     catch (error) {
 
       console.error(
-        "Gagal memuat statistik:",
+        "Statistik:",
         error
       );
 
@@ -753,13 +1343,13 @@
   }
 
 
-  /* =========================================
+  /* ==========================================
      MENU
-     ========================================= */
+     ========================================== */
 
   function showDashboard() {
 
-    location.reload();
+    window.location.reload();
 
   }
 
@@ -776,16 +1366,15 @@
 
     alert(
       name +
-      " sedang kita siapkan.\n\n" +
-      "Kita kerjakan satu per satu supaya aman."
+      " akan kita aktifkan berikutnya."
     );
 
   }
 
 
-  /* =========================================
+  /* ==========================================
      LOGOUT
-     ========================================= */
+     ========================================== */
 
   async function logout() {
 
@@ -794,23 +1383,94 @@
         "Yakin ingin keluar dari Dashboard Admin?"
       );
 
-    if (!yakin) return;
+
+    if (!yakin) {
+
+      return;
+
+    }
 
 
-    await supabaseClient.auth.signOut();
+    try {
+
+      /*
+        Hapus session Supabase
+      */
+
+      const {
+        error
+      } =
+      await supabaseClient.auth.signOut();
 
 
-    window.location.href =
-      "admin.html";
+      if (error) {
+
+        console.error(
+          "Logout error:",
+          error
+        );
+
+      }
+
+
+      /*
+        Bersihkan cache browser
+        yang berkaitan dengan halaman
+      */
+
+      window.location.replace(
+        "admin.html"
+      );
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+      window.location.replace(
+        "admin.html"
+      );
+
+    }
 
   }
 
 
-  /* =========================================
-     START
-     ========================================= */
+  /* ==========================================
+     JALANKAN SECURITY CHECK
+     ========================================== */
 
-  initDashboard();
+  checkAdminAccess();
+
+
+  /* ==========================================
+     JIKA SESSION BERUBAH
+     ========================================== */
+
+  supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
+
+      if (
+        event === "SIGNED_OUT" ||
+        !session
+      ) {
+
+        if (
+          window.location.pathname
+            .includes("admin-dashboard.html")
+        ) {
+
+          window.location.replace(
+            "admin.html"
+          );
+
+        }
+
+      }
+
+    }
+  );
 
 </script>
 
