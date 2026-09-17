@@ -1,1498 +1,672 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <title>Dashboard Admin — Karang Taruna Rajeg</title>
 
-  <title>Dashboard Admin | Karang Taruna Rajeg</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <meta
-    name="theme-color"
-    content="#071f49"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
-    rel="stylesheet"
-  >
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-
-    :root {
-      --navy: #071f49;
-      --navy-2: #0b2c63;
-      --navy-3: #123d7a;
-
-      --yellow: #ffc400;
-      --yellow-dark: #dca900;
-      --yellow-soft: #fff8dc;
-
-      --white: #ffffff;
-      --bg: #f5f7fb;
-
-      --text: #17233b;
-      --muted: #7c879b;
-
-      --border: #e5e9f0;
-
-      --shadow:
-        0 15px 45px rgba(7, 31, 73, .08);
-    }
-
-
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
-
-
-    html {
-      scroll-behavior: smooth;
-    }
-
 
     body {
-      font-family: "Inter", sans-serif;
-
-      background: var(--bg);
-
-      color: var(--text);
-
-      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      background: #f4f6fa;
+      color: #17233d;
     }
 
-
-    button,
-    input,
-    textarea,
-    select {
-      font-family: inherit;
-    }
-
-
-    /* =====================================================
-       LAYOUT
-    ===================================================== */
-
-    .app {
-      min-height: 100vh;
-
-      display: flex;
-    }
-
-
-    /* =====================================================
-       SIDEBAR
-    ===================================================== */
-
-    .sidebar {
-      width: 255px;
-
-      min-height: 100vh;
-
-      background:
-        linear-gradient(
-          160deg,
-          #061b40 0%,
-          #071f49 55%,
-          #0b2c63 100%
-        );
-
-      color: white;
-
+    .loading-screen {
       position: fixed;
-
-      left: 0;
-      top: 0;
-      bottom: 0;
-
-      z-index: 100;
-
-      display: flex;
-
-      flex-direction: column;
-
-      transition: .3s;
-    }
-
-
-    .sidebar-brand {
-      height: 88px;
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-      padding: 18px 20px;
-
-      border-bottom:
-        1px solid
-        rgba(255,255,255,.08);
-    }
-
-
-    .sidebar-brand img {
-      width: 48px;
-      height: 48px;
-
-      object-fit: contain;
-    }
-
-
-    .brand-name strong {
-      display: block;
-
-      font-family:
-        "Plus Jakarta Sans",
-        sans-serif;
-
-      font-size: 13px;
-
-      line-height: 1.2;
-    }
-
-
-    .brand-name span {
-      display: block;
-
-      color: var(--yellow);
-
-      font-size: 19px;
-
-      font-weight: 800;
-
-      margin-top: 2px;
-    }
-
-
-    .sidebar-menu {
-      padding: 22px 13px;
-
-      flex: 1;
-
-      overflow-y: auto;
-    }
-
-
-    .menu-label {
-      color:
-        rgba(255,255,255,.38);
-
-      font-size: 9px;
-
-      font-weight: 800;
-
-      letter-spacing: 1.3px;
-
-      margin:
-        8px 12px 10px;
-    }
-
-
-    .menu-item {
-      width: 100%;
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-      padding: 12px 13px;
-
-      margin-bottom: 4px;
-
-      border-radius: 11px;
-
-      border: 0;
-
-      background: transparent;
-
-      color:
-        rgba(255,255,255,.67);
-
-      font-size: 11px;
-
-      font-weight: 600;
-
-      cursor: pointer;
-
-      text-align: left;
-
-      transition: .2s;
-    }
-
-
-    .menu-item i {
-      width: 20px;
-
-      text-align: center;
-
-      font-size: 14px;
-    }
-
-
-    .menu-item:hover {
-      color: white;
-
-      background:
-        rgba(255,255,255,.08);
-    }
-
-
-    .menu-item.active {
-      background: var(--yellow);
-
-      color: var(--navy);
-
-      box-shadow:
-        0 8px 20px
-        rgba(255,196,0,.18);
-    }
-
-
-    .sidebar-footer {
-      padding: 15px;
-
-      border-top:
-        1px solid
-        rgba(255,255,255,.08);
-    }
-
-
-    .logout-btn {
-      width: 100%;
-
-      border: 0;
-
-      background:
-        rgba(255,255,255,.06);
-
-      color:
-        rgba(255,255,255,.7);
-
-      padding: 11px;
-
-      border-radius: 10px;
-
-      cursor: pointer;
-
-      font-size: 11px;
-
-      font-weight: 700;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      gap: 8px;
-
-      transition: .2s;
-    }
-
-
-    .logout-btn:hover {
-      background:
-        rgba(255,255,255,.12);
-
-      color: white;
-    }
-
-
-    /* =====================================================
-       MAIN
-    ===================================================== */
-
-    .main {
-      margin-left: 255px;
-
-      width: calc(100% - 255px);
-
-      min-height: 100vh;
-    }
-
-
-    /* =====================================================
-       TOPBAR
-    ===================================================== */
-
-    .topbar {
-      height: 88px;
-
-      background: white;
-
-      border-bottom:
-        1px solid
-        var(--border);
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      padding: 0 32px;
-
-      position: sticky;
-
-      top: 0;
-
-      z-index: 50;
-    }
-
-
-    .topbar-left {
-      display: flex;
-
-      align-items: center;
-
-      gap: 15px;
-    }
-
-
-    .mobile-menu {
-      display: none;
-
-      width: 38px;
-      height: 38px;
-
-      border: 1px solid var(--border);
-
-      background: white;
-
-      color: var(--navy);
-
-      border-radius: 10px;
-
-      cursor: pointer;
-    }
-
-
-    .page-title h1 {
-      font-family:
-        "Plus Jakarta Sans",
-        sans-serif;
-
-      color: var(--navy);
-
-      font-size: 21px;
-
-      line-height: 1.2;
-    }
-
-
-    .page-title p {
-      color: var(--muted);
-
-      font-size: 10px;
-
-      margin-top: 4px;
-    }
-
-
-    .topbar-right {
-      display: flex;
-
-      align-items: center;
-
-      gap: 13px;
-    }
-
-
-    .view-site {
-      text-decoration: none;
-
-      height: 38px;
-
-      padding: 0 14px;
-
-      border: 1px solid var(--border);
-
-      border-radius: 10px;
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 8px;
-
-      color: var(--navy);
-
-      font-size: 10px;
-
-      font-weight: 700;
-
-      background: white;
-
-      transition: .2s;
-    }
-
-
-    .view-site:hover {
-      border-color: var(--yellow);
-
-      background: var(--yellow-soft);
-    }
-
-
-    .admin-profile {
-      display: flex;
-
-      align-items: center;
-
-      gap: 9px;
-
-      padding-left: 12px;
-
-      border-left:
-        1px solid
-        var(--border);
-    }
-
-
-    .admin-avatar {
-      width: 38px;
-      height: 38px;
-
-      border-radius: 11px;
-
-      background: var(--navy);
-
-      color: var(--yellow);
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      font-size: 14px;
-    }
-
-
-    .admin-info strong {
-      display: block;
-
-      font-size: 10px;
-
-      color: var(--navy);
-    }
-
-
-    .admin-info span {
-      display: block;
-
-      font-size: 8px;
-
-      color: var(--muted);
-
-      margin-top: 2px;
-    }
-
-
-    /* =====================================================
-       CONTENT
-    ===================================================== */
-
-    .content {
-      padding: 30px 32px 45px;
-    }
-
-
-    /* =====================================================
-       WELCOME
-    ===================================================== */
-
-    .welcome {
-      background:
-        linear-gradient(
-          120deg,
-          var(--navy),
-          var(--navy-2)
-        );
-
-      border-radius: 20px;
-
-      min-height: 185px;
-
-      padding: 30px 32px;
-
-      position: relative;
-
-      overflow: hidden;
-
-      color: white;
-
-      box-shadow:
-        0 15px 35px
-        rgba(7,31,73,.12);
-    }
-
-
-    .welcome::before {
-      content: "";
-
-      position: absolute;
-
-      width: 290px;
-      height: 290px;
-
-      border-radius: 50%;
-
-      right: -125px;
-      top: -170px;
-
-      border:
-        50px solid
-        rgba(255,196,0,.85);
-    }
-
-
-    .welcome::after {
-      content: "";
-
-      position: absolute;
-
-      width: 190px;
-      height: 190px;
-
-      border-radius: 50%;
-
-      right: 150px;
-      bottom: -155px;
-
-      background:
-        rgba(255,196,0,.09);
-    }
-
-
-    .welcome-content {
-      position: relative;
-
-      z-index: 2;
-
-      max-width: 620px;
-    }
-
-
-    .welcome-badge {
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 7px;
-
-      padding: 6px 10px;
-
-      border-radius: 20px;
-
-      background:
-        rgba(255,196,0,.12);
-
-      color: var(--yellow);
-
-      font-size: 8px;
-
-      font-weight: 800;
-
-      letter-spacing: .5px;
-
-      margin-bottom: 13px;
-    }
-
-
-    .welcome h2 {
-      font-family:
-        "Plus Jakarta Sans",
-        sans-serif;
-
-      font-size: 25px;
-
-      margin-bottom: 7px;
-    }
-
-
-    .welcome h2 span {
-      color: var(--yellow);
-    }
-
-
-    .welcome p {
-      color:
-        rgba(255,255,255,.65);
-
-      font-size: 10px;
-
-      line-height: 1.7;
-
-      max-width: 510px;
-    }
-
-
-    /* =====================================================
-       STATS
-    ===================================================== */
-
-    .section-heading {
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      margin:
-        28px 0 15px;
-    }
-
-
-    .section-heading h3 {
-      font-family:
-        "Plus Jakarta Sans",
-        sans-serif;
-
-      color: var(--navy);
-
-      font-size: 14px;
-    }
-
-
-    .section-heading span {
-      color: var(--muted);
-
-      font-size: 9px;
-    }
-
-
-    .stats {
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, 1fr);
-
-      gap: 14px;
-    }
-
-
-    .stat-card {
-      background: white;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius: 16px;
-
-      padding: 18px;
-
-      position: relative;
-
-      overflow: hidden;
-
-      box-shadow:
-        0 7px 25px
-        rgba(7,31,73,.035);
-
-      transition: .25s;
-    }
-
-
-    .stat-card:hover {
-      transform:
-        translateY(-3px);
-
-      box-shadow:
-        var(--shadow);
-    }
-
-
-    .stat-card::after {
-      content: "";
-
-      position: absolute;
-
-      width: 70px;
-      height: 70px;
-
-      border-radius: 50%;
-
-      right: -32px;
-      bottom: -32px;
-
-      background:
-        var(--yellow-soft);
-    }
-
-
-    .stat-icon {
-      width: 40px;
-      height: 40px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      border-radius: 11px;
-
-      background:
-        var(--yellow-soft);
-
-      color: var(--navy);
-
-      font-size: 15px;
-
-      margin-bottom: 14px;
-    }
-
-
-    .stat-number {
-      color: var(--navy);
-
-      font-family:
-        "Plus Jakarta Sans",
-        sans-serif;
-
-      font-size: 25px;
-
-      font-weight: 800;
-
-      line-height: 1;
-    }
-
-
-    .stat-name {
-      color: var(--muted);
-
-      font-size: 9px;
-
-      margin-top: 7px;
-
-      font-weight: 600;
-    }
-
-
-    /* =====================================================
-       QUICK ACTION
-    ===================================================== */
-
-    .quick-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 14px;
-    }
-
-
-    .quick-card {
-      border: 1px solid var(--border);
-
-      background: white;
-
-      border-radius: 15px;
-
-      padding: 18px;
-
-      text-decoration: none;
-
-      color: var(--text);
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 14px;
-
-      transition: .2s;
-
-      cursor: pointer;
-    }
-
-
-    .quick-card:hover {
-      border-color: var(--yellow);
-
-      transform:
-        translateY(-2px);
-
-      box-shadow:
-        var(--shadow);
-    }
-
-
-    .quick-icon {
-      width: 42px;
-      height: 42px;
-
-      flex-shrink: 0;
-
-      border-radius: 11px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      background:
-        var(--yellow-soft);
-
-      color: var(--navy);
-    }
-
-
-    .quick-card strong {
-      display: block;
-
-      color: var(--navy);
-
-      font-size: 10px;
-
-      margin-bottom: 4px;
-    }
-
-
-    .quick-card span {
-      color: var(--muted);
-
-      font-size: 8px;
-
-      line-height: 1.5;
-    }
-
-
-    /* =====================================================
-       INFO
-    ===================================================== */
-
-    .info-grid {
-      display: grid;
-
-      grid-template-columns:
-        1.4fr 1fr;
-
-      gap: 15px;
-
-      margin-top: 15px;
-    }
-
-
-    .panel {
-      background: white;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius: 16px;
-
-      padding: 20px;
-    }
-
-
-    .panel-title {
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      margin-bottom: 18px;
-    }
-
-
-    .panel-title h4 {
-      font-family:
-        "Plus Jakarta Sans",
-        sans-serif;
-
-      color: var(--navy);
-
-      font-size: 12px;
-    }
-
-
-    .panel-title span {
-      font-size: 8px;
-
-      color: var(--muted);
-    }
-
-
-    .status-box {
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-      padding: 13px;
-
-      background:
-        #f8fafc;
-
-      border-radius: 11px;
-
-      margin-bottom: 9px;
-    }
-
-
-    .status-dot {
-      width: 9px;
-      height: 9px;
-
-      border-radius: 50%;
-
-      background: #25a244;
-
-      box-shadow:
-        0 0 0 4px
-        rgba(37,162,68,.09);
-    }
-
-
-    .status-text strong {
-      display: block;
-
-      color: var(--navy);
-
-      font-size: 9px;
-    }
-
-
-    .status-text span {
-      display: block;
-
-      color: var(--muted);
-
-      font-size: 8px;
-
-      margin-top: 3px;
-    }
-
-
-    .info-list {
-      display: grid;
-
-      gap: 9px;
-    }
-
-
-    .info-row {
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      padding: 10px 0;
-
-      border-bottom:
-        1px solid
-        var(--border);
-    }
-
-
-    .info-row:last-child {
-      border-bottom: 0;
-    }
-
-
-    .info-row span {
-      color: var(--muted);
-
-      font-size: 8px;
-    }
-
-
-    .info-row strong {
-      color: var(--navy);
-
-      font-size: 8px;
-    }
-
-
-    /* =====================================================
-       LOADING
-    ===================================================== */
-
-    .loading {
-      position: fixed;
-
       inset: 0;
-
-      background:
-        rgba(255,255,255,.96);
-
-      z-index: 9999;
-
+      background: #071a3d;
+      color: white;
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
-      flex-direction: column;
-
-      gap: 15px;
+      z-index: 9999;
+      transition: opacity .3s;
     }
 
+    .loading-screen.hidden {
+      display: none;
+    }
+
+    .loading-box {
+      text-align: center;
+    }
 
     .spinner {
-      width: 40px;
-      height: 40px;
-
-      border:
-        4px solid
-        #e9edf3;
-
-      border-top-color:
-        var(--yellow);
-
-      border-right-color:
-        var(--navy);
-
+      width: 38px;
+      height: 38px;
+      border: 4px solid rgba(255,255,255,.3);
+      border-top-color: #ffcc00;
       border-radius: 50%;
-
-      animation:
-        spin .8s linear infinite;
+      animation: spin .7s linear infinite;
+      margin: 0 auto 18px;
     }
-
 
     @keyframes spin {
-
       to {
-        transform:
-          rotate(360deg);
+        transform: rotate(360deg);
       }
-
     }
 
-
-    .loading span {
-      color: var(--navy);
-
-      font-size: 10px;
-
-      font-weight: 700;
+    .loading-box p {
+      font-size: 14px;
     }
 
-
-    /* =====================================================
-       TOAST
-    ===================================================== */
-
-    .toast {
+    .error-screen {
       position: fixed;
-
-      right: 25px;
-      bottom: 25px;
-
-      background:
-        var(--navy);
-
+      inset: 0;
+      background: #071a3d;
       color: white;
-
-      padding: 13px 17px;
-
-      border-radius: 11px;
-
-      font-size: 10px;
-
-      font-weight: 600;
-
-      box-shadow:
-        0 12px 30px
-        rgba(0,0,0,.15);
-
-      transform:
-        translateY(100px);
-
-      opacity: 0;
-
-      transition: .3s;
-
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
       z-index: 10000;
     }
 
-
-    .toast.show {
-      transform:
-        translateY(0);
-
-      opacity: 1;
+    .error-box {
+      background: white;
+      color: #17233d;
+      max-width: 500px;
+      width: 100%;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
     }
 
+    .error-box h2 {
+      margin-bottom: 12px;
+      color: #a52525;
+    }
 
-    /* =====================================================
-       RESPONSIVE
-    ===================================================== */
+    .error-box p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .error-box button {
+      border: none;
+      background: #071a3d;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .app {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .app.visible {
+      display: flex;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      width: 260px;
+      min-height: 100vh;
+      background: #071a3d;
+      color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
+      padding: 24px 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 25px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 18px;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 12px;
+      object-fit: contain;
+      padding: 5px;
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .brand-text span {
+      display: block;
+      font-size: 11px;
+      color: #bfc9dc;
+      margin-top: 3px;
+    }
+
+    .menu-title {
+      font-size: 10px;
+      color: #8997b2;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 10px 12px;
+    }
+
+    .menu {
+      list-style: none;
+    }
+
+    .menu li {
+      margin-bottom: 4px;
+    }
+
+    .menu button {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #dce4f2;
+      text-align: left;
+      padding: 12px;
+      border-radius: 10px;
+      font-family: inherit;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .menu button:hover,
+    .menu button.active {
+      background: rgba(255,204,0,.15);
+      color: #ffcc00;
+    }
+
+    .menu-icon {
+      display: inline-block;
+      width: 25px;
+      font-size: 15px;
+    }
+
+    .sidebar-bottom {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 20px;
+    }
+
+    .logout {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: transparent;
+      color: #dce4f2;
+      padding: 11px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+    }
+
+    .logout:hover {
+      background: rgba(255,255,255,.08);
+    }
+
+    /* MAIN */
+
+    .main {
+      margin-left: 260px;
+      width: calc(100% - 260px);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 76px;
+      background: white;
+      border-bottom: 1px solid #e6eaf0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar h1 {
+      font-size: 20px;
+      color: #071a3d;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .website-btn {
+      text-decoration: none;
+      color: #071a3d;
+      border: 1px solid #dce2eb;
+      padding: 9px 14px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .admin-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #ffcc00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #071a3d;
+    }
+
+    .admin-info strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .admin-info span {
+      font-size: 10px;
+      color: #7a8599;
+    }
+
+    /* CONTENT */
+
+    .content {
+      padding: 30px;
+    }
+
+    .welcome {
+      background: linear-gradient(120deg, #ffcc00, #f5bc00);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.13);
+      right: -40px;
+      top: -60px;
+    }
+
+    .welcome h2 {
+      font-size: 24px;
+      color: #071a3d;
+      margin-bottom: 7px;
+    }
+
+    .welcome p {
+      font-size: 13px;
+      color: #31476c;
+    }
+
+    /* STATS */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid #e7ebf1;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .stat-card span {
+      color: #7b879c;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 28px;
+      color: #071a3d;
+      margin-top: 8px;
+    }
+
+    /* SECTION */
+
+    .section-card {
+      background: white;
+      border: 1px solid #e7ebf1;
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .section-head h3 {
+      font-size: 16px;
+      color: #071a3d;
+    }
+
+    .section-head span {
+      font-size: 11px;
+      color: #8a95a7;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .quick-card {
+      border: 1px solid #e6eaf0;
+      border-radius: 14px;
+      padding: 18px;
+      cursor: pointer;
+      background: white;
+      transition: .2s;
+    }
+
+    .quick-card:hover {
+      border-color: #ffcc00;
+      transform: translateY(-2px);
+    }
+
+    .quick-icon {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .quick-card strong {
+      display: block;
+      font-size: 13px;
+      color: #071a3d;
+      margin-bottom: 5px;
+    }
+
+    .quick-card span {
+      font-size: 11px;
+      color: #7b879c;
+      line-height: 1.5;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      color: #40516e;
+      margin-bottom: 10px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #2fa65a;
+    }
+
+    /* MOBILE */
+
+    .mobile-menu {
+      display: none;
+      border: none;
+      background: transparent;
+      font-size: 22px;
+      cursor: pointer;
+      color: #071a3d;
+    }
 
     @media (max-width: 1100px) {
-
       .stats {
-        grid-template-columns:
-          repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .quick-grid {
-        grid-template-columns:
-          repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
-
     }
 
-
     @media (max-width: 800px) {
-
       .sidebar {
-        transform:
-          translateX(-100%);
+        transform: translateX(-100%);
+        transition: .25s;
       }
-
 
       .sidebar.open {
-        transform:
-          translateX(0);
+        transform: translateX(0);
       }
-
 
       .main {
         margin-left: 0;
-
         width: 100%;
       }
-
 
       .mobile-menu {
         display: block;
       }
 
-
       .topbar {
-        padding: 0 17px;
-
-        height: 72px;
+        padding: 0 18px;
       }
 
-
-      .view-site {
+      .topbar h1 {
         display: none;
       }
 
+      .website-btn {
+        display: none;
+      }
+
+      .content {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-grid {
+        grid-template-columns: 1fr;
+      }
 
       .admin-info {
         display: none;
       }
 
-
-      .content {
-        padding:
-          20px 17px 35px;
-      }
-
-
       .welcome {
-        padding: 24px;
-
-        min-height: 175px;
+        padding: 22px;
       }
-
 
       .welcome h2 {
-        font-size: 21px;
+        font-size: 20px;
       }
-
-
-      .stats {
-        grid-template-columns:
-          repeat(2, 1fr);
-
-        gap: 10px;
-      }
-
-
-      .quick-grid {
-        grid-template-columns:
-          1fr;
-      }
-
-
-      .info-grid {
-        grid-template-columns:
-          1fr;
-      }
-
     }
-
-
-    @media (max-width: 450px) {
-
-      .stats {
-        grid-template-columns:
-          1fr 1fr;
-      }
-
-
-      .stat-card {
-        padding: 14px;
-      }
-
-
-      .stat-number {
-        font-size: 21px;
-      }
-
-
-      .stat-icon {
-        width: 35px;
-        height: 35px;
-
-        margin-bottom: 10px;
-      }
-
-
-      .page-title h1 {
-        font-size: 17px;
-      }
-
-
-      .page-title p {
-        display: none;
-      }
-
-    }
-
   </style>
-
 </head>
-
 
 <body>
 
-
   <!-- =====================================================
        LOADING
-  ====================================================== -->
+       ===================================================== -->
 
-  <div
-    class="loading"
-    id="loading"
-  >
+  <div class="loading-screen" id="loadingScreen">
 
-    <div class="spinner"></div>
+    <div class="loading-box">
 
-    <span>
-      Memeriksa akses administrator...
-    </span>
+      <div class="spinner"></div>
+
+      <p id="loadingText">
+        Memeriksa akun admin...
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       ERROR
+       ===================================================== -->
+
+  <div class="error-screen" id="errorScreen">
+
+    <div class="error-box">
+
+      <h2>Gagal Membuka Dashboard</h2>
+
+      <p id="errorText">
+        Terjadi kesalahan.
+      </p>
+
+      <button onclick="window.location.href='admin.html'">
+        Kembali ke Login
+      </button>
+
+    </div>
 
   </div>
 
 
   <!-- =====================================================
        APP
-  ====================================================== -->
+       ===================================================== -->
 
-  <div class="app">
+  <div class="app" id="app">
 
+    <!-- SIDEBAR -->
 
-    <!-- ===================================================
-         SIDEBAR
-    ==================================================== -->
+    <aside class="sidebar" id="sidebar">
 
-    <aside
-      class="sidebar"
-      id="sidebar"
-    >
-
-      <div class="sidebar-brand">
+      <div class="brand">
 
         <img
           src="logo-karang-taruna2.webp"
           alt="Logo Karang Taruna"
         >
 
-        <div class="brand-name">
+        <div class="brand-text">
 
-          <strong>
-            KARANG TARUNA
-          </strong>
+          <strong>Karang Taruna Rajeg</strong>
 
-          <span>
-            RAJEG
-          </span>
+          <span>Panel Administrator</span>
 
         </div>
 
       </div>
 
 
-      <div class="sidebar-menu">
-
-        <div class="menu-label">
-          UTAMA
-        </div>
-
-
-        <button
-          class="menu-item active"
-          onclick="showToast('Dashboard aktif')"
-        >
-
-          <i class="fa-solid fa-grid-2"></i>
-
-          Dashboard
-
-        </button>
-
-
-        <div class="menu-label">
-          KONTEN WEBSITE
-        </div>
-
-
-        <button
-          class="menu-item"
-          onclick="comingSoon('Berita')"
-        >
-
-          <i class="fa-solid fa-newspaper"></i>
-
-          Berita
-
-        </button>
-
-
-        <button
-          class="menu-item"
-          onclick="comingSoon('Profil Pengurus')"
-        >
-
-          <i class="fa-solid fa-users"></i>
-
-          Profil Pengurus
-
-        </button>
-
-
-        <button
-          class="menu-item"
-          onclick="comingSoon('Jurnal')"
-        >
-
-          <i class="fa-solid fa-book-open"></i>
-
-          Jurnal
-
-        </button>
-
-
-        <button
-          class="menu-item"
-          onclick="comingSoon('Pengumuman')"
-        >
-
-          <i class="fa-solid fa-bullhorn"></i>
-
-          Pengumuman
-
-        </button>
-
-
-        <button
-          class="menu-item"
-          onclick="comingSoon('Prestasi')"
-        >
-
-          <i class="fa-solid fa-trophy"></i>
-
-          Prestasi
-
-        </button>
-
-
-        <button
-          class="menu-item"
-          onclick="comingSoon('Program & Kegiatan')"
-        >
-
-          <i class="fa-solid fa-calendar-days"></i>
-
-          Program & Kegiatan
-
-        </button>
-
-
-        <button
-          class="menu-item"
-          onclick="comingSoon('Dokumentasi')"
-        >
-
-          <i class="fa-solid fa-images"></i>
-
-          Dokumentasi
-
-        </button>
-
-
-        <div class="menu-label">
-          SISTEM
-        </div>
-
-
-        <button
-          class="menu-item"
-          onclick="comingSoon('Pengaturan')"
-        >
-
-          <i class="fa-solid fa-gear"></i>
-
-          Pengaturan
-
-        </button>
-
+      <div class="menu-title">
+        MENU UTAMA
       </div>
 
 
-      <div class="sidebar-footer">
+      <ul class="menu">
 
-        <button
-          class="logout-btn"
-          id="logoutBtn"
-        >
+        <li>
+          <button class="active" onclick="menuComingSoon('Dashboard')">
+            <span class="menu-icon">▣</span>
+            Dashboard
+          </button>
+        </li>
 
-          <i class="fa-solid fa-right-from-bracket"></i>
+        <li>
+          <button onclick="menuComingSoon('Kabar Berita')">
+            <span class="menu-icon">📰</span>
+            Kabar Berita
+          </button>
+        </li>
 
-          Keluar
+        <li>
+          <button onclick="menuComingSoon('Profil Pengurus')">
+            <span class="menu-icon">👥</span>
+            Profil Pengurus
+          </button>
+        </li>
 
+        <li>
+          <button onclick="menuComingSoon('Jurnal')">
+            <span class="menu-icon">📖</span>
+            Jurnal
+          </button>
+        </li>
+
+        <li>
+          <button onclick="menuComingSoon('Pengumuman')">
+            <span class="menu-icon">📢</span>
+            Pengumuman
+          </button>
+        </li>
+
+        <li>
+          <button onclick="menuComingSoon('Prestasi')">
+            <span class="menu-icon">🏆</span>
+            Prestasi
+          </button>
+        </li>
+
+        <li>
+          <button onclick="menuComingSoon('Program & Kegiatan')">
+            <span class="menu-icon">📅</span>
+            Program & Kegiatan
+          </button>
+        </li>
+
+        <li>
+          <button onclick="menuComingSoon('Dokumentasi')">
+            <span class="menu-icon">🖼️</span>
+            Dokumentasi
+          </button>
+        </li>
+
+      </ul>
+
+
+      <div class="sidebar-bottom">
+
+        <button class="logout" onclick="logout()">
+          ↪ Keluar
         </button>
 
       </div>
@@ -1500,67 +674,38 @@
     </aside>
 
 
-    <!-- ===================================================
-         MAIN
-    ==================================================== -->
+    <!-- MAIN -->
 
     <main class="main">
 
-
-      <!-- TOPBAR -->
-
       <header class="topbar">
 
-        <div class="topbar-left">
+        <button
+          class="mobile-menu"
+          onclick="toggleSidebar()"
+        >
+          ☰
+        </button>
 
-          <button
-            class="mobile-menu"
-            id="mobileMenu"
-          >
-
-            <i class="fa-solid fa-bars"></i>
-
-          </button>
-
-
-          <div class="page-title">
-
-            <h1>
-              Dashboard
-            </h1>
-
-            <p>
-              Pusat administrasi Karang Taruna Kecamatan Rajeg
-            </p>
-
-          </div>
-
-        </div>
-
+        <h1>
+          Dashboard
+        </h1>
 
         <div class="topbar-right">
 
           <a
             href="index.html"
             target="_blank"
-            class="view-site"
+            class="website-btn"
           >
-
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-            Lihat Website
-
+            Lihat Website ↗
           </a>
 
+          <div class="admin-user">
 
-          <div class="admin-profile">
-
-            <div class="admin-avatar">
-
-              <i class="fa-solid fa-user-shield"></i>
-
+            <div class="avatar" id="avatar">
+              A
             </div>
-
 
             <div class="admin-info">
 
@@ -1569,7 +714,7 @@
               </strong>
 
               <span id="adminRole">
-                Administrator
+                Admin
               </span>
 
             </div>
@@ -1583,254 +728,44 @@
 
       <!-- CONTENT -->
 
-      <section class="content">
+      <div class="content">
+
+        <section class="welcome">
+
+          <h2 id="welcomeTitle">
+            Selamat Datang 👋
+          </h2>
+
+          <p>
+            Kelola seluruh informasi Karang Taruna
+            Kecamatan Rajeg dari satu tempat.
+          </p>
+
+        </section>
 
 
-        <!-- WELCOME -->
-
-        <div class="welcome">
-
-          <div class="welcome-content">
-
-            <div class="welcome-badge">
-
-              <i class="fa-solid fa-circle-check"></i>
-
-              SISTEM ADMINISTRASI ONLINE
-
-            </div>
-
-
-            <h2>
-
-              Selamat datang,
-              <span id="welcomeName">
-                Admin
-              </span>
-
-            </h2>
-
-
-            <p>
-
-              Kelola seluruh informasi, kegiatan,
-              dokumentasi dan publikasi Karang Taruna
-              Kecamatan Rajeg dari satu tempat.
-
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- STATISTIK -->
-
-        <div class="section-heading">
-
-          <h3>
-            Ringkasan Website
-          </h3>
-
-          <span>
-            Data dari Supabase
-          </span>
-
-        </div>
-
+        <!-- STATS -->
 
         <div class="stats">
 
-
-          <!-- NEWS -->
-
           <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i class="fa-solid fa-newspaper"></i>
-
-            </div>
-
-            <div
-              class="stat-number"
-              id="countNews"
-            >
-              -
-            </div>
-
-            <div class="stat-name">
-              Berita
-            </div>
-
+            <span>Kabar Berita</span>
+            <strong id="statNews">-</strong>
           </div>
 
-
-          <!-- OFFICIALS -->
-
           <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i class="fa-solid fa-users"></i>
-
-            </div>
-
-            <div
-              class="stat-number"
-              id="countOfficials"
-            >
-              -
-            </div>
-
-            <div class="stat-name">
-              Pengurus Aktif
-            </div>
-
+            <span>Pengurus</span>
+            <strong id="statOfficials">-</strong>
           </div>
 
-
-          <!-- JOURNAL -->
-
           <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i class="fa-solid fa-book-open"></i>
-
-            </div>
-
-            <div
-              class="stat-number"
-              id="countJournals"
-            >
-              -
-            </div>
-
-            <div class="stat-name">
-              Jurnal
-            </div>
-
+            <span>Program</span>
+            <strong id="statPrograms">-</strong>
           </div>
 
-
-          <!-- ANNOUNCEMENTS -->
-
           <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i class="fa-solid fa-bullhorn"></i>
-
-            </div>
-
-            <div
-              class="stat-number"
-              id="countAnnouncements"
-            >
-              -
-            </div>
-
-            <div class="stat-name">
-              Pengumuman
-            </div>
-
-          </div>
-
-
-          <!-- ACHIEVEMENTS -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i class="fa-solid fa-trophy"></i>
-
-            </div>
-
-            <div
-              class="stat-number"
-              id="countAchievements"
-            >
-              -
-            </div>
-
-            <div class="stat-name">
-              Prestasi
-            </div>
-
-          </div>
-
-
-          <!-- PROGRAMS -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i class="fa-solid fa-calendar-days"></i>
-
-            </div>
-
-            <div
-              class="stat-number"
-              id="countPrograms"
-            >
-              -
-            </div>
-
-            <div class="stat-name">
-              Program & Kegiatan
-            </div>
-
-          </div>
-
-
-          <!-- GALLERY -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i class="fa-solid fa-images"></i>
-
-            </div>
-
-            <div
-              class="stat-number"
-              id="countGallery"
-            >
-              -
-            </div>
-
-            <div class="stat-name">
-              Dokumentasi
-            </div>
-
-          </div>
-
-
-          <!-- TOTAL -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-
-              <i class="fa-solid fa-layer-group"></i>
-
-            </div>
-
-            <div
-              class="stat-number"
-              id="countTotal"
-            >
-              -
-            </div>
-
-            <div class="stat-name">
-              Total Konten
-            </div>
-
+            <span>Dokumentasi</span>
+            <strong id="statGallery">-</strong>
           </div>
 
         </div>
@@ -1838,741 +773,272 @@
 
         <!-- QUICK ACTION -->
 
-        <div class="section-heading">
+        <section class="section-card">
 
-          <h3>
-            Akses Cepat
-          </h3>
+          <div class="section-head">
 
-          <span>
-            Kelola konten website
-          </span>
+            <h3>
+              Kelola Konten
+            </h3>
 
-        </div>
-
-
-        <div class="quick-grid">
-
-
-          <div
-            class="quick-card"
-            onclick="comingSoon('Berita')"
-          >
-
-            <div class="quick-icon">
-
-              <i class="fa-solid fa-pen-to-square"></i>
-
-            </div>
-
-            <div>
-
-              <strong>
-                Tulis Berita
-              </strong>
-
-              <span>
-                Publikasikan berita dan informasi terbaru.
-              </span>
-
-            </div>
+            <span>
+              Pilih menu untuk mengelola
+            </span>
 
           </div>
 
 
-          <div
-            class="quick-card"
-            onclick="comingSoon('Program & Kegiatan')"
-          >
+          <div class="quick-grid">
 
-            <div class="quick-icon">
-
-              <i class="fa-solid fa-calendar-plus"></i>
-
+            <div
+              class="quick-card"
+              onclick="menuComingSoon('Kabar Berita')"
+            >
+              <div class="quick-icon">📰</div>
+              <strong>Kabar Berita</strong>
+              <span>
+                Tambah, edit dan hapus berita.
+              </span>
             </div>
 
-            <div>
 
-              <strong>
-                Tambah Kegiatan
-              </strong>
-
+            <div
+              class="quick-card"
+              onclick="menuComingSoon('Profil Pengurus')"
+            >
+              <div class="quick-icon">👥</div>
+              <strong>Profil Pengurus</strong>
               <span>
-                Tambahkan agenda dan kegiatan Karang Taruna.
+                Kelola data pengurus.
               </span>
+            </div>
 
+
+            <div
+              class="quick-card"
+              onclick="menuComingSoon('Jurnal')"
+            >
+              <div class="quick-icon">📖</div>
+              <strong>Jurnal</strong>
+              <span>
+                Kelola artikel jurnal.
+              </span>
+            </div>
+
+
+            <div
+              class="quick-card"
+              onclick="menuComingSoon('Pengumuman')"
+            >
+              <div class="quick-icon">📢</div>
+              <strong>Pengumuman</strong>
+              <span>
+                Kelola pengumuman organisasi.
+              </span>
+            </div>
+
+
+            <div
+              class="quick-card"
+              onclick="menuComingSoon('Prestasi')"
+            >
+              <div class="quick-icon">🏆</div>
+              <strong>Prestasi</strong>
+              <span>
+                Kelola prestasi Karang Taruna.
+              </span>
+            </div>
+
+
+            <div
+              class="quick-card"
+              onclick="menuComingSoon('Program & Kegiatan')"
+            >
+              <div class="quick-icon">📅</div>
+              <strong>Program & Kegiatan</strong>
+              <span>
+                Kelola program dan kegiatan.
+              </span>
+            </div>
+
+
+            <div
+              class="quick-card"
+              onclick="menuComingSoon('Dokumentasi')"
+            >
+              <div class="quick-icon">🖼️</div>
+              <strong>Dokumentasi</strong>
+              <span>
+                Kelola foto dokumentasi.
+              </span>
+            </div>
+
+
+            <div
+              class="quick-card"
+              onclick="menuComingSoon('Pengaturan')"
+            >
+              <div class="quick-icon">⚙️</div>
+              <strong>Pengaturan</strong>
+              <span>
+                Pengaturan administrator.
+              </span>
             </div>
 
           </div>
 
+        </section>
 
-          <div
-            class="quick-card"
-            onclick="comingSoon('Dokumentasi')"
-          >
 
-            <div class="quick-icon">
+        <!-- STATUS -->
 
-              <i class="fa-solid fa-cloud-arrow-up"></i>
+        <section class="section-card">
 
-            </div>
+          <div class="section-head">
 
-            <div>
-
-              <strong>
-                Upload Dokumentasi
-              </strong>
-
-              <span>
-                Simpan foto kegiatan ke galeri website.
-              </span>
-
-            </div>
+            <h3>
+              Status Sistem
+            </h3>
 
           </div>
 
-
-          <div
-            class="quick-card"
-            onclick="comingSoon('Profil Pengurus')"
-          >
-
-            <div class="quick-icon">
-
-              <i class="fa-solid fa-user-gear"></i>
-
-            </div>
-
-            <div>
-
-              <strong>
-                Kelola Pengurus
-              </strong>
-
-              <span>
-                Atur nama, jabatan dan profil pengurus.
-              </span>
-
-            </div>
-
+          <div class="status">
+            <span class="dot"></span>
+            Supabase terhubung
           </div>
 
-
-          <div
-            class="quick-card"
-            onclick="comingSoon('Pengumuman')"
-          >
-
-            <div class="quick-icon">
-
-              <i class="fa-solid fa-bullhorn"></i>
-
-            </div>
-
-            <div>
-
-              <strong>
-                Buat Pengumuman
-              </strong>
-
-              <span>
-                Sampaikan informasi penting kepada warga.
-              </span>
-
-            </div>
-
+          <div class="status">
+            <span class="dot"></span>
+            Autentikasi aktif
           </div>
 
-
-          <div
-            class="quick-card"
-            onclick="comingSoon('Prestasi')"
-          >
-
-            <div class="quick-icon">
-
-              <i class="fa-solid fa-medal"></i>
-
-            </div>
-
-            <div>
-
-              <strong>
-                Tambah Prestasi
-              </strong>
-
-              <span>
-                Dokumentasikan pencapaian Karang Taruna.
-              </span>
-
-            </div>
-
+          <div class="status">
+            <span class="dot"></span>
+            Database aktif
           </div>
 
-        </div>
+        </section>
 
-
-        <!-- INFO -->
-
-        <div class="info-grid">
-
-
-          <div class="panel">
-
-            <div class="panel-title">
-
-              <h4>
-                Status Sistem
-              </h4>
-
-              <span>
-                Real-time
-              </span>
-
-            </div>
-
-
-            <div class="status-box">
-
-              <div class="status-dot"></div>
-
-              <div class="status-text">
-
-                <strong>
-                  Supabase Database
-                </strong>
-
-                <span>
-                  Terhubung dan dapat digunakan
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <div class="status-box">
-
-              <div class="status-dot"></div>
-
-              <div class="status-text">
-
-                <strong>
-                  Supabase Authentication
-                </strong>
-
-                <span>
-                  Sistem login administrator aktif
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <div class="status-box">
-
-              <div class="status-dot"></div>
-
-              <div class="status-text">
-
-                <strong>
-                  Website Publik
-                </strong>
-
-                <span>
-                  GitHub Pages aktif
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="panel">
-
-            <div class="panel-title">
-
-              <h4>
-                Informasi Admin
-              </h4>
-
-              <span>
-                Akun aktif
-              </span>
-
-            </div>
-
-
-            <div class="info-list">
-
-              <div class="info-row">
-
-                <span>
-                  Nama
-                </span>
-
-                <strong id="infoName">
-                  -
-                </strong>
-
-              </div>
-
-
-              <div class="info-row">
-
-                <span>
-                  Email
-                </span>
-
-                <strong
-                  id="infoEmail"
-                  style="font-size:7px;"
-                >
-                  -
-                </strong>
-
-              </div>
-
-
-              <div class="info-row">
-
-                <span>
-                  Role
-                </span>
-
-                <strong id="infoRole">
-                  -
-                </strong>
-
-              </div>
-
-
-              <div class="info-row">
-
-                <span>
-                  Status
-                </span>
-
-                <strong>
-                  Aktif
-                </strong>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
+      </div>
 
     </main>
 
   </div>
 
 
-  <!-- TOAST -->
-
-  <div
-    class="toast"
-    id="toast"
-  ></div>
-
-
   <!-- =====================================================
-       SUPABASE
-  ====================================================== -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script src="supabase.js"></script>
-
+       JAVASCRIPT
+       ===================================================== -->
 
   <script>
 
     /* =====================================================
-       ELEMENTS
-    ====================================================== */
+       SUPABASE CONFIG
+       ===================================================== */
 
-    const loading =
-      document.getElementById("loading");
-
-    const sidebar =
-      document.getElementById("sidebar");
-
-    const mobileMenu =
-      document.getElementById("mobileMenu");
-
-    const logoutBtn =
-      document.getElementById("logoutBtn");
+    const SUPABASE_URL =
+      "https://qemzczsltxbiyxsvpebv.supabase.co";
 
 
-    /* =====================================================
-       MOBILE MENU
-    ====================================================== */
+    /*
+     * sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm.
+     *
+     * Gunakan Publishable Key.
+     * JANGAN gunakan service_role key.
+     */
 
-    mobileMenu.addEventListener(
-      "click",
-      () => {
-
-        sidebar.classList.toggle("open");
-
-      }
-    );
+    const SUPABASE_PUBLISHABLE_KEY =
+      "TEMPEL_PUBLISHABLE_KEY_SUPABASE_DI_SINI";
 
 
     /* =====================================================
-       TOAST
-    ====================================================== */
+       SUPABASE CLIENT
+       ===================================================== */
 
-    let toastTimer;
-
-
-    function showToast(text) {
-
-      const toast =
-        document.getElementById("toast");
-
-      toast.textContent = text;
-
-      toast.classList.add("show");
-
-      clearTimeout(toastTimer);
-
-      toastTimer =
-        setTimeout(() => {
-
-          toast.classList.remove("show");
-
-        }, 2500);
-
-    }
-
-
-    function comingSoon(name) {
-
-      showToast(
-        "Menu " +
-        name +
-        " akan kita aktifkan pada tahap berikutnya."
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
       );
 
-    }
+
+    /* =====================================================
+       ELEMENT
+       ===================================================== */
+
+    const loadingScreen =
+      document.getElementById("loadingScreen");
+
+    const loadingText =
+      document.getElementById("loadingText");
+
+    const errorScreen =
+      document.getElementById("errorScreen");
+
+    const errorText =
+      document.getElementById("errorText");
+
+    const app =
+      document.getElementById("app");
 
 
     /* =====================================================
-       ESCAPE HTML
-    ====================================================== */
+       SHOW ERROR
+       ===================================================== */
 
-    function escapeHTML(value) {
+    function showError(message) {
 
-      if (value === null ||
-          value === undefined) {
+      loadingScreen.classList.add("hidden");
 
-        return "";
+      errorText.textContent = message;
 
-      }
-
-      return String(value)
-
-        .replace(/&/g, "&amp;")
-
-        .replace(/</g, "&lt;")
-
-        .replace(/>/g, "&gt;")
-
-        .replace(/"/g, "&quot;")
-
-        .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* =====================================================
-       GET PROFILE
-    ====================================================== */
-
-    async function getAdminProfile(userId) {
-
-      const { data, error } =
-        await supabase
-
-          .from("profiles")
-
-          .select(
-            "full_name, role"
-          )
-
-          .eq("id", userId)
-
-          .single();
-
-
-      if (error) {
-
-        console.error(
-          "Profile error:",
-          error
-        );
-
-        return null;
-
-      }
-
-
-      return data;
+      errorScreen.style.display = "flex";
 
     }
 
 
     /* =====================================================
-       LOAD COUNTS
-    ====================================================== */
+       START DASHBOARD
+       ===================================================== */
 
-    async function getCount(
-      table,
-      filter = null
-    ) {
+    async function startDashboard() {
 
       try {
 
-        let query =
-          supabase
-
-            .from(table)
-
-            .select(
-              "*",
-              {
-                count: "exact",
-                head: true
-              }
-            );
+        loadingText.textContent =
+          "Memeriksa sesi login...";
 
 
-        if (filter) {
-
-          query =
-            query.eq(
-              filter.column,
-              filter.value
-            );
-
-        }
-
-
-        const {
-          count,
-          error
-        } = await query;
-
-
-        if (error) {
-
-          console.error(
-            table,
-            error
-          );
-
-          return 0;
-
-        }
-
-
-        return count || 0;
-
-      } catch (error) {
-
-        console.error(
-          table,
-          error
-        );
-
-        return 0;
-
-      }
-
-    }
-
-
-    /* =====================================================
-       LOAD ALL STATISTICS
-    ====================================================== */
-
-    async function loadStatistics() {
-
-      const [
-
-        news,
-
-        officials,
-
-        journals,
-
-        announcements,
-
-        achievements,
-
-        programs,
-
-        gallery
-
-      ] = await Promise.all([
-
-        getCount(
-          "news",
-          {
-            column: "published",
-            value: true
-          }
-        ),
-
-        getCount(
-          "officials",
-          {
-            column: "active",
-            value: true
-          }
-        ),
-
-        getCount(
-          "journals",
-          {
-            column: "published",
-            value: true
-          }
-        ),
-
-        getCount(
-          "announcements",
-          {
-            column: "published",
-            value: true
-          }
-        ),
-
-        getCount(
-          "achievements",
-          {
-            column: "published",
-            value: true
-          }
-        ),
-
-        getCount(
-          "programs",
-          {
-            column: "published",
-            value: true
-          }
-        ),
-
-        getCount(
-          "gallery",
-          {
-            column: "published",
-            value: true
-          }
-        )
-
-      ]);
-
-
-      document.getElementById(
-        "countNews"
-      ).textContent = news;
-
-
-      document.getElementById(
-        "countOfficials"
-      ).textContent = officials;
-
-
-      document.getElementById(
-        "countJournals"
-      ).textContent = journals;
-
-
-      document.getElementById(
-        "countAnnouncements"
-      ).textContent =
-        announcements;
-
-
-      document.getElementById(
-        "countAchievements"
-      ).textContent =
-        achievements;
-
-
-      document.getElementById(
-        "countPrograms"
-      ).textContent =
-        programs;
-
-
-      document.getElementById(
-        "countGallery"
-      ).textContent =
-        gallery;
-
-
-      const total =
-        news +
-        officials +
-        journals +
-        announcements +
-        achievements +
-        programs +
-        gallery;
-
-
-      document.getElementById(
-        "countTotal"
-      ).textContent = total;
-
-    }
-
-
-    /* =====================================================
-       CHECK ADMIN ACCESS
-    ====================================================== */
-
-    async function checkAdminAccess() {
-
-      try {
+        /* -----------------------------------------------
+           GET SESSION
+           ----------------------------------------------- */
 
         const {
           data,
           error
         } =
-          await supabase.auth.getSession();
+          await supabaseClient.auth.getSession();
 
 
         if (error) {
 
-          console.error(error);
-
-          window.location.href =
-            "admin.html";
-
-          return;
+          throw new Error(
+            "Gagal membaca session: " +
+            error.message
+          );
 
         }
 
 
-        const session =
-          data.session;
+        if (
+          !data ||
+          !data.session ||
+          !data.session.user
+        ) {
 
-
-        if (!session) {
-
-          window.location.href =
-            "admin.html";
+          window.location.replace(
+            "admin.html"
+          );
 
           return;
 
@@ -2580,23 +1046,58 @@
 
 
         const user =
-          session.user;
+          data.session.user;
 
 
-        const profile =
-          await getAdminProfile(
-            user.id
+        console.log(
+          "SESSION USER:",
+          user
+        );
+
+
+        loadingText.textContent =
+          "Memeriksa profil admin...";
+
+
+        /* -----------------------------------------------
+           PROFILE
+           ----------------------------------------------- */
+
+        const {
+          data: profile,
+          error: profileError
+        } =
+          await supabaseClient
+
+            .from("profiles")
+
+            .select(
+              "id, full_name, role"
+            )
+
+            .eq(
+              "id",
+              user.id
+            )
+
+            .maybeSingle();
+
+
+        if (profileError) {
+
+          throw new Error(
+            "Profil admin tidak dapat dibaca: " +
+            profileError.message
           );
+
+        }
 
 
         if (!profile) {
 
-          await supabase.auth.signOut();
-
-          window.location.href =
-            "admin.html";
-
-          return;
+          throw new Error(
+            "Akun ini belum memiliki data di tabel profiles."
+          );
 
         }
 
@@ -2612,23 +1113,20 @@
           role !== "editor"
         ) {
 
-          await supabase.auth.signOut();
-
-          alert(
-            "Akun Anda tidak memiliki akses administrator."
+          throw new Error(
+            "Akun tidak memiliki akses admin. Role: " +
+            (
+              profile.role ||
+              "kosong"
+            )
           );
-
-          window.location.href =
-            "admin.html";
-
-          return;
 
         }
 
 
-        /* ==============================
-           ADMIN INFORMATION
-        ============================== */
+        /* -----------------------------------------------
+           TAMPILKAN DATA ADMIN
+           ----------------------------------------------- */
 
         const name =
           profile.full_name ||
@@ -2638,61 +1136,65 @@
 
         document.getElementById(
           "adminName"
-        ).textContent =
-          name;
-
-
-        document.getElementById(
-          "welcomeName"
-        ).textContent =
-          name;
-
-
-        document.getElementById(
-          "infoName"
-        ).textContent =
-          name;
-
-
-        document.getElementById(
-          "infoEmail"
-        ).textContent =
-          user.email || "-";
+        ).textContent = name;
 
 
         document.getElementById(
           "adminRole"
         ).textContent =
-          role.toUpperCase();
+          role === "admin"
+            ? "Administrator"
+            : "Editor";
 
 
         document.getElementById(
-          "infoRole"
+          "welcomeTitle"
         ).textContent =
-          role.toUpperCase();
+          "Selamat Datang, " +
+          name +
+          " 👋";
 
 
-        /* ==============================
-           LOAD DATA
-        ============================== */
+        document.getElementById(
+          "avatar"
+        ).textContent =
+          name
+            .charAt(0)
+            .toUpperCase();
 
-        await loadStatistics();
+
+        /* -----------------------------------------------
+           TAMPILKAN APP DULU
+           ----------------------------------------------- */
+
+        loadingScreen.classList.add(
+          "hidden"
+        );
+
+        app.classList.add(
+          "visible"
+        );
 
 
-        /* ==============================
-           HIDE LOADING
-        ============================== */
+        /* -----------------------------------------------
+           LOAD STATS
+           ----------------------------------------------- */
 
-        loading.style.display =
-          "none";
+        loadStats();
 
 
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          "DASHBOARD ERROR:",
+          error
+        );
 
-        window.location.href =
-          "admin.html";
+
+        showError(
+          error?.message ||
+          "Terjadi kesalahan saat membuka dashboard."
+        );
 
       }
 
@@ -2700,42 +1202,191 @@
 
 
     /* =====================================================
-       LOGOUT
-    ====================================================== */
+       LOAD STATS
+       ===================================================== */
 
-    logoutBtn.addEventListener(
-      "click",
-      async () => {
+    async function loadStats() {
 
-        logoutBtn.disabled = true;
+      try {
 
-        logoutBtn.innerHTML =
-          '<i class="fa-solid fa-spinner fa-spin"></i> Keluar...';
-
-
-        try {
-
-          await supabase.auth.signOut();
-
-        } catch (error) {
-
-          console.error(error);
-
-        }
+        const news =
+          await supabaseClient
+            .from("news")
+            .select("*", {
+              count: "exact",
+              head: true
+            })
+            .eq(
+              "published",
+              true
+            );
 
 
-        window.location.href =
-          "admin.html";
+        document.getElementById(
+          "statNews"
+        ).textContent =
+          news.count ?? 0;
+
+
+      } catch (error) {
+
+        document.getElementById(
+          "statNews"
+        ).textContent = "0";
 
       }
-    );
+
+
+      try {
+
+        const officials =
+          await supabaseClient
+            .from("officials")
+            .select("*", {
+              count: "exact",
+              head: true
+            })
+            .eq(
+              "active",
+              true
+            );
+
+
+        document.getElementById(
+          "statOfficials"
+        ).textContent =
+          officials.count ?? 0;
+
+
+      } catch (error) {
+
+        document.getElementById(
+          "statOfficials"
+        ).textContent = "0";
+
+      }
+
+
+      try {
+
+        const programs =
+          await supabaseClient
+            .from("programs")
+            .select("*", {
+              count: "exact",
+              head: true
+            })
+            .eq(
+              "published",
+              true
+            );
+
+
+        document.getElementById(
+          "statPrograms"
+        ).textContent =
+          programs.count ?? 0;
+
+
+      } catch (error) {
+
+        document.getElementById(
+          "statPrograms"
+        ).textContent = "0";
+
+      }
+
+
+      try {
+
+        const gallery =
+          await supabaseClient
+            .from("gallery")
+            .select("*", {
+              count: "exact",
+              head: true
+            })
+            .eq(
+              "published",
+              true
+            );
+
+
+        document.getElementById(
+          "statGallery"
+        ).textContent =
+          gallery.count ?? 0;
+
+
+      } catch (error) {
+
+        document.getElementById(
+          "statGallery"
+        ).textContent = "0";
+
+      }
+
+    }
+
+
+    /* =====================================================
+       MENU
+       ===================================================== */
+
+    function menuComingSoon(name) {
+
+      alert(
+        name +
+        " akan kita aktifkan pada tahap berikutnya."
+      );
+
+    }
+
+
+    /* =====================================================
+       MOBILE SIDEBAR
+       ===================================================== */
+
+    function toggleSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+    }
+
+
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
+
+    async function logout() {
+
+      try {
+
+        await supabaseClient.auth.signOut();
+
+      } catch (error) {
+
+        console.error(
+          "LOGOUT ERROR:",
+          error
+        );
+
+      }
+
+      window.location.replace(
+        "admin.html"
+      );
+
+    }
 
 
     /* =====================================================
        START
-    ====================================================== */
+       ===================================================== */
 
-    checkAdminAccess();
+    startDashboard();
 
   </script>
 
