@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login Admin | Karang Taruna Rajeg</title>
+
+  <meta name="theme-color" content="#071f49">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <style>
+
+    :root {
+      --navy: #071f49;
+      --navy-2: #0b2c63;
+      --yellow: #ffc400;
+      --yellow-soft: #fff7d6;
+      --white: #ffffff;
+      --bg: #f5f7fb;
+      --text: #17233b;
+      --muted: #778198;
+      --border: #e4e8ef;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(255,196,0,.18),
+          transparent 25%
+        ),
+        radial-gradient(
+          circle at 90% 90%,
+          rgba(7,31,73,.15),
+          transparent 30%
+        ),
+        var(--bg);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--text);
+      padding: 25px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1050px;
+      min-height: 620px;
+
+      background: #fff;
+
+      border-radius: 30px;
+
+      overflow: hidden;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      box-shadow:
+        0 30px 80px rgba(7,31,73,.13);
+    }
+
+    /* =========================
+       LEFT
+    ========================= */
+
+    .left {
+      position: relative;
+
+      background:
+        radial-gradient(
+          circle at 80% 15%,
+          rgba(255,196,0,.18),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          #061b40,
+          #0b2c63
+        );
+
+      color: #fff;
+
+      padding: 55px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      overflow: hidden;
+    }
+
+    .left::before {
+      content: "";
+
+      position: absolute;
+
+      width: 330px;
+      height: 330px;
+
+      border-radius: 50%;
+
+      right: -150px;
+      top: -130px;
+
+      border: 45px solid rgba(255,196,0,.85);
+    }
+
+    .left::after {
+      content: "";
+
+      position: absolute;
+
+      width: 280px;
+      height: 280px;
+
+      border-radius: 50%;
+
+      left: -180px;
+      bottom: -170px;
+
+      background: rgba(255,196,0,.12);
+    }
+
+    .brand {
+      position: relative;
+      z-index: 2;
+
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      margin-bottom: 35px;
+    }
+
+    .brand img {
+      width: 75px;
+      height: 75px;
+
+      object-fit: contain;
+    }
+
+    .brand-text strong {
+      display: block;
+
+      font-family: "Plus Jakarta Sans", sans-serif;
+
+      font-size: 20px;
+    }
+
+    .brand-text span {
+      color: var(--yellow);
+
+      font-family: "Plus Jakarta Sans", sans-serif;
+
+      font-size: 28px;
+
+      font-weight: 800;
+    }
+
+    .left h1 {
+      position: relative;
+      z-index: 2;
+
+      font-family: "Plus Jakarta Sans", sans-serif;
+
+      font-size: 38px;
+
+      line-height: 1.15;
+
+      margin-bottom: 18px;
+    }
+
+    .left h1 span {
+      color: var(--yellow);
+    }
+
+    .left p {
+      position: relative;
+      z-index: 2;
+
+      max-width: 420px;
+
+      color: rgba(255,255,255,.72);
+
+      font-size: 13px;
+
+      line-height: 1.8;
+    }
+
+    .features {
+      position: relative;
+      z-index: 2;
+
+      margin-top: 30px;
+
+      display: grid;
+
+      gap: 13px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      color: rgba(255,255,255,.8);
+
+      font-size: 11px;
+    }
+
+    .feature-icon {
+      width: 32px;
+      height: 32px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(255,196,0,.14);
+
+      color: var(--yellow);
+
+      border-radius: 9px;
+    }
+
+    /* =========================
+       RIGHT
+    ========================= */
+
+    .right {
+      padding: 55px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-header {
+      margin-bottom: 30px;
+    }
+
+    .login-icon {
+      width: 55px;
+      height: 55px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 15px;
+
+      background: var(--yellow-soft);
+
+      color: var(--navy);
+
+      font-size: 22px;
+
+      margin-bottom: 18px;
+    }
+
+    .login-header h2 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+
+      color: var(--navy);
+
+      font-size: 27px;
+
+      margin-bottom: 7px;
+    }
+
+    .login-header p {
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 19px;
+    }
+
+    .form-group label {
+      display: block;
+
+      color: var(--navy);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap > i {
+      position: absolute;
+
+      left: 15px;
+      top: 15px;
+
+      color: #9aa3b4;
+
+      font-size: 14px;
+    }
+
+    .input {
+      width: 100%;
+
+      height: 48px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 12px;
+
+      outline: none;
+
+      padding: 0 15px 0 43px;
+
+      color: var(--navy);
+
+      font-family: inherit;
+
+      font-size: 12px;
+
+      transition: .2s;
+
+      background: #fff;
+    }
+
+    .input:focus {
+      border-color: var(--yellow);
+
+      box-shadow:
+        0 0 0 3px var(--yellow-soft);
+    }
+
+    .password-toggle {
+      position: absolute;
+
+      right: 12px;
+      top: 12px;
+
+      width: 25px;
+      height: 25px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: #8993a6;
+
+      cursor: pointer;
+    }
+
+    .login-btn {
+      width: 100%;
+
+      height: 50px;
+
+      border: 0;
+
+      border-radius: 12px;
+
+      background: var(--yellow);
+
+      color: var(--navy);
+
+      font-family: inherit;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      transition: .25s;
+
+      box-shadow:
+        0 10px 25px rgba(255,196,0,.23);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 15px 30px rgba(255,196,0,.32);
+    }
+
+    .login-btn:disabled {
+      opacity: .65;
+
+      cursor: not-allowed;
+
+      transform: none;
+    }
+
+    .message {
+      display: none;
+
+      padding: 12px 14px;
+
+      border-radius: 10px;
+
+      margin-bottom: 17px;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: #fff0f0;
+
+      color: #b42318;
+
+      border: 1px solid #ffd5d5;
+    }
+
+    .message.success {
+      background: #eefbf1;
+
+      color: #237a35;
+
+      border: 1px solid #d2f0d8;
+    }
+
+    .back {
+      display: flex;
+
+      justify-content: center;
+
+      margin-top: 23px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .back a {
+      color: var(--navy);
+
+      font-weight: 700;
+
+      margin-left: 5px;
+    }
+
+    .back a:hover {
+      color: #c59400;
+    }
+
+    .copyright {
+      text-align: center;
+
+      margin-top: 35px;
+
+      color: #a0a8b7;
+
+      font-size: 9px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 800px) {
+
+      .page {
+        grid-template-columns: 1fr;
+
+        max-width: 530px;
+
+        min-height: auto;
+      }
+
+      .left {
+        padding: 38px 30px;
+      }
+
+      .left h1 {
+        font-size: 29px;
+      }
+
+      .features {
+        display: none;
+      }
+
+      .right {
+        padding: 38px 30px;
+      }
+
+    }
+
+    @media (max-width: 430px) {
+
+      body {
+        padding: 12px;
+      }
+
+      .page {
+        border-radius: 22px;
+      }
+
+      .left {
+        padding: 30px 23px;
+      }
+
+      .right {
+        padding: 30px 23px;
+      }
+
+      .brand img {
+        width: 60px;
+        height: 60px;
+      }
+
+      .brand-text strong {
+        font-size: 16px;
+      }
+
+      .brand-text span {
+        font-size: 23px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <div class="page">
+
+    <!-- =========================
+         LEFT PANEL
+    ========================= -->
+
+    <div class="left">
+
+      <div class="brand">
+
+        <img
+          src="logo-karang-taruna2.webp"
+          alt="Logo Karang Taruna Rajeg"
+        >
+
+        <div class="brand-text">
+
+          <strong>KARANG TARUNA</strong>
+
+          <span>RAJEG</span>
+
+        </div>
+
+      </div>
+
+
+      <h1>
+        Panel <span>Administrator</span>
+      </h1>
+
+
+      <p>
+        Kelola informasi resmi Karang Taruna Kecamatan Rajeg
+        melalui satu dashboard yang mudah, cepat dan terintegrasi.
+      </p>
+
+
+      <div class="features">
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            <i class="fa-solid fa-newspaper"></i>
+          </div>
+
+          <span>
+            Kelola berita dan informasi
+          </span>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
+
+          <span>
+            Kelola program & kegiatan
+          </span>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            <i class="fa-solid fa-images"></i>
+          </div>
+
+          <span>
+            Upload dokumentasi kegiatan
+          </span>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+
+          <span>
+            Kelola profil pengurus
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         RIGHT PANEL
+    ========================= -->
+
+    <div class="right">
+
+      <div class="login-header">
+
+        <div class="login-icon">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <h2>
+          Login Admin
+        </h2>
+
+        <p>
+          Masuk untuk mengelola website Karang Taruna Rajeg.
+        </p>
+
+      </div>
+
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+
+      <form id="loginForm">
+
+        <div class="form-group">
+
+          <label for="email">
+            EMAIL ADMIN
+          </label>
+
+          <div class="input-wrap">
+
+            <i class="fa-solid fa-envelope"></i>
+
+            <input
+              type="email"
+              id="email"
+              class="input"
+              placeholder="Masukkan email admin"
+              autocomplete="username"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="password">
+            PASSWORD
+          </label>
+
+          <div class="input-wrap">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+              type="password"
+              id="password"
+              class="input"
+              placeholder="Masukkan password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="passwordToggle"
+              aria-label="Tampilkan password"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-btn"
+          id="loginBtn"
+        >
+
+          <i class="fa-solid fa-right-to-bracket"></i>
+
+          <span id="loginText">
+            Masuk ke Dashboard
+          </span>
+
+        </button>
+
+      </form>
+
+
+      <div class="back">
+
+        <span>
+          Bukan admin?
+        </span>
+
+        <a href="index.html">
+          Kembali ke Website
+        </a>
+
+      </div>
+
+
+      <div class="copyright">
+
+        © <span id="year"></span>
+        Karang Taruna Kecamatan Rajeg
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       SUPABASE
+  ========================= -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="supabase.js"></script>
+
+
+  <script>
+
+    const form =
+      document.getElementById("loginForm");
+
+    const email =
+      document.getElementById("email");
+
+    const password =
+      document.getElementById("password");
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const loginText =
+      document.getElementById("loginText");
+
+    const message =
+      document.getElementById("message");
+
+    const passwordToggle =
+      document.getElementById("passwordToggle");
+
+
+    /* =========================
+       YEAR
+    ========================= */
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+
+    /* =========================
+       MESSAGE
+    ========================= */
+
+    function showMessage(text, type = "error") {
+
+      message.textContent = text;
+
+      message.className =
+        "message show " + type;
+
+    }
+
+
+    function hideMessage() {
+
+      message.className =
+        "message";
+
+      message.textContent = "";
+
+    }
+
+
+    /* =========================
+       PASSWORD TOGGLE
+    ========================= */
+
+    passwordToggle.addEventListener("click", () => {
+
+      const icon =
+        passwordToggle.querySelector("i");
+
+      if (password.type === "password") {
+
+        password.type = "text";
+
+        icon.className =
+          "fa-solid fa-eye-slash";
+
+      } else {
+
+        password.type = "password";
+
+        icon.className =
+          "fa-solid fa-eye";
+
+      }
+
+    });
+
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    form.addEventListener("submit", async (event) => {
+
+      event.preventDefault();
+
+      hideMessage();
+
+      const emailValue =
+        email.value.trim();
+
+      const passwordValue =
+        password.value;
+
+
+      if (!emailValue || !passwordValue) {
+
+        showMessage(
+          "Email dan password wajib diisi."
+        );
+
+        return;
+
+      }
+
+
+      loginBtn.disabled = true;
+
+      loginText.textContent =
+        "Memproses login...";
+
+
+      try {
+
+        const { data, error } =
+          await supabase.auth.signInWithPassword({
+
+            email: emailValue,
+
+            password: passwordValue
+
+          });
+
+
+        if (error) {
+
+          console.error(error);
+
+          showMessage(
+            "Login gagal. Periksa email dan password Anda."
+          );
+
+          loginBtn.disabled = false;
+
+          loginText.textContent =
+            "Masuk ke Dashboard";
+
+          return;
+
+        }
+
+
+        if (!data || !data.user) {
+
+          showMessage(
+            "Login tidak berhasil."
+          );
+
+          loginBtn.disabled = false;
+
+          loginText.textContent =
+            "Masuk ke Dashboard";
+
+          return;
+
+        }
+
+
+        showMessage(
+          "Login berhasil. Membuka dashboard...",
+          "success"
+        );
+
+
+        /*
+          Untuk sementara setelah login
+          kita arahkan ke admin-dashboard.html.
+
+          File dashboard akan kita buat
+          pada langkah berikutnya.
+        */
+
+        setTimeout(() => {
+
+          window.location.href =
+            "admin-dashboard.html";
+
+        }, 700);
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          "Terjadi kesalahan. Silakan coba lagi."
+        );
+
+        loginBtn.disabled = false;
+
+        loginText.textContent =
+          "Masuk ke Dashboard";
+
+      }
+
+    });
+
+
+    /* =========================
+       CEK SESSION
+    ========================= */
+
+    async function checkExistingSession() {
+
+      try {
+
+        const { data } =
+          await supabase.auth.getSession();
+
+        if (data && data.session) {
+
+          /*
+            Kalau sudah login,
+            langsung menuju dashboard.
+          */
+
+          window.location.href =
+            "admin-dashboard.html";
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+    }
+
+
+    checkExistingSession();
+
+  </script>
+
+</body>
+</html>
