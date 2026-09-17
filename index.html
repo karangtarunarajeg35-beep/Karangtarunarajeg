@@ -1,2638 +1,1575 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Karang Taruna Rajeg | Kecamatan Rajeg</title>
-  <meta name="description" content="Website Resmi Karang Taruna Kecamatan Rajeg, Kabupaten Tangerang, Provinsi Banten.">
-  <meta name="theme-color" content="#071f49">
-
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <style>
-    :root {
-      --navy: #071f49;
-      --navy-2: #0b2c63;
-      --navy-3: #123d7a;
-
-      --yellow: #ffc400;
-      --yellow-2: #ffcf2f;
-      --yellow-soft: #fff7d6;
-
-      --white: #ffffff;
-      --bg: #f7f9fc;
-      --text: #12213b;
-      --muted: #6d7890;
-      --border: #e7ebf2;
-
-      --shadow-sm: 0 8px 25px rgba(7, 31, 73, .06);
-      --shadow: 0 18px 50px rgba(7, 31, 73, .10);
-
-      --radius: 22px;
-      --container: 1240px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "Inter", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.65;
-      overflow-x: hidden;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    button {
-      font-family: inherit;
-    }
-
-    .container {
-      width: min(100% - 40px, var(--container));
-      margin: auto;
-    }
-
-    /* =========================
-       TOP BAR
-    ========================= */
-
-    .topbar {
-      background: var(--navy);
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .topbar-inner {
-      min-height: 34px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .topbar-left,
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .topbar i {
-      color: var(--yellow);
-      margin-right: 5px;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(255,255,255,.96);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(7,31,73,.06);
-    }
-
-    .nav {
-      height: 82px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 25px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 235px;
-    }
-
-    .brand-logo {
-      width: 57px;
-      height: 57px;
-      object-fit: contain;
-    }
-
-    .brand-text {
-      line-height: 1.05;
-    }
-
-    .brand-main {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 17px;
-      font-weight: 800;
-      color: var(--navy);
-      letter-spacing: -.5px;
-    }
-
-    .brand-name {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 27px;
-      font-weight: 800;
-      color: var(--yellow);
-      letter-spacing: -.8px;
-    }
-
-    .brand-sub {
-      margin-top: 3px;
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      flex: 1;
-    }
-
-    .nav-link {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 11px 12px;
-      border-radius: 12px;
-      color: var(--navy);
-      font-size: 12px;
-      font-weight: 600;
-      transition: .25s;
-      white-space: nowrap;
-    }
-
-    .nav-link i {
-      font-size: 12px;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      background: var(--yellow);
-      color: var(--navy);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .search-btn {
-      width: 43px;
-      height: 43px;
-      border: 0;
-      background: transparent;
-      color: var(--navy);
-      font-size: 18px;
-      cursor: pointer;
-      border-radius: 50%;
-      transition: .2s;
-    }
-
-    .search-btn:hover {
-      background: var(--yellow-soft);
-    }
-
-    .admin-btn {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      background: var(--yellow);
-      color: var(--navy);
-      border-radius: 30px;
-      padding: 13px 19px;
-      font-size: 12px;
-      font-weight: 800;
-      box-shadow: 0 7px 20px rgba(255,196,0,.25);
-      transition: .25s;
-    }
-
-    .admin-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 25px rgba(255,196,0,.35);
-    }
-
-    .mobile-toggle {
-      display: none;
-      border: 0;
-      background: var(--navy);
-      color: #fff;
-      width: 43px;
-      height: 43px;
-      border-radius: 12px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero {
-      position: relative;
-      min-height: 515px;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 75% 30%, rgba(255,255,255,.18), transparent 28%),
-        linear-gradient(115deg, var(--navy) 0%, #0b326d 58%, #17457e 100%);
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 650px;
-      height: 650px;
-      right: -210px;
-      top: -300px;
-      border-radius: 50%;
-      background: rgba(255,196,0,.95);
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 600px;
-      height: 250px;
-      right: -130px;
-      bottom: -170px;
-      border-radius: 50%;
-      background: var(--yellow);
-      transform: rotate(-12deg);
-    }
-
-    .hero-inner {
-      min-height: 515px;
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: 1.02fr .98fr;
-      align-items: center;
-      gap: 40px;
-    }
-
-    .hero-content {
-      color: #fff;
-      padding: 50px 0;
-    }
-
-    .hero-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--yellow);
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.3px;
-      margin-bottom: 17px;
-    }
-
-    .hero-kicker::before {
-      content: "";
-      width: 40px;
-      height: 4px;
-      border-radius: 5px;
-      background: var(--yellow);
-    }
-
-    .hero h1 {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: clamp(42px, 5vw, 68px);
-      line-height: 1.02;
-      letter-spacing: -3px;
-      font-weight: 800;
-      margin-bottom: 22px;
-    }
-
-    .hero h1 span {
-      color: var(--yellow);
-    }
-
-    .hero-desc {
-      max-width: 570px;
-      font-size: 17px;
-      line-height: 1.65;
-      color: rgba(255,255,255,.86);
-      margin-bottom: 30px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--yellow);
-      color: var(--navy);
-      padding: 14px 21px;
-      border-radius: 13px;
-      font-size: 13px;
-      font-weight: 800;
-      transition: .25s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(255,196,0,.28);
-    }
-
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: #fff;
-      padding: 13px 20px;
-      border: 1px solid rgba(255,255,255,.3);
-      border-radius: 13px;
-      font-size: 13px;
-      font-weight: 700;
-      transition: .25s;
-    }
-
-    .btn-outline:hover {
-      background: rgba(255,255,255,.1);
-      border-color: rgba(255,255,255,.6);
-    }
-
-    /* Hero Visual */
-
-    .hero-visual {
-      position: relative;
-      height: 420px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-circle {
-      position: absolute;
-      width: 390px;
-      height: 390px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.15);
-    }
-
-    .hero-card {
-      position: relative;
-      width: min(390px, 90%);
-      min-height: 330px;
-      background: rgba(255,255,255,.96);
-      border-radius: 30px;
-      padding: 30px;
-      box-shadow: 0 30px 70px rgba(0,0,0,.25);
-      transform: rotate(2deg);
-    }
-
-    .hero-card-inner {
-      height: 100%;
-      min-height: 270px;
-      border: 2px dashed rgba(7,31,73,.1);
-      border-radius: 22px;
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    .hero-logo {
-      width: 125px;
-      height: 125px;
-      object-fit: contain;
-      margin-bottom: 18px;
-    }
-
-    .hero-card-title {
-      color: var(--navy);
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 22px;
-      font-weight: 800;
-    }
-
-    .hero-card-sub {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 4px;
-    }
-
-    .hero-badge {
-      margin-top: 18px;
-      padding: 8px 14px;
-      border-radius: 30px;
-      background: var(--yellow-soft);
-      color: var(--navy);
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .hero-floating {
-      position: absolute;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 17px;
-      border-radius: 15px;
-      background: #fff;
-      color: var(--navy);
-      box-shadow: 0 15px 35px rgba(0,0,0,.17);
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .hero-floating i {
-      color: var(--yellow);
-      font-size: 17px;
-    }
-
-    .float-one {
-      left: 0;
-      top: 80px;
-    }
-
-    .float-two {
-      right: 0;
-      bottom: 75px;
-    }
-
-    .hero-slogan {
-      position: absolute;
-      right: 10px;
-      top: 55px;
-      z-index: 3;
-      max-width: 190px;
-      color: #fff;
-      text-align: right;
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 18px;
-      line-height: 1.25;
-      font-weight: 800;
-      transform: rotate(-5deg);
-    }
-
-    .hero-slogan span {
-      color: var(--yellow);
-    }
-
-    /* =========================
-       QUICK MENU
-    ========================= */
-
-    .quick-section {
-      position: relative;
-      z-index: 10;
-      margin-top: -38px;
-    }
-
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 18px;
-    }
-
-    .quick-card {
-      background: #fff;
-      border-radius: 18px;
-      padding: 24px 20px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(7,31,73,.04);
-      transition: .3s;
-    }
-
-    .quick-card:hover {
-      transform: translateY(-7px);
-      box-shadow: 0 22px 50px rgba(7,31,73,.14);
-    }
-
-    .quick-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--yellow);
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 17px;
-      margin-bottom: 15px;
-    }
-
-    .quick-card h3 {
-      color: var(--navy);
-      font-size: 14px;
-      margin-bottom: 5px;
-      font-weight: 800;
-    }
-
-    .quick-card p {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.55;
-      min-height: 35px;
-    }
-
-    .quick-arrow {
-      margin-top: 15px;
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      background: var(--yellow);
-      color: var(--navy);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 10px;
-    }
-
-    /* =========================
-       SECTION
-    ========================= */
-
-    .section {
-      padding: 80px 0;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      margin-bottom: 28px;
-      gap: 20px;
-    }
-
-    .section-title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-    }
-
-    .title-lines {
-      width: 8px;
-      height: 37px;
-      position: relative;
-    }
-
-    .title-lines::before,
-    .title-lines::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      width: 100%;
-      background: var(--yellow);
-      border-radius: 3px;
-    }
-
-    .title-lines::before {
-      top: 3px;
-      height: 5px;
-    }
-
-    .title-lines::after {
-      top: 14px;
-      height: 5px;
-      width: 75%;
-    }
-
-    .section-title {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 26px;
-      font-weight: 800;
-      color: var(--navy);
-      letter-spacing: -.8px;
-    }
-
-    .section-subtitle {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 2px;
-    }
-
-    .see-all {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--navy);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .see-all:hover {
-      color: #c59600;
-    }
-
-    /* =========================
-       NEWS
-    ========================= */
-
-    .news-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 24px;
-    }
-
-    .news-box {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 25px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border);
-    }
-
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .news-card {
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      overflow: hidden;
-      background: #fff;
-      transition: .25s;
-    }
-
-    .news-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .news-image {
-      height: 155px;
-      background:
-        linear-gradient(135deg, var(--navy), var(--navy-3));
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .news-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .news-image-placeholder {
-      color: rgba(255,255,255,.75);
-      font-size: 38px;
-    }
-
-    .news-tag {
-      position: absolute;
-      left: 11px;
-      bottom: 10px;
-      background: var(--yellow);
-      color: var(--navy);
-      padding: 5px 10px;
-      border-radius: 8px;
-      font-size: 9px;
-      font-weight: 800;
-    }
-
-    .news-content {
-      padding: 16px;
-    }
-
-    .news-date {
-      color: #8a93a5;
-      font-size: 9px;
-      margin-bottom: 6px;
-    }
-
-    .news-date i {
-      color: var(--yellow);
-      margin-right: 4px;
-    }
-
-    .news-title {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      color: var(--navy);
-      font-size: 13px;
-      line-height: 1.4;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .news-excerpt {
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.6;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .news-read {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      margin-top: 12px;
-      color: #d49d00;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    /* =========================
-       SIDE PANEL
-    ========================= */
-
-    .side-column {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .promo-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 195px;
-      border-radius: 20px;
-      padding: 25px;
-      background:
-        radial-gradient(circle at 90% 15%, rgba(255,196,0,.35), transparent 30%),
-        linear-gradient(135deg, var(--navy), #16427c);
-      color: #fff;
-    }
-
-    .promo-card::after {
-      content: "";
-      position: absolute;
-      width: 190px;
-      height: 190px;
-      right: -80px;
-      bottom: -80px;
-      border-radius: 50%;
-      border: 25px solid rgba(255,196,0,.7);
-    }
-
-    .promo-logo {
-      width: 33px;
-      height: 33px;
-      object-fit: contain;
-      margin-bottom: 10px;
-    }
-
-    .promo-card h3 {
-      position: relative;
-      z-index: 2;
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 22px;
-      line-height: 1.2;
-      max-width: 230px;
-      margin-bottom: 6px;
-    }
-
-    .promo-card p {
-      position: relative;
-      z-index: 2;
-      font-size: 10px;
-      color: rgba(255,255,255,.78);
-      margin-bottom: 15px;
-    }
-
-    .promo-link {
-      position: relative;
-      z-index: 3;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--yellow);
-      color: var(--navy);
-      padding: 9px 13px;
-      border-radius: 9px;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .stats-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 20px;
-    }
-
-    .stats-title {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      color: var(--navy);
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 17px;
-    }
-
-    .stats-title i {
-      color: var(--yellow);
-    }
-
-    .live {
-      margin-left: auto;
-      background: #ecf8e9;
-      color: #4c9a35;
-      font-size: 8px;
-      padding: 4px 8px;
-      border-radius: 20px;
-      font-weight: 800;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-icon {
-      color: var(--yellow);
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-
-    .stat-number {
-      color: var(--navy);
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 18px;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 8px;
-      margin-top: 5px;
-    }
-
-    /* =========================
-       ABOUT
-    ========================= */
-
-    .about-section {
-      background: #fff;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .about-section::before {
-      content: "";
-      position: absolute;
-      width: 380px;
-      height: 380px;
-      left: -200px;
-      top: -160px;
-      border-radius: 50%;
-      background: var(--yellow-soft);
-    }
-
-    .about-grid {
-      position: relative;
-      display: grid;
-      grid-template-columns: .85fr 1.15fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .about-visual {
-      position: relative;
-      min-height: 380px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .about-circle {
-      width: 330px;
-      height: 330px;
-      border-radius: 50%;
-      background: var(--yellow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 20px 25px 60px rgba(255,196,0,.22);
-    }
-
-    .about-circle img {
-      width: 205px;
-      height: 205px;
-      object-fit: contain;
-    }
-
-    .about-badge {
-      position: absolute;
-      right: 35px;
-      bottom: 35px;
-      background: var(--navy);
-      color: #fff;
-      padding: 17px 20px;
-      border-radius: 15px;
-      box-shadow: var(--shadow);
-    }
-
-    .about-badge strong {
-      display: block;
-      color: var(--yellow);
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 24px;
-    }
-
-    .about-badge span {
-      font-size: 10px;
-      color: rgba(255,255,255,.7);
-    }
-
-    .about-content .section-title {
-      margin-bottom: 17px;
-    }
-
-    .about-content p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.8;
-      margin-bottom: 17px;
-    }
-
-    .quote {
-      margin: 25px 0;
-      padding: 20px 23px;
-      border-left: 5px solid var(--yellow);
-      background: var(--yellow-soft);
-      border-radius: 0 15px 15px 0;
-    }
-
-    .quote p {
-      color: var(--navy);
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      font-style: italic;
-      margin: 0;
-    }
-
-    /* =========================
-       GENERAL CARDS
-    ========================= */
-
-    .data-section {
-      background: var(--bg);
-    }
-
-    .data-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .data-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px;
-      transition: .25s;
-    }
-
-    .data-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .data-icon {
-      width: 45px;
-      height: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 13px;
-      background: var(--yellow-soft);
-      color: var(--navy);
-      font-size: 18px;
-      margin-bottom: 14px;
-    }
-
-    .data-card h3 {
-      color: var(--navy);
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 15px;
-      margin-bottom: 7px;
-    }
-
-    .data-card p {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .data-meta {
-      display: flex;
-      gap: 10px;
-      margin-top: 13px;
-      color: #8a93a5;
-      font-size: 9px;
-    }
-
-    /* Officials */
-
-    .official-photo {
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: var(--yellow-soft);
-      margin-bottom: 13px;
-    }
-
-    .official-placeholder {
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      background: var(--yellow);
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 23px;
-      margin-bottom: 13px;
-    }
-
-    .position {
-      display: inline-block;
-      margin-top: 9px;
-      padding: 5px 9px;
-      background: var(--yellow-soft);
-      color: var(--navy);
-      border-radius: 7px;
-      font-size: 9px;
-      font-weight: 800;
-    }
-
-    /* =========================
-       EMPTY / LOADING
-    ========================= */
-
-    .loading {
-      grid-column: 1/-1;
-      text-align: center;
-      padding: 35px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .loading i {
-      color: var(--yellow);
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .empty {
-      grid-column: 1/-1;
-      text-align: center;
-      padding: 35px;
-      background: #fff;
-      border: 1px dashed var(--border);
-      border-radius: 17px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    /* =========================
-       CTA
-    ========================= */
-
-    .cta-section {
-      padding: 30px 0 80px;
-    }
-
-    .cta {
-      position: relative;
-      overflow: hidden;
-      background: var(--yellow);
-      border-radius: 27px;
-      padding: 45px 55px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .cta::after {
-      content: "";
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      right: -90px;
-      top: -150px;
-      border: 45px solid rgba(255,255,255,.18);
-      border-radius: 50%;
-    }
-
-    .cta h2 {
-      position: relative;
-      z-index: 2;
-      font-family: "Plus Jakarta Sans", sans-serif;
-      color: var(--navy);
-      font-size: 28px;
-      line-height: 1.2;
-      margin-bottom: 7px;
-    }
-
-    .cta p {
-      position: relative;
-      z-index: 2;
-      color: rgba(7,31,73,.7);
-      font-size: 12px;
-    }
-
-    .cta .btn-dark {
-      position: relative;
-      z-index: 4;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 20px;
-      background: var(--navy);
-      color: #fff;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      position: relative;
-      overflow: hidden;
-      background: var(--navy);
-      color: #fff;
-      padding: 55px 0 25px;
-    }
-
-    footer::before {
-      content: "";
-      position: absolute;
-      top: -85px;
-      left: -5%;
-      width: 110%;
-      height: 150px;
-      background: var(--yellow);
-      border-radius: 50%;
-    }
-
-    footer::after {
-      content: "";
-      position: absolute;
-      top: -72px;
-      left: -5%;
-      width: 110%;
-      height: 125px;
-      background: var(--navy);
-      border-radius: 50%;
-    }
-
-    .footer-grid {
-      position: relative;
-      z-index: 3;
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr 1fr;
-      gap: 45px;
-      padding-top: 30px;
-    }
-
-    .footer-brand {
-      display: flex;
-      gap: 13px;
-      align-items: center;
-      margin-bottom: 17px;
-    }
-
-    .footer-brand img {
-      width: 58px;
-      height: 58px;
-      object-fit: contain;
-    }
-
-    .footer-brand strong {
-      display: block;
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 17px;
-    }
-
-    .footer-brand span {
-      font-size: 9px;
-      color: rgba(255,255,255,.65);
-    }
-
-    .footer-about {
-      max-width: 300px;
-      color: rgba(255,255,255,.62);
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .footer-col h4 {
-      color: var(--yellow);
-      font-size: 12px;
-      margin-bottom: 16px;
-      font-weight: 800;
-    }
-
-    .footer-col a {
-      display: block;
-      color: rgba(255,255,255,.68);
-      font-size: 10px;
-      margin-bottom: 9px;
-      transition: .2s;
-    }
-
-    .footer-col a:hover {
-      color: var(--yellow);
-      padding-left: 3px;
-    }
-
-    .footer-social {
-      display: flex;
-      gap: 8px;
-      margin-top: 17px;
-    }
-
-    .social {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 12px;
-      transition: .2s;
-    }
-
-    .social:hover {
-      background: var(--yellow);
-      color: var(--navy);
-    }
-
-    .footer-bottom {
-      position: relative;
-      z-index: 3;
-      margin-top: 40px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: rgba(255,255,255,.45);
-      font-size: 9px;
-      gap: 15px;
-    }
-
-    /* =========================
-       SEARCH MODAL
-    ========================= */
-
-    .search-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(7,31,73,.75);
-      backdrop-filter: blur(8px);
-      z-index: 2000;
-      display: none;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 100px;
-    }
-
-    .search-overlay.show {
-      display: flex;
-    }
-
-    .search-box {
-      width: min(600px, calc(100% - 35px));
-      background: #fff;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.25);
-    }
-
-    .search-box-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .search-box-head h3 {
-      color: var(--navy);
-      font-size: 18px;
-    }
-
-    .close-search {
-      border: 0;
-      background: #f1f3f7;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      cursor: pointer;
-      color: var(--navy);
-    }
-
-    .search-input-wrap {
-      position: relative;
-    }
-
-    .search-input-wrap i {
-      position: absolute;
-      left: 16px;
-      top: 15px;
-      color: var(--muted);
-    }
-
-    .search-input {
-      width: 100%;
-      border: 1px solid var(--border);
-      outline: none;
-      border-radius: 12px;
-      padding: 13px 15px 13px 43px;
-      font-size: 13px;
-    }
-
-    .search-input:focus {
-      border-color: var(--yellow);
-      box-shadow: 0 0 0 3px var(--yellow-soft);
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media (max-width: 1150px) {
-      .nav-menu {
-        gap: 0;
-      }
-
-      .nav-link {
-        padding: 10px 8px;
-        font-size: 10px;
-      }
-
-      .brand {
-        min-width: 205px;
-      }
-
-      .quick-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 950px) {
-      .topbar {
-        display: none;
-      }
-
-      .nav {
-        height: 72px;
-      }
-
-      .nav-menu {
-        display: none;
-        position: absolute;
-        top: 72px;
-        left: 0;
-        width: 100%;
-        background: #fff;
-        padding: 15px 20px 20px;
-        border-bottom: 1px solid var(--border);
-        box-shadow: var(--shadow);
-      }
-
-      .nav-menu.open {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .nav-link {
-        padding: 13px;
-        font-size: 12px;
-      }
-
-      .mobile-toggle {
-        display: block;
-      }
-
-      .search-btn {
-        display: none;
-      }
-
-      .admin-btn {
-        padding: 11px 14px;
-      }
-
-      .hero-inner {
-        grid-template-columns: 1fr;
-        padding-top: 30px;
-      }
-
-      .hero-content {
-        text-align: center;
-        padding-bottom: 15px;
-      }
-
-      .hero-kicker {
-        justify-content: center;
-      }
-
-      .hero-desc {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .hero-buttons {
-        justify-content: center;
-      }
-
-      .hero-visual {
-        height: 350px;
-      }
-
-      .hero-slogan {
-        display: none;
-      }
-
-      .news-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .side-column {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .about-visual {
-        min-height: 300px;
-      }
-
-      .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 700px) {
-      .container {
-        width: min(100% - 28px, var(--container));
-      }
-
-      .brand-main {
-        font-size: 14px;
-      }
-
-      .brand-name {
-        font-size: 22px;
-      }
-
-      .brand-logo {
-        width: 48px;
-        height: 48px;
-      }
-
-      .brand-sub {
-        display: none;
-      }
-
-      .admin-btn span {
-        display: none;
-      }
-
-      .hero {
-        min-height: auto;
-      }
-
-      .hero-inner {
-        min-height: auto;
-      }
-
-      .hero h1 {
-        font-size: 43px;
-        letter-spacing: -2px;
-      }
-
-      .hero-desc {
-        font-size: 14px;
-      }
-
-      .hero-visual {
-        height: 320px;
-      }
-
-      .hero-circle {
-        width: 300px;
-        height: 300px;
-      }
-
-      .hero-card {
-        width: 300px;
-        min-height: 270px;
-        padding: 20px;
-      }
-
-      .hero-card-inner {
-        min-height: 220px;
-      }
-
-      .hero-logo {
-        width: 90px;
-        height: 90px;
-      }
-
-      .float-one {
-        left: -3px;
-        top: 35px;
-      }
-
-      .float-two {
-        right: -3px;
-        bottom: 40px;
-      }
-
-      .quick-section {
-        margin-top: 20px;
-      }
-
-      .quick-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-
-      .quick-card {
-        padding: 18px 15px;
-      }
-
-      .section {
-        padding: 55px 0;
-      }
-
-      .section-header {
-        align-items: flex-start;
-      }
-
-      .section-title {
-        font-size: 22px;
-      }
-
-      .news-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .side-column {
-        grid-template-columns: 1fr;
-      }
-
-      .data-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .about-circle {
-        width: 270px;
-        height: 270px;
-      }
-
-      .about-circle img {
-        width: 165px;
-        height: 165px;
-      }
-
-      .cta {
-        padding: 30px 25px;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (max-width: 430px) {
-      .quick-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 37px;
-      }
-
-      .hero-buttons {
-        flex-direction: column;
-        width: 100%;
-      }
-
-      .btn-primary,
-      .btn-outline {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .hero-floating {
-        transform: scale(.85);
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karang Taruna Rajeg | Kecamatan Rajeg</title>
+<meta name="description" content="Website Resmi Karang Taruna Kecamatan Rajeg, Kabupaten Tangerang, Provinsi Banten.">
+<meta name="theme-color" content="#071f49">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root{
+  --navy:#071f49;
+  --navy2:#0b2c63;
+  --navy3:#123d7a;
+  --yellow:#ffc400;
+  --yellow2:#ffcf2f;
+  --yellow-soft:#fff7d6;
+  --white:#fff;
+  --bg:#f7f9fc;
+  --text:#12213b;
+  --muted:#6d7890;
+  --border:#e7ebf2;
+  --shadow-sm:0 8px 25px rgba(7,31,73,.06);
+  --shadow:0 18px 50px rgba(7,31,73,.10);
+  --radius:22px;
+  --container:1240px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box
+}
+
+html{
+  scroll-behavior:smooth
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  overflow-x:hidden
+}
+
+a{
+  text-decoration:none;
+  color:inherit
+}
+
+img{
+  max-width:100%;
+  display:block
+}
+
+button{
+  font-family:inherit
+}
+
+.container{
+  width:min(100% - 40px,var(--container));
+  margin:auto
+}
+
+/* TOPBAR */
+.topbar{
+  background:var(--navy);
+  color:#fff;
+  font-size:12px
+}
+
+.topbar-inner{
+  min-height:34px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px
+}
+
+.topbar-left,
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:18px
+}
+
+.topbar i{
+  color:var(--yellow);
+  margin-right:5px
+}
+
+/* HEADER */
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid rgba(7,31,73,.06)
+}
+
+.nav{
+  height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:235px
+}
+
+.brand-logo{
+  width:57px;
+  height:57px;
+  object-fit:contain
+}
+
+.brand-text{
+  line-height:1.05
+}
+
+.brand-main{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:17px;
+  font-weight:800;
+  color:var(--navy)
+}
+
+.brand-name{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:27px;
+  font-weight:800;
+  color:var(--yellow)
+}
+
+.brand-sub{
+  margin-top:3px;
+  font-size:9px;
+  font-weight:600;
+  color:var(--muted)
+}
+
+.nav-menu{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  flex:1
+}
+
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:11px 12px;
+  border-radius:12px;
+  color:var(--navy);
+  font-size:12px;
+  font-weight:600;
+  transition:.25s;
+  white-space:nowrap
+}
+
+.nav-link:hover,
+.nav-link.active{
+  background:var(--yellow)
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.admin-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--yellow);
+  color:var(--navy);
+  border-radius:30px;
+  padding:13px 18px;
+  font-size:12px;
+  font-weight:800;
+  box-shadow:0 7px 20px rgba(255,196,0,.25)
+}
+
+.mobile-toggle{
+  display:none;
+  border:0;
+  background:var(--navy);
+  color:#fff;
+  width:43px;
+  height:43px;
+  border-radius:12px;
+  font-size:18px;
+  cursor:pointer
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 75% 30%,rgba(255,255,255,.18),transparent 28%),
+    linear-gradient(115deg,var(--navy) 0%,#0b326d 58%,#17457e 100%)
+}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  width:650px;
+  height:650px;
+  right:-210px;
+  top:-300px;
+  border-radius:50%;
+  background:rgba(255,196,0,.95)
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:600px;
+  height:250px;
+  right:-130px;
+  bottom:-170px;
+  border-radius:50%;
+  background:var(--yellow);
+  transform:rotate(-12deg)
+}
+
+.hero-inner{
+  min-height:515px;
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:1.02fr .98fr;
+  align-items:center;
+  gap:40px
+}
+
+.hero-content{
+  color:#fff;
+  padding:50px 0
+}
+
+.hero-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color:var(--yellow);
+  font-size:13px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1.3px;
+  margin-bottom:17px
+}
+
+.hero-kicker:before{
+  content:"";
+  width:40px;
+  height:4px;
+  border-radius:5px;
+  background:var(--yellow)
+}
+
+.hero h1{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:clamp(42px,5vw,68px);
+  line-height:1.02;
+  letter-spacing:-3px;
+  font-weight:800;
+  margin-bottom:22px
+}
+
+.hero h1 span{
+  color:var(--yellow)
+}
+
+.hero-desc{
+  max-width:570px;
+  font-size:17px;
+  line-height:1.65;
+  color:rgba(255,255,255,.86);
+  margin-bottom:30px
+}
+
+.hero-buttons{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  flex-wrap:wrap
+}
+
+.btn-primary,
+.btn-outline{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 21px;
+  border-radius:13px;
+  font-size:13px;
+  font-weight:800
+}
+
+.btn-primary{
+  background:var(--yellow);
+  color:var(--navy)
+}
+
+.btn-outline{
+  color:#fff;
+  border:1px solid rgba(255,255,255,.3)
+}
+
+.btn-outline:hover{
+  background:rgba(255,255,255,.1)
+}
+
+.hero-visual{
+  position:relative;
+  height:420px;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+.hero-circle{
+  position:absolute;
+  width:390px;
+  height:390px;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15)
+}
+
+.hero-card{
+  position:relative;
+  width:min(390px,90%);
+  min-height:330px;
+  background:rgba(255,255,255,.96);
+  border-radius:30px;
+  padding:30px;
+  box-shadow:0 30px 70px rgba(0,0,0,.25);
+  transform:rotate(2deg)
+}
+
+.hero-card-inner{
+  height:100%;
+  min-height:270px;
+  border:2px dashed rgba(7,31,73,.1);
+  border-radius:22px;
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center
+}
+
+.hero-logo{
+  width:125px;
+  height:125px;
+  object-fit:contain;
+  margin-bottom:18px
+}
+
+.hero-card-title{
+  color:var(--navy);
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:22px;
+  font-weight:800
+}
+
+.hero-card-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px
+}
+
+.hero-badge{
+  margin-top:18px;
+  padding:8px 14px;
+  border-radius:30px;
+  background:var(--yellow-soft);
+  color:var(--navy);
+  font-size:11px;
+  font-weight:800
+}
+
+.hero-slogan{
+  position:absolute;
+  right:10px;
+  top:55px;
+  z-index:3;
+  max-width:190px;
+  color:#fff;
+  text-align:right;
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:18px;
+  line-height:1.25;
+  font-weight:800;
+  transform:rotate(-5deg)
+}
+
+.hero-slogan span{
+  color:var(--yellow)
+}
+
+/* QUICK MENU */
+.quick-section{
+  position:relative;
+  z-index:10;
+  margin-top:-38px
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:18px
+}
+
+.quick-card{
+  background:#fff;
+  border-radius:18px;
+  padding:24px 20px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(7,31,73,.04);
+  transition:.3s
+}
+
+.quick-card:hover{
+  transform:translateY(-7px)
+}
+
+.quick-icon{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--yellow);
+  color:var(--navy);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:17px;
+  margin-bottom:15px
+}
+
+.quick-card h3{
+  color:var(--navy);
+  font-size:14px;
+  margin-bottom:5px;
+  font-weight:800
+}
+
+.quick-card p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.55;
+  min-height:35px
+}
+
+.quick-arrow{
+  margin-top:15px;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:var(--yellow);
+  color:var(--navy);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:10px
+}
+
+/* SECTION */
+.section{
+  padding:80px 0
+}
+
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:28px;
+  gap:20px
+}
+
+.section-title-wrap{
+  display:flex;
+  align-items:center;
+  gap:13px
+}
+
+.title-lines{
+  width:8px;
+  height:37px;
+  position:relative
+}
+
+.title-lines:before,
+.title-lines:after{
+  content:"";
+  position:absolute;
+  left:0;
+  background:var(--yellow);
+  border-radius:3px
+}
+
+.title-lines:before{
+  top:3px;
+  width:100%;
+  height:5px
+}
+
+.title-lines:after{
+  top:14px;
+  width:75%;
+  height:5px
+}
+
+.section-title{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:26px;
+  font-weight:800;
+  color:var(--navy);
+  letter-spacing:-.8px
+}
+
+.section-subtitle{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:2px
+}
+
+.see-all{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--navy);
+  font-size:12px;
+  font-weight:800
+}
+
+/* NEWS */
+.news-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  gap:24px
+}
+
+.news-box{
+  background:#fff;
+  border-radius:var(--radius);
+  padding:25px;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--border)
+}
+
+.news-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px
+}
+
+.news-card{
+  border:1px solid var(--border);
+  border-radius:17px;
+  overflow:hidden;
+  background:#fff;
+  transition:.25s
+}
+
+.news-card:hover{
+  transform:translateY(-5px);
+  box-shadow:var(--shadow-sm)
+}
+
+.news-image{
+  height:155px;
+  background:linear-gradient(135deg,var(--navy),var(--navy3));
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+.news-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.news-image-placeholder{
+  color:rgba(255,255,255,.75);
+  font-size:38px
+}
+
+.news-tag{
+  position:absolute;
+  left:11px;
+  bottom:10px;
+  background:var(--yellow);
+  color:var(--navy);
+  padding:5px 10px;
+  border-radius:8px;
+  font-size:9px;
+  font-weight:800
+}
+
+.news-content{
+  padding:16px
+}
+
+.news-date{
+  color:#8a93a5;
+  font-size:9px;
+  margin-bottom:6px
+}
+
+.news-date i{
+  color:var(--yellow);
+  margin-right:4px
+}
+
+.news-title{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  color:var(--navy);
+  font-size:13px;
+  line-height:1.4;
+  font-weight:800;
+  margin-bottom:8px
+}
+
+.news-excerpt{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden
+}
+
+.news-read{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:12px;
+  color:#d49d00;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+  border:0;
+  background:none;
+  padding:0
+}
+
+/* SIDE */
+.side-column{
+  display:flex;
+  flex-direction:column;
+  gap:18px
+}
+
+.promo-card{
+  position:relative;
+  overflow:hidden;
+  min-height:195px;
+  border-radius:20px;
+  padding:25px;
+  background:
+    radial-gradient(circle at 90% 15%,rgba(255,196,0,.35),transparent 30%),
+    linear-gradient(135deg,var(--navy),#16427c);
+  color:#fff
+}
+
+.promo-card:after{
+  content:"";
+  position:absolute;
+  width:190px;
+  height:190px;
+  right:-80px;
+  bottom:-80px;
+  border-radius:50%;
+  border:25px solid rgba(255,196,0,.7)
+}
+
+.promo-logo{
+  width:33px;
+  height:33px;
+  object-fit:contain;
+  margin-bottom:10px
+}
+
+.promo-card h3{
+  position:relative;
+  z-index:2;
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:22px;
+  line-height:1.2;
+  max-width:230px;
+  margin-bottom:6px
+}
+
+.promo-card p{
+  position:relative;
+  z-index:2;
+  font-size:11px;
+  color:rgba(255,255,255,.78);
+  max-width:250px
+}
+
+.promo-btn{
+  position:relative;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:17px;
+  background:var(--yellow);
+  color:var(--navy);
+  font-size:10px;
+  font-weight:800;
+  padding:10px 14px;
+  border-radius:10px
+}
+
+.quote-card{
+  background:var(--yellow-soft);
+  border-radius:20px;
+  padding:25px;
+  border:1px solid #ffe89b
+}
+
+.quote-card .quote{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:20px;
+  line-height:1.35;
+  color:var(--navy);
+  font-weight:800
+}
+
+.quote-card .by{
+  margin-top:12px;
+  font-size:10px;
+  font-weight:700;
+  color:#927000
+}
+
+/* DATA */
+.data-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px
+}
+
+.data-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:var(--shadow-sm)
+}
+
+.data-card h3{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  color:var(--navy);
+  font-size:15px;
+  margin-bottom:8px
+}
+
+.data-card p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.65
+}
+
+.data-icon{
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  background:var(--yellow-soft);
+  color:#a87a00;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:14px
+}
+
+.data-meta{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:14px;
+  color:#8992a2;
+  font-size:10px
+}
+
+.data-meta i{
+  color:var(--yellow);
+  margin-right:4px
+}
+
+.official-photo{
+  width:84px;
+  height:84px;
+  border-radius:18px;
+  object-fit:cover;
+  margin-bottom:14px
+}
+
+.official-placeholder{
+  width:84px;
+  height:84px;
+  border-radius:18px;
+  background:linear-gradient(135deg,var(--navy),var(--navy3));
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  margin-bottom:14px
+}
+
+.position{
+  display:inline-flex;
+  margin-top:12px;
+  background:var(--yellow-soft);
+  color:#8e6b00;
+  font-size:9px;
+  font-weight:800;
+  padding:6px 9px;
+  border-radius:8px
+}
+
+.loading,
+.empty{
+  grid-column:1/-1;
+  background:#fff;
+  border:1px dashed var(--border);
+  border-radius:18px;
+  padding:45px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px
+}
+
+.loading i{
+  color:var(--yellow);
+  font-size:20px;
+  margin-bottom:12px
+}
+
+.data-section{
+  background:#f0f4f9
+}
+
+/* CTA */
+.cta-section{
+  padding:40px 0 80px
+}
+
+.cta{
+  border-radius:26px;
+  background:linear-gradient(120deg,var(--yellow),#ffd84f);
+  padding:36px 40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px
+}
+
+.cta h2{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  color:var(--navy);
+  font-size:30px;
+  line-height:1.15
+}
+
+.cta p{
+  font-size:12px;
+  color:#705700;
+  margin-top:7px
+}
+
+.btn-dark{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:var(--navy);
+  color:#fff;
+  padding:13px 18px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:800
+}
+
+/* FOOTER */
+footer{
+  background:var(--navy);
+  color:#fff;
+  padding:60px 0 22px
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:35px
+}
+
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.footer-brand img{
+  width:48px;
+  height:48px;
+  object-fit:contain
+}
+
+.footer-brand strong{
+  display:block;
+  font-family:"Plus Jakarta Sans",sans-serif;
+  font-size:14px
+}
+
+.footer-brand span{
+  display:block;
+  color:rgba(255,255,255,.55);
+  font-size:9px;
+  margin-top:2px
+}
+
+.footer-about{
+  margin-top:16px;
+  max-width:420px;
+  color:rgba(255,255,255,.65);
+  font-size:11px;
+  line-height:1.7
+}
+
+.footer-social{
+  display:flex;
+  gap:8px;
+  margin-top:18px
+}
+
+.social{
+  width:34px;
+  height:34px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--yellow)
+}
+
+.footer-col h4{
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--yellow);
+  margin-bottom:13px
+}
+
+.footer-col a{
+  display:block;
+  color:rgba(255,255,255,.72);
+  font-size:10px;
+  margin:8px 0
+}
+
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.12);
+  margin-top:35px;
+  padding-top:18px;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  color:rgba(255,255,255,.48);
+  font-size:9px
+}
+
+/* NEWS MODAL */
+.news-modal{
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  background:rgba(2,12,30,.72);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px
+}
+
+.news-modal.show{
+  display:flex
+}
+
+.news-modal-dialog{
+  width:min(900px,100%);
+  max-height:min(90vh,900px);
+  overflow:auto;
+  background:#fff;
+  border-radius:24px;
+  box-shadow:0 30px 90px rgba(0,0,0,.35);
+  position:relative
+}
+
+.news-modal-close{
+  position:absolute;
+  right:16px;
+  top:16px;
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:rgba(7,31,73,.9);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  cursor:pointer;
+  z-index:3
+}
+
+.news-modal-image{
+  width:100%;
+  height:300px;
+  background:linear-gradient(135deg,var(--navy),var(--navy3));
+  overflow:hidden
+}
+
+.news-modal-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.news-modal-body{
+  padding:30px
+}
+
+.news-modal-tag{
+  display:inline-flex;
+  background:var(--yellow-soft);
+  color:#8e6b00;
+  border-radius:8px;
+  padding:6px 10px;
+  font-size:9px;
+  font-weight:800;
+  margin-bottom:12px
+}
+
+.news-modal-title{
+  font-family:"Plus Jakarta Sans",sans-serif;
+  color:var(--navy);
+  font-size:30px;
+  line-height:1.25;
+  margin-bottom:10px
+}
+
+.news-modal-meta{
+  color:#8b94a5;
+  font-size:10px;
+  margin-bottom:22px
+}
+
+.news-modal-meta i{
+  color:var(--yellow);
+  margin-right:4px
+}
+
+.news-modal-excerpt{
+  color:#556176;
+  font-weight:600;
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:20px
+}
+
+.news-modal-content{
+  color:#24324a;
+  font-size:13px;
+  line-height:1.85;
+  white-space:normal
+}
+
+.news-modal-content p{
+  margin:0 0 14px
+}
+
+.news-modal-content img{
+  max-width:100%;
+  border-radius:14px;
+  margin:14px 0
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .nav-menu{
+    display:none
+  }
+
+  .mobile-toggle{
+    display:block
+  }
+
+  .quick-grid{
+    grid-template-columns:repeat(3,1fr)
+  }
+
+  .news-layout{
+    grid-template-columns:1fr
+  }
+
+  .side-column{
+    display:grid;
+    grid-template-columns:1fr 1fr
+  }
+
+  .footer-grid{
+    grid-template-columns:1.5fr 1fr 1fr
+  }
+}
+
+@media(max-width:800px){
+  .hero-inner{
+    grid-template-columns:1fr;
+    min-height:auto
+  }
+
+  .hero-visual{
+    height:360px;
+    padding-bottom:35px
+  }
+
+  .hero-content{
+    padding-top:70px
+  }
+
+  .quick-grid{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .news-grid,
+  .data-grid{
+    grid-template-columns:1fr
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr
+  }
+
+  .cta{
+    flex-direction:column;
+    align-items:flex-start
+  }
+
+  .news-modal-image{
+    height:220px
+  }
+
+  .news-modal-title{
+    font-size:24px
+  }
+
+  .news-modal-body{
+    padding:22px
+  }
+}
+
+@media(max-width:560px){
+  .container{
+    width:min(100% - 24px,var(--container))
+  }
+
+  .topbar-right{
+    display:none
+  }
+
+  .brand{
+    min-width:0
+  }
+
+  .brand-main{
+    font-size:12px
+  }
+
+  .brand-name{
+    font-size:22px
+  }
+
+  .brand-sub{
+    font-size:8px
+  }
+
+  .nav{
+    height:70px
+  }
+
+  .hero h1{
+    font-size:42px;
+    letter-spacing:-2px
+  }
+
+  .hero-desc{
+    font-size:14px
+  }
+
+  .hero-card{
+    min-height:290px
+  }
+
+  .hero-logo{
+    width:100px;
+    height:100px
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr
+  }
+
+  .side-column{
+    grid-template-columns:1fr
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr
+  }
+
+  .footer-bottom{
+    flex-direction:column
+  }
+
+  .section{
+    padding:60px 0
+  }
+
+  .section-header{
+    align-items:flex-start;
+    flex-direction:column
+  }
+
+  .news-modal{
+    padding:10px
+  }
+
+  .news-modal-dialog{
+    max-height:94vh
+  }
+
+  .news-modal-image{
+    height:190px
+  }
+
+  .news-modal-body{
+    padding:18px
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- =========================
-       TOP BAR
-  ========================= -->
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <div class="topbar-left">
-        <span>
-          <i class="fa-solid fa-location-dot"></i>
-          Kecamatan Rajeg, Kabupaten Tangerang, Banten
-        </span>
-      </div>
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <span><i class="fa-solid fa-location-dot"></i>Kecamatan Rajeg</span>
+      <span><i class="fa-solid fa-building"></i>Kabupaten Tangerang</span>
+    </div>
 
-      <div class="topbar-right">
-        <span>
-          <i class="fa-solid fa-envelope"></i>
-          Karang Taruna Kecamatan Rajeg
-        </span>
-      </div>
+    <div class="topbar-right">
+      <span><i class="fa-solid fa-heart"></i>Pemuda Aktif • Masyarakat Sejahtera</span>
     </div>
   </div>
+</div>
 
+<header class="header">
+  <div class="container nav">
 
-  <!-- =========================
-       HEADER
-  ========================= -->
-  <header class="header">
-    <div class="container nav">
+    <a href="#beranda" class="brand">
+      <img src="logo-karang-taruna2.webp" alt="Logo Karang Taruna Rajeg" class="brand-logo">
 
-      <a href="#beranda" class="brand">
-        <img
-          src="logo-karang-taruna2.webp"
-          alt="Logo Karang Taruna Rajeg"
-          class="brand-logo"
-        >
+      <div class="brand-text">
+        <div class="brand-main">KARANG TARUNA</div>
+        <div class="brand-name">RAJEG</div>
+        <div class="brand-sub">KECAMATAN RAJEG • KAB. TANGERANG • BANTEN</div>
+      </div>
+    </a>
 
-        <div class="brand-text">
-          <div class="brand-main">KARANG TARUNA</div>
-          <div class="brand-name">RAJEG</div>
-          <div class="brand-sub">
-            Kec. Rajeg • Kab. Tangerang • Banten
-          </div>
-        </div>
+    <nav class="nav-menu">
+      <a href="#beranda" class="nav-link active">Beranda</a>
+      <a href="#berita" class="nav-link">Berita</a>
+      <a href="#pengurus" class="nav-link">Pengurus</a>
+      <a href="#jurnal" class="nav-link">Jurnal</a>
+      <a href="#pengumuman" class="nav-link">Pengumuman</a>
+      <a href="#prestasi" class="nav-link">Prestasi</a>
+      <a href="#program" class="nav-link">Program</a>
+      <a href="#dokumentasi" class="nav-link">Dokumentasi</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="admin.html" class="admin-btn">
+        <i class="fa-solid fa-lock"></i>
+        Admin
       </a>
 
-      <nav class="nav-menu" id="navMenu">
-
-        <a href="#beranda" class="nav-link active">
-          <i class="fa-solid fa-house"></i>
-          Beranda
-        </a>
-
-        <a href="#berita" class="nav-link">
-          <i class="fa-solid fa-newspaper"></i>
-          Berita
-        </a>
-
-        <a href="#pengurus" class="nav-link">
-          <i class="fa-solid fa-users"></i>
-          Pengurus
-        </a>
-
-        <a href="#jurnal" class="nav-link">
-          <i class="fa-solid fa-book-open"></i>
-          Jurnal
-        </a>
-
-        <a href="#pengumuman" class="nav-link">
-          <i class="fa-solid fa-bullhorn"></i>
-          Pengumuman
-        </a>
-
-        <a href="#prestasi" class="nav-link">
-          <i class="fa-solid fa-trophy"></i>
-          Prestasi
-        </a>
-
-        <a href="#program" class="nav-link">
-          <i class="fa-solid fa-handshake"></i>
-          Program & Kegiatan
-        </a>
-
-        <a href="#dokumentasi" class="nav-link">
-          <i class="fa-solid fa-images"></i>
-          Dokumentasi
-        </a>
-
-      </nav>
-
-      <div class="nav-actions">
-
-        <button class="search-btn" id="searchBtn" title="Cari">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-
-        <a href="admin.html" class="admin-btn">
-          <i class="fa-solid fa-user-lock"></i>
-          <span>Login Admin</span>
-        </a>
-
-        <button class="mobile-toggle" id="mobileToggle">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-
-      </div>
-
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
     </div>
-  </header>
 
+  </div>
+</header>
 
-  <!-- =========================
-       HERO
-  ========================= -->
-  <section class="hero" id="beranda">
+<main>
 
-    <div class="container hero-inner">
+<section class="hero" id="beranda">
+  <div class="container hero-inner">
 
-      <div class="hero-content">
+    <div class="hero-content">
 
-        <div class="hero-kicker">
-          Selamat Datang di Website Resmi
-        </div>
-
-        <h1>
-          Karang Taruna
-          <span>Rajeg</span>
-        </h1>
-
-        <p class="hero-desc">
-          Bersama Pemuda, Bersinergi untuk Masyarakat yang Lebih Baik.
-          Membangun generasi muda yang aktif, kreatif, mandiri dan
-          peduli terhadap lingkungan serta masyarakat.
-        </p>
-
-        <div class="hero-buttons">
-
-          <a href="#tentang" class="btn-primary">
-            Jelajahi Lebih Lanjut
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
-
-          <a href="#program" class="btn-outline">
-            <i class="fa-solid fa-calendar-days"></i>
-            Lihat Kegiatan
-          </a>
-
-        </div>
-
+      <div class="hero-kicker">
+        Selamat Datang di Website Resmi
       </div>
 
+      <h1>
+        Karang Taruna <span>Rajeg</span>
+      </h1>
 
-      <div class="hero-visual">
+      <p class="hero-desc">
+        Bersama pemuda, bersinergi untuk masyarakat yang lebih baik melalui kegiatan kepemudaan,
+        sosial, kreativitas, dan pemberdayaan masyarakat Kecamatan Rajeg.
+      </p>
 
-        <div class="hero-circle"></div>
+      <div class="hero-buttons">
+        <a href="#berita" class="btn-primary">
+          Jelajahi Berita
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
 
-        <div class="hero-slogan">
-          Pemuda Aktif,<br>
-          <span>Masyarakat Sejahtera</span>
-        </div>
-
-        <div class="hero-floating float-one">
-          <i class="fa-solid fa-users"></i>
-          <span>Wadah Pemuda Rajeg</span>
-        </div>
-
-        <div class="hero-floating float-two">
-          <i class="fa-solid fa-star"></i>
-          <span>Bersama Membangun</span>
-        </div>
-
-        <div class="hero-card">
-
-          <div class="hero-card-inner">
-
-            <img
-              src="logo-karang-taruna2.webp"
-              alt="Karang Taruna Rajeg"
-              class="hero-logo"
-            >
-
-            <div class="hero-card-title">
-              KARANG TARUNA RAJEG
-            </div>
-
-            <div class="hero-card-sub">
-              Kecamatan Rajeg • Kabupaten Tangerang
-            </div>
-
-            <div class="hero-badge">
-              <i class="fa-solid fa-location-dot"></i>
-              PROVINSI BANTEN
-            </div>
-
-          </div>
-
-        </div>
-
+        <a href="#pengurus" class="btn-outline">
+          Kenali Pengurus
+        </a>
       </div>
 
     </div>
 
-  </section>
+    <div class="hero-visual">
 
+      <div class="hero-circle"></div>
 
-  <!-- =========================
-       QUICK MENU
-  ========================= -->
-  <section class="quick-section">
-
-    <div class="container quick-grid">
-
-      <a href="#pengurus" class="quick-card">
-        <div class="quick-icon">
-          <i class="fa-solid fa-users"></i>
-        </div>
-
-        <h3>Pengurus</h3>
-
-        <p>
-          Kenali lebih dekat jajaran pengurus Karang Taruna Rajeg.
-        </p>
-
-        <div class="quick-arrow">
-          <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      </a>
-
-
-      <a href="#berita" class="quick-card">
-        <div class="quick-icon">
-          <i class="fa-solid fa-newspaper"></i>
-        </div>
-
-        <h3>Berita</h3>
-
-        <p>
-          Informasi terkini seputar kegiatan dan perkembangan.
-        </p>
-
-        <div class="quick-arrow">
-          <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      </a>
-
-
-      <a href="#program" class="quick-card">
-        <div class="quick-icon">
-          <i class="fa-solid fa-calendar-days"></i>
-        </div>
-
-        <h3>Program & Kegiatan</h3>
-
-        <p>
-          Berbagai program kerja untuk masyarakat.
-        </p>
-
-        <div class="quick-arrow">
-          <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      </a>
-
-
-      <a href="#prestasi" class="quick-card">
-        <div class="quick-icon">
-          <i class="fa-solid fa-trophy"></i>
-        </div>
-
-        <h3>Prestasi</h3>
-
-        <p>
-          Pencapaian dan penghargaan yang telah diraih.
-        </p>
-
-        <div class="quick-arrow">
-          <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      </a>
-
-
-      <a href="#dokumentasi" class="quick-card">
-        <div class="quick-icon">
-          <i class="fa-solid fa-images"></i>
-        </div>
-
-        <h3>Dokumentasi</h3>
-
-        <p>
-          Galeri kegiatan dan momen berharga kami.
-        </p>
-
-        <div class="quick-arrow">
-          <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================
-       BERITA
-  ========================= -->
-  <section class="section" id="berita">
-
-    <div class="container">
-
-      <div class="section-header">
-
-        <div>
-          <div class="section-title-wrap">
-            <div class="title-lines"></div>
-
-            <div>
-              <h2 class="section-title">Berita Terbaru</h2>
-              <p class="section-subtitle">
-                Informasi dan kabar terbaru Karang Taruna Rajeg
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <a href="#berita" class="see-all">
-          Lihat Semua
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-
-      </div>
-
-
-      <div class="news-layout">
-
-        <div class="news-box">
-
-          <div class="news-grid" id="newsList">
-
-            <div class="loading">
-              <i class="fa-solid fa-spinner fa-spin"></i>
-              <br>
-              Memuat berita...
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="side-column">
-
-          <div class="promo-card">
-
-            <img
-              src="logo-karang-taruna2.webp"
-              alt="Karang Taruna"
-              class="promo-logo"
-            >
-
-            <h3>
-              Bersama Membangun
-              Masa Depan
-            </h3>
-
-            <p>
-              Dari pemuda, untuk masyarakat.
-            </p>
-
-            <a href="#tentang" class="promo-link">
-              Tentang Kami
-              <i class="fa-solid fa-arrow-right"></i>
-            </a>
-
-          </div>
-
-
-          <div class="stats-card">
-
-            <div class="stats-title">
-              <i class="fa-solid fa-chart-simple"></i>
-              Statistik
-              <span class="live">LIVE</span>
-            </div>
-
-            <div class="stats-grid">
-
-              <div class="stat">
-                <div class="stat-icon">
-                  <i class="fa-solid fa-users"></i>
-                </div>
-                <div class="stat-number" id="statOfficials">0</div>
-                <div class="stat-label">Pengurus</div>
-              </div>
-
-              <div class="stat">
-                <div class="stat-icon">
-                  <i class="fa-solid fa-calendar-days"></i>
-                </div>
-                <div class="stat-number" id="statPrograms">0</div>
-                <div class="stat-label">Program</div>
-              </div>
-
-              <div class="stat">
-                <div class="stat-icon">
-                  <i class="fa-solid fa-trophy"></i>
-                </div>
-                <div class="stat-number" id="statAchievements">0</div>
-                <div class="stat-label">Prestasi</div>
-              </div>
-
-              <div class="stat">
-                <div class="stat-icon">
-                  <i class="fa-solid fa-images"></i>
-                </div>
-                <div class="stat-number" id="statGallery">0</div>
-                <div class="stat-label">Dokumentasi</div>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================
-       TENTANG KAMI
-  ========================= -->
-  <section class="section about-section" id="tentang">
-
-    <div class="container about-grid">
-
-      <div class="about-visual">
-
-        <div class="about-circle">
+      <div class="hero-card">
+        <div class="hero-card-inner">
 
           <img
             src="logo-karang-taruna2.webp"
-            alt="Logo Karang Taruna Rajeg"
+            alt="Logo"
+            class="hero-logo"
           >
 
-        </div>
+          <div class="hero-card-title">
+            Karang Taruna Rajeg
+          </div>
 
-        <div class="about-badge">
-          <strong>2025–2030</strong>
-          <span>Periode Kepengurusan</span>
-        </div>
+          <div class="hero-card-sub">
+            Pemuda Aktif • Masyarakat Sejahtera
+          </div>
 
-      </div>
-
-
-      <div class="about-content">
-
-        <div class="section-title-wrap">
-
-          <div class="title-lines"></div>
-
-          <div>
-            <h2 class="section-title">
-              Tentang Karang Taruna Rajeg
-            </h2>
-
-            <p class="section-subtitle">
-              Bersama pemuda, bersinergi untuk masyarakat
-            </p>
+          <div class="hero-badge">
+            <i class="fa-solid fa-star"></i>
+            Website Resmi Kecamatan Rajeg
           </div>
 
         </div>
+      </div>
 
-        <br>
-
-        <p>
-          Karang Taruna Kecamatan Rajeg merupakan wadah pengembangan
-          generasi muda yang tumbuh dan berkembang atas dasar kesadaran
-          serta tanggung jawab sosial dari, oleh dan untuk masyarakat.
-        </p>
-
-        <p>
-          Melalui berbagai program dan kegiatan, kami berupaya
-          mendorong pemuda agar aktif berkontribusi dalam pembangunan,
-          sosial kemasyarakatan, kreativitas, kepemudaan dan lingkungan.
-        </p>
-
-        <div class="quote">
-          <p>
-            "Pemuda hari ini adalah pemimpin masyarakat di masa depan."
-          </p>
-        </div>
-
-        <a href="#program" class="btn-primary">
-          Lihat Program Kami
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-
+      <div class="hero-slogan">
+        Pemuda Aktif<br>
+        <span>Masyarakat Sejahtera</span>
       </div>
 
     </div>
 
-  </section>
+  </div>
+</section>
 
+<section class="quick-section">
+  <div class="container quick-grid">
 
-  <!-- =========================
-       PENGURUS
-  ========================= -->
-  <section class="section data-section" id="pengurus">
-
-    <div class="container">
-
-      <div class="section-header">
-
-        <div class="section-title-wrap">
-          <div class="title-lines"></div>
-
-          <div>
-            <h2 class="section-title">
-              Profil Pengurus
-            </h2>
-
-            <p class="section-subtitle">
-              Jajaran pengurus Karang Taruna Kecamatan Rajeg
-            </p>
-          </div>
-        </div>
-
+    <a href="#pengurus" class="quick-card">
+      <div class="quick-icon">
+        <i class="fa-solid fa-users"></i>
       </div>
 
+      <h3>Pengurus</h3>
 
-      <div class="data-grid" id="officialsList">
+      <p>
+        Kenali jajaran pengurus Karang Taruna Rajeg.
+      </p>
 
-        <div class="loading">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <br>
-          Memuat pengurus...
-        </div>
+      <div class="quick-arrow">
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </a>
 
+    <a href="#berita" class="quick-card">
+      <div class="quick-icon">
+        <i class="fa-regular fa-newspaper"></i>
       </div>
 
-    </div>
+      <h3>Berita</h3>
 
-  </section>
+      <p>
+        Informasi terkini seputar kegiatan dan perkembangan.
+      </p>
 
+      <div class="quick-arrow">
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </a>
 
-  <!-- =========================
-       JURNAL
-  ========================= -->
-  <section class="section" id="jurnal">
-
-    <div class="container">
-
-      <div class="section-header">
-
-        <div class="section-title-wrap">
-
-          <div class="title-lines"></div>
-
-          <div>
-            <h2 class="section-title">
-              Jurnal
-            </h2>
-
-            <p class="section-subtitle">
-              Catatan, gagasan dan tulisan Karang Taruna Rajeg
-            </p>
-          </div>
-
-        </div>
-
+    <a href="#program" class="quick-card">
+      <div class="quick-icon">
+        <i class="fa-regular fa-calendar"></i>
       </div>
 
+      <h3>Program & Kegiatan</h3>
 
-      <div class="data-grid" id="journalsList">
+      <p>
+        Berbagai program kerja untuk masyarakat.
+      </p>
 
-        <div class="loading">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <br>
-          Memuat jurnal...
-        </div>
+      <div class="quick-arrow">
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </a>
 
+    <a href="#prestasi" class="quick-card">
+      <div class="quick-icon">
+        <i class="fa-solid fa-trophy"></i>
       </div>
 
-    </div>
+      <h3>Prestasi</h3>
 
-  </section>
+      <p>
+        Pencapaian dan penghargaan yang telah diraih.
+      </p>
 
+      <div class="quick-arrow">
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </a>
 
-  <!-- =========================
-       PENGUMUMAN
-  ========================= -->
-  <section class="section data-section" id="pengumuman">
-
-    <div class="container">
-
-      <div class="section-header">
-
-        <div class="section-title-wrap">
-
-          <div class="title-lines"></div>
-
-          <div>
-            <h2 class="section-title">
-              Pengumuman
-            </h2>
-
-            <p class="section-subtitle">
-              Informasi penting untuk masyarakat dan pemuda
-            </p>
-          </div>
-
-        </div>
-
+    <a href="#dokumentasi" class="quick-card">
+      <div class="quick-icon">
+        <i class="fa-regular fa-image"></i>
       </div>
 
+      <h3>Dokumentasi</h3>
 
-      <div class="data-grid" id="announcementsList">
+      <p>
+        Galeri kegiatan dan momen berharga kami.
+      </p>
 
-        <div class="loading">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <br>
-          Memuat pengumuman...
-        </div>
-
+      <div class="quick-arrow">
+        <i class="fa-solid fa-arrow-right"></i>
       </div>
+    </a>
 
-    </div>
+  </div>
+</section>
 
-  </section>
+<section class="section" id="berita">
 
+  <div class="container">
 
-  <!-- =========================
-       PRESTASI
-  ========================= -->
-  <section class="section" id="prestasi">
+    <div class="section-header">
 
-    <div class="container">
+      <div class="section-title-wrap">
 
-      <div class="section-header">
-
-        <div class="section-title-wrap">
-
-          <div class="title-lines"></div>
-
-          <div>
-            <h2 class="section-title">
-              Prestasi
-            </h2>
-
-            <p class="section-subtitle">
-              Pencapaian dan penghargaan Karang Taruna Rajeg
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="data-grid" id="achievementsList">
-
-        <div class="loading">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <br>
-          Memuat prestasi...
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================
-       PROGRAM
-  ========================= -->
-  <section class="section data-section" id="program">
-
-    <div class="container">
-
-      <div class="section-header">
-
-        <div class="section-title-wrap">
-
-          <div class="title-lines"></div>
-
-          <div>
-            <h2 class="section-title">
-              Program & Kegiatan
-            </h2>
-
-            <p class="section-subtitle">
-              Program kerja dan kegiatan untuk masyarakat
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="data-grid" id="programsList">
-
-        <div class="loading">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <br>
-          Memuat program...
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================
-       DOKUMENTASI
-  ========================= -->
-  <section class="section" id="dokumentasi">
-
-    <div class="container">
-
-      <div class="section-header">
-
-        <div class="section-title-wrap">
-
-          <div class="title-lines"></div>
-
-          <div>
-            <h2 class="section-title">
-              Dokumentasi
-            </h2>
-
-            <p class="section-subtitle">
-              Galeri kegiatan Karang Taruna Rajeg
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="data-grid" id="galleryList">
-
-        <div class="loading">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <br>
-          Memuat dokumentasi...
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================
-       CTA
-  ========================= -->
-  <section class="cta-section">
-
-    <div class="container">
-
-      <div class="cta">
+        <div class="title-lines"></div>
 
         <div>
-          <h2>
-            Bersama Membangun<br>
-            Masa Depan
+          <h2 class="section-title">
+            Berita Terbaru
           </h2>
 
+          <p class="section-subtitle">
+            Informasi terbaru dari Karang Taruna Kecamatan Rajeg
+          </p>
+        </div>
+
+      </div>
+
+      <a href="#berita" class="see-all">
+        Lihat Semua
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+
+    </div>
+
+    <div class="news-layout">
+
+      <div class="news-box">
+
+        <div class="news-grid" id="newsList">
+
+          <div class="loading">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <br>
+            Memuat berita...
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="side-column">
+
+        <div class="promo-card">
+
+          <img
+            src="logo-karang-taruna2.webp"
+            class="promo-logo"
+            alt="Logo"
+          >
+
+          <h3>
+            Pemuda Rajeg Bergerak
+          </h3>
+
           <p>
-            Dari pemuda, untuk masyarakat Kecamatan Rajeg.
+            Bergerak bersama, berkarya bersama, dan hadir untuk masyarakat.
           </p>
+
+          <a href="#program" class="promo-btn">
+            Lihat Program
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
         </div>
 
-        <a href="#program" class="btn-dark">
-          Lihat Program & Kegiatan
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
+        <div class="quote-card">
 
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================
-       FOOTER
-  ========================= -->
-  <footer>
-
-    <div class="container">
-
-      <div class="footer-grid">
-
-        <div>
-
-          <div class="footer-brand">
-
-            <img
-              src="logo-karang-taruna2.webp"
-              alt="Logo Karang Taruna Rajeg"
-            >
-
-            <div>
-              <strong>KARANG TARUNA RAJEG</strong>
-              <span>
-                Kec. Rajeg • Kab. Tangerang • Banten
-              </span>
-            </div>
-
+          <div class="quote">
+            “Pemuda hari ini, pemimpin masa depan.”
           </div>
 
-          <p class="footer-about">
-            Website resmi Karang Taruna Kecamatan Rajeg sebagai media
-            informasi, komunikasi, dokumentasi dan publikasi kegiatan
-            kepemudaan serta kemasyarakatan.
-          </p>
-
-          <div class="footer-social">
-
-            <a href="#" class="social" title="Instagram">
-              <i class="fa-brands fa-instagram"></i>
-            </a>
-
-            <a href="#" class="social" title="Facebook">
-              <i class="fa-brands fa-facebook-f"></i>
-            </a>
-
-            <a href="#" class="social" title="YouTube">
-              <i class="fa-brands fa-youtube"></i>
-            </a>
-
+          <div class="by">
+            Karang Taruna Rajeg
           </div>
 
         </div>
-
-
-        <div class="footer-col">
-
-          <h4>NAVIGASI</h4>
-
-          <a href="#beranda">Beranda</a>
-          <a href="#berita">Berita</a>
-          <a href="#pengurus">Pengurus</a>
-          <a href="#jurnal">Jurnal</a>
-
-        </div>
-
-
-        <div class="footer-col">
-
-          <h4>INFORMASI</h4>
-
-          <a href="#pengumuman">Pengumuman</a>
-          <a href="#prestasi">Prestasi</a>
-          <a href="#program">Program & Kegiatan</a>
-          <a href="#dokumentasi">Dokumentasi</a>
-
-        </div>
-
-
-        <div class="footer-col">
-
-          <h4>KONTAK</h4>
-
-          <a href="#">
-            <i class="fa-solid fa-location-dot"></i>
-            Kecamatan Rajeg
-          </a>
-
-          <a href="#">
-            <i class="fa-solid fa-building"></i>
-            Kabupaten Tangerang
-          </a>
-
-          <a href="#">
-            <i class="fa-solid fa-map"></i>
-            Provinsi Banten
-          </a>
-
-        </div>
-
-      </div>
-
-
-      <div class="footer-bottom">
-
-        <span>
-          © <span id="currentYear"></span>
-          Karang Taruna Kecamatan Rajeg.
-          Kabupaten Tangerang • Provinsi Banten.
-        </span>
-
-        <span>
-          Pemuda Aktif • Masyarakat Sejahtera
-        </span>
-
-      </div>
-
-    </div>
-
-  </footer>
-
-
-  <!-- =========================
-       SEARCH
-  ========================= -->
-  <div class="search-overlay" id="searchOverlay">
-
-    <div class="search-box">
-
-      <div class="search-box-head">
-
-        <h3>
-          Cari di Website
-        </h3>
-
-        <button class="close-search" id="closeSearch">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-
-      </div>
-
-      <div class="search-input-wrap">
-
-        <i class="fa-solid fa-magnifying-glass"></i>
-
-        <input
-          type="text"
-          class="search-input"
-          id="searchInput"
-          placeholder="Cari berita, program, pengumuman..."
-        >
 
       </div>
 
@@ -2640,933 +1577,1447 @@
 
   </div>
 
+</section>
 
-  <!-- =========================
-       SUPABASE
-  ========================= -->
+<section class="section data-section" id="pengurus">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <div class="container">
 
-  <!-- File Supabase milik bro -->
-  <script src="supabase.js"></script>
+    <div class="section-header">
 
+      <div class="section-title-wrap">
 
-  <!-- =========================
-       JAVASCRIPT
-  ========================= -->
+        <div class="title-lines"></div>
 
-  <script>
+        <div>
+          <h2 class="section-title">
+            Profil Pengurus
+          </h2>
 
-    /* =========================
-       HELPER
-    ========================= */
-
-    function escapeHTML(value) {
-
-      if (value === null || value === undefined) {
-        return "";
-      }
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-
-    function formatDate(dateString) {
-
-      if (!dateString) {
-        return "-";
-      }
-
-      const date = new Date(dateString);
-
-      if (isNaN(date.getTime())) {
-        return "-";
-      }
-
-      return date.toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      });
-
-    }
-
-
-    function truncate(text, length = 130) {
-
-      if (!text) {
-        return "";
-      }
-
-      text = String(text);
-
-      if (text.length <= length) {
-        return text;
-      }
-
-      return text.substring(0, length) + "...";
-    }
-
-
-    function showEmpty(elementId, message) {
-
-      const element = document.getElementById(elementId);
-
-      if (!element) return;
-
-      element.innerHTML = `
-        <div class="empty">
-          <i class="fa-regular fa-folder-open"></i>
-          <br><br>
-          ${escapeHTML(message)}
+          <p class="section-subtitle">
+            Jajaran pengurus Karang Taruna Kecamatan Rajeg
+          </p>
         </div>
-      `;
+
+      </div>
+
+    </div>
+
+    <div class="data-grid" id="officialsList">
+
+      <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <br>
+        Memuat pengurus...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section" id="jurnal">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <div class="section-title-wrap">
+
+        <div class="title-lines"></div>
+
+        <div>
+          <h2 class="section-title">
+            Jurnal
+          </h2>
+
+          <p class="section-subtitle">
+            Catatan dan tulisan kegiatan Karang Taruna Rajeg
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="data-grid" id="journalsList">
+
+      <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <br>
+        Memuat jurnal...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section data-section" id="pengumuman">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <div class="section-title-wrap">
+
+        <div class="title-lines"></div>
+
+        <div>
+          <h2 class="section-title">
+            Pengumuman
+          </h2>
+
+          <p class="section-subtitle">
+            Informasi penting untuk pemuda dan masyarakat Rajeg
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="data-grid" id="announcementsList">
+
+      <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <br>
+        Memuat pengumuman...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section" id="prestasi">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <div class="section-title-wrap">
+
+        <div class="title-lines"></div>
+
+        <div>
+          <h2 class="section-title">
+            Prestasi
+          </h2>
+
+          <p class="section-subtitle">
+            Pencapaian dan penghargaan Karang Taruna Rajeg
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="data-grid" id="achievementsList">
+
+      <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <br>
+        Memuat prestasi...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section data-section" id="program">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <div class="section-title-wrap">
+
+        <div class="title-lines"></div>
+
+        <div>
+          <h2 class="section-title">
+            Program & Kegiatan
+          </h2>
+
+          <p class="section-subtitle">
+            Program kerja dan kegiatan untuk masyarakat
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="data-grid" id="programsList">
+
+      <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <br>
+        Memuat program...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section" id="dokumentasi">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <div class="section-title-wrap">
+
+        <div class="title-lines"></div>
+
+        <div>
+          <h2 class="section-title">
+            Dokumentasi
+          </h2>
+
+          <p class="section-subtitle">
+            Galeri kegiatan Karang Taruna Rajeg
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="data-grid" id="galleryList">
+
+      <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        <br>
+        Memuat dokumentasi...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="cta-section">
+
+  <div class="container">
+
+    <div class="cta">
+
+      <div>
+        <h2>
+          Bersama Membangun<br>
+          Masa Depan
+        </h2>
+
+        <p>
+          Dari pemuda, untuk masyarakat Kecamatan Rajeg.
+        </p>
+      </div>
+
+      <a href="#program" class="btn-dark">
+        Lihat Program & Kegiatan
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <div class="footer-brand">
+
+          <img
+            src="logo-karang-taruna2.webp"
+            alt="Logo"
+          >
+
+          <div>
+            <strong>KARANG TARUNA RAJEG</strong>
+            <span>Kec. Rajeg • Kab. Tangerang • Banten</span>
+          </div>
+
+        </div>
+
+        <p class="footer-about">
+          Website resmi Karang Taruna Kecamatan Rajeg sebagai media informasi,
+          komunikasi, dokumentasi dan publikasi kegiatan kepemudaan serta
+          kemasyarakatan.
+        </p>
+
+        <div class="footer-social">
+
+          <a href="#" class="social">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+
+          <a href="#" class="social">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+          <a href="#" class="social">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>NAVIGASI</h4>
+
+        <a href="#beranda">Beranda</a>
+        <a href="#berita">Berita</a>
+        <a href="#pengurus">Pengurus</a>
+        <a href="#jurnal">Jurnal</a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>INFORMASI</h4>
+
+        <a href="#pengumuman">Pengumuman</a>
+        <a href="#prestasi">Prestasi</a>
+        <a href="#program">Program & Kegiatan</a>
+        <a href="#dokumentasi">Dokumentasi</a>
+
+      </div>
+
+      <div class="footer-col">
+
+        <h4>KONTAK</h4>
+
+        <a href="#">
+          <i class="fa-solid fa-location-dot"></i>
+          Kecamatan Rajeg
+        </a>
+
+        <a href="#">
+          <i class="fa-solid fa-building"></i>
+          Kabupaten Tangerang
+        </a>
+
+        <a href="#">
+          <i class="fa-solid fa-map"></i>
+          Provinsi Banten
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="currentYear"></span>
+        Karang Taruna Kecamatan Rajeg.
+        Kabupaten Tangerang • Provinsi Banten.
+      </span>
+
+      <span>
+        Pemuda Aktif • Masyarakat Sejahtera
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- MODAL DETAIL BERITA -->
+<div
+  class="news-modal"
+  id="newsModal"
+  aria-hidden="true"
+>
+
+  <div
+    class="news-modal-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="newsModalTitle"
+  >
+
+    <button
+      class="news-modal-close"
+      id="newsModalClose"
+      aria-label="Tutup berita"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div
+      class="news-modal-image"
+      id="newsModalImage"
+    ></div>
+
+    <div class="news-modal-body">
+
+      <span class="news-modal-tag">
+        BERITA
+      </span>
+
+      <h2
+        class="news-modal-title"
+        id="newsModalTitle"
+      >
+        -
+      </h2>
+
+      <div
+        class="news-modal-meta"
+        id="newsModalMeta"
+      ></div>
+
+      <div
+        class="news-modal-excerpt"
+        id="newsModalExcerpt"
+      ></div>
+
+      <div
+        class="news-modal-content"
+        id="newsModalContent"
+      ></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+function escapeHTML(value){
+  if(value===null || value===undefined) return "";
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/\"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function formatDate(dateString){
+  if(!dateString) return "-";
+
+  const d=new Date(dateString);
+
+  if(Number.isNaN(d.getTime())) return "-";
+
+  return d.toLocaleDateString(
+    "id-ID",
+    {
+      day:"numeric",
+      month:"long",
+      year:"numeric"
+    }
+  );
+}
+
+function truncate(text,length=130){
+  const s=String(text||"");
+
+  return s.length>length
+    ? s.substring(0,length)+"..."
+    : s;
+}
+
+function showEmpty(id,message){
+  const el=document.getElementById(id);
+
+  if(el){
+    el.innerHTML=`
+      <div class="empty">
+        <i class="fa-regular fa-folder-open"></i>
+        <br>
+        <br>
+        ${escapeHTML(message)}
+      </div>
+    `;
+  }
+}
+
+/* Ubah isi berita menjadi paragraf aman */
+function contentToHTML(text){
+
+  const safe=escapeHTML(text||"");
+
+  return safe
+    .split(/\r?\n\r?\n/)
+    .map(
+      p=>`<p>${p.replace(/\r?\n/g,"<br>")}</p>`
+    )
+    .join("");
+}
+
+/* CACHE BERITA */
+const newsCache=new Map();
+
+/* MODAL */
+const newsModal=document.getElementById("newsModal");
+const newsModalClose=document.getElementById("newsModalClose");
+
+/* BUKA BERITA */
+function openNews(id){
+
+  const item=newsCache.get(String(id));
+
+  if(!item) return;
+
+  document.getElementById("newsModalTitle").textContent=
+    item.title || "Tanpa Judul";
+
+  document.getElementById("newsModalMeta").innerHTML=`
+    <i class="fa-regular fa-calendar"></i>
+    ${escapeHTML(formatDate(item.created_at))}
+    ${
+      item.author
+      ? ` &nbsp; • &nbsp;
+         <i class="fa-regular fa-user"></i>
+         ${escapeHTML(item.author)}`
+      : ""
+    }
+  `;
+
+  document.getElementById("newsModalExcerpt").textContent=
+    item.excerpt || "";
+
+  document.getElementById("newsModalContent").innerHTML=
+    contentToHTML(
+      item.content ||
+      item.excerpt ||
+      "Belum ada isi berita."
+    );
+
+  const imageWrap=
+    document.getElementById("newsModalImage");
+
+  if(item.image_url){
+
+    imageWrap.innerHTML=`
+      <img
+        src="${escapeHTML(item.image_url)}"
+        alt="${escapeHTML(item.title)}"
+        onerror="
+          this.parentElement.innerHTML=
+          '<div style=&quot;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.75);font-size:50px&quot;><i class=&quot;fa-solid fa-newspaper&quot;></i></div>'
+        "
+      >
+    `;
+
+  }else{
+
+    imageWrap.innerHTML=`
+      <div
+        style="
+          height:100%;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          color:rgba(255,255,255,.75);
+          font-size:50px;
+        "
+      >
+        <i class="fa-solid fa-newspaper"></i>
+      </div>
+    `;
+
+  }
+
+  newsModal.classList.add("show");
+
+  newsModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  document.body.style.overflow="hidden";
+}
+
+/* TUTUP BERITA */
+function closeNews(){
+
+  newsModal.classList.remove("show");
+
+  newsModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+  document.body.style.overflow="";
+}
+
+newsModalClose.addEventListener(
+  "click",
+  closeNews
+);
+
+newsModal.addEventListener(
+  "click",
+  e=>{
+    if(e.target===newsModal){
+      closeNews();
+    }
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  e=>{
+    if(
+      e.key==="Escape" &&
+      newsModal.classList.contains("show")
+    ){
+      closeNews();
+    }
+  }
+);
+
+/* LOAD BERITA */
+async function loadNews(){
+
+  const container=
+    document.getElementById("newsList");
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from("news")
+      .select("*")
+      .eq("published",true)
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      )
+      .limit(6);
+
+    if(error){
+
+      console.error(
+        "News error:",
+        error
+      );
+
+      showEmpty(
+        "newsList",
+        "Gagal memuat berita."
+      );
+
+      return;
     }
 
+    if(!data || !data.length){
 
-    /* =========================
-       BERITA
-    ========================= */
+      showEmpty(
+        "newsList",
+        "Belum ada berita yang dipublikasikan."
+      );
 
-    async function loadNews() {
+      return;
+    }
 
-      const container = document.getElementById("newsList");
+    newsCache.clear();
 
-      try {
+    data.forEach(
+      item=>{
+        newsCache.set(
+          String(item.id),
+          item
+        );
+      }
+    );
 
-        const { data, error } = await supabase
-          .from("news")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false })
-          .limit(6);
+    container.innerHTML=
+      data.map(item=>{
 
-        if (error) {
-          console.error("News error:", error);
-          showEmpty("newsList", "Belum ada berita.");
-          return;
-        }
-
-        if (!data || data.length === 0) {
-          showEmpty("newsList", "Belum ada berita yang dipublikasikan.");
-          return;
-        }
-
-        container.innerHTML = data.map(item => {
-
-          const image = item.image_url
-            ? `
-              <img
-                src="${escapeHTML(item.image_url)}"
-                alt="${escapeHTML(item.title)}"
-                onerror="this.style.display='none'"
-              >
-            `
-            : `
-              <div class="news-image-placeholder">
-                <i class="fa-solid fa-newspaper"></i>
-              </div>
-            `;
-
-          return `
-            <article class="news-card">
-
-              <div class="news-image">
-
-                ${image}
-
-                <span class="news-tag">
-                  BERITA
-                </span>
-
-              </div>
-
-              <div class="news-content">
-
-                <div class="news-date">
-                  <i class="fa-regular fa-calendar"></i>
-                  ${formatDate(item.created_at)}
-                </div>
-
-                <h3 class="news-title">
-                  ${escapeHTML(item.title)}
-                </h3>
-
-                <p class="news-excerpt">
-                  ${escapeHTML(
-                    truncate(item.excerpt || item.content, 120)
-                  )}
-                </p>
-
-                <a href="#" class="news-read">
-                  Baca Selengkapnya
-                  <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-              </div>
-
-            </article>
+        const image=
+          item.image_url
+          ?
+          `
+            <img
+              src="${escapeHTML(item.image_url)}"
+              alt="${escapeHTML(item.title)}"
+              onerror="this.style.display='none'"
+            >
+          `
+          :
+          `
+            <div class="news-image-placeholder">
+              <i class="fa-solid fa-newspaper"></i>
+            </div>
           `;
 
-        }).join("");
+        return `
+          <article class="news-card">
 
-      } catch (error) {
+            <div class="news-image">
 
-        console.error(error);
-        showEmpty("newsList", "Gagal memuat berita.");
+              ${image}
 
-      }
-
-    }
-
-
-    /* =========================
-       PENGURUS
-    ========================= */
-
-    async function loadOfficials() {
-
-      const container = document.getElementById("officialsList");
-
-      try {
-
-        const { data, error } = await supabase
-          .from("officials")
-          .select("*")
-          .eq("active", true)
-          .order("sort_order", { ascending: true });
-
-        if (error) {
-          console.error(error);
-          showEmpty("officialsList", "Belum ada data pengurus.");
-          return;
-        }
-
-        if (!data || data.length === 0) {
-          showEmpty("officialsList", "Belum ada data pengurus.");
-          return;
-        }
-
-        container.innerHTML = data.map(item => {
-
-          const photo = item.photo_url
-            ? `
-              <img
-                src="${escapeHTML(item.photo_url)}"
-                alt="${escapeHTML(item.name)}"
-                class="official-photo"
-              >
-            `
-            : `
-              <div class="official-placeholder">
-                <i class="fa-solid fa-user"></i>
-              </div>
-            `;
-
-          return `
-            <article class="data-card">
-
-              ${photo}
-
-              <h3>
-                ${escapeHTML(item.name)}
-              </h3>
-
-              <p>
-                ${escapeHTML(item.bio || "Pengurus Karang Taruna Rajeg.")}
-              </p>
-
-              <span class="position">
-                ${escapeHTML(item.position || "Pengurus")}
+              <span class="news-tag">
+                BERITA
               </span>
 
-            </article>
-          `;
+            </div>
 
-        }).join("");
+            <div class="news-content">
 
-        document.getElementById("statOfficials").textContent = data.length;
-
-      } catch (error) {
-
-        console.error(error);
-        showEmpty("officialsList", "Gagal memuat pengurus.");
-
-      }
-
-    }
-
-
-    /* =========================
-       JURNAL
-    ========================= */
-
-    async function loadJournals() {
-
-      const container = document.getElementById("journalsList");
-
-      try {
-
-        const { data, error } = await supabase
-          .from("journals")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false })
-          .limit(6);
-
-        if (error) {
-          console.error(error);
-          showEmpty("journalsList", "Belum ada jurnal.");
-          return;
-        }
-
-        if (!data || data.length === 0) {
-          showEmpty("journalsList", "Belum ada jurnal yang dipublikasikan.");
-          return;
-        }
-
-        container.innerHTML = data.map(item => {
-
-          return `
-            <article class="data-card">
-
-              <div class="data-icon">
-                <i class="fa-solid fa-book-open"></i>
+              <div class="news-date">
+                <i class="fa-regular fa-calendar"></i>
+                ${escapeHTML(formatDate(item.created_at))}
               </div>
 
-              <h3>
+              <h3 class="news-title">
                 ${escapeHTML(item.title)}
               </h3>
 
-              <p>
+              <p class="news-excerpt">
                 ${escapeHTML(
-                  truncate(item.content, 160)
+                  truncate(
+                    item.excerpt ||
+                    item.content,
+                    120
+                  )
                 )}
               </p>
 
-              <div class="data-meta">
+              <button
+                class="news-read"
+                type="button"
+                data-news-id="${escapeHTML(item.id)}"
+              >
+                Baca Selengkapnya
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
 
-                <span>
-                  <i class="fa-regular fa-user"></i>
-                  ${escapeHTML(item.author || "Karang Taruna Rajeg")}
-                </span>
+            </div>
 
-                <span>
-                  ${formatDate(item.created_at)}
-                </span>
+          </article>
+        `;
+      }).join("");
 
-              </div>
+  }catch(error){
 
-            </article>
-          `;
+    console.error(error);
 
-        }).join("");
+    showEmpty(
+      "newsList",
+      "Gagal memuat berita."
+    );
+  }
+}
 
-      } catch (error) {
+document
+  .getElementById("newsList")
+  .addEventListener(
+    "click",
+    e=>{
+      const btn=
+        e.target.closest("[data-news-id]");
 
-        console.error(error);
-        showEmpty("journalsList", "Gagal memuat jurnal.");
-
+      if(btn){
+        openNews(btn.dataset.newsId);
       }
+    }
+  );
 
+/* LOAD PENGURUS */
+async function loadOfficials(){
+
+  const c=
+    document.getElementById("officialsList");
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from("officials")
+      .select("*")
+      .eq("active",true)
+      .order(
+        "sort_order",
+        {
+          ascending:true
+        }
+      );
+
+    if(error){
+
+      console.error(error);
+
+      showEmpty(
+        "officialsList",
+        "Gagal memuat pengurus."
+      );
+
+      return;
     }
 
+    if(!data || !data.length){
 
-    /* =========================
-       PENGUMUMAN
-    ========================= */
+      showEmpty(
+        "officialsList",
+        "Belum ada data pengurus."
+      );
 
-    async function loadAnnouncements() {
+      return;
+    }
 
-      const container =
-        document.getElementById("announcementsList");
+    c.innerHTML=
+      data.map(i=>{
 
-      try {
+        const photo=
+          i.photo_url
+          ?
+          `
+            <img
+              src="${escapeHTML(i.photo_url)}"
+              alt="${escapeHTML(i.name)}"
+              class="official-photo"
+            >
+          `
+          :
+          `
+            <div class="official-placeholder">
+              <i class="fa-solid fa-user"></i>
+            </div>
+          `;
 
-        const { data, error } = await supabase
-          .from("announcements")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false })
-          .limit(6);
+        return `
+          <article class="data-card">
 
-        if (error) {
-          console.error(error);
-          showEmpty("announcementsList", "Belum ada pengumuman.");
-          return;
+            ${photo}
+
+            <h3>
+              ${escapeHTML(i.name)}
+            </h3>
+
+            <p>
+              ${escapeHTML(
+                i.bio ||
+                "Pengurus Karang Taruna Rajeg."
+              )}
+            </p>
+
+            <span class="position">
+              ${escapeHTML(
+                i.position ||
+                "Pengurus"
+              )}
+            </span>
+
+          </article>
+        `;
+
+      }).join("");
+
+  }catch(e){
+
+    console.error(e);
+
+    showEmpty(
+      "officialsList",
+      "Gagal memuat pengurus."
+    );
+  }
+}
+
+/* LOAD JURNAL */
+async function loadJournals(){
+
+  const c=
+    document.getElementById("journalsList");
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from("journals")
+      .select("*")
+      .eq("published",true)
+      .order(
+        "created_at",
+        {
+          ascending:false
         }
+      )
+      .limit(6);
 
-        if (!data || data.length === 0) {
-          showEmpty(
-            "announcementsList",
-            "Belum ada pengumuman yang dipublikasikan."
-          );
-          return;
+    if(error){
+
+      console.error(error);
+
+      showEmpty(
+        "journalsList",
+        "Gagal memuat jurnal."
+      );
+
+      return;
+    }
+
+    if(!data || !data.length){
+
+      showEmpty(
+        "journalsList",
+        "Belum ada jurnal yang dipublikasikan."
+      );
+
+      return;
+    }
+
+    c.innerHTML=
+      data.map(i=>`
+
+        <article class="data-card">
+
+          <div class="data-icon">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+
+          <h3>
+            ${escapeHTML(i.title)}
+          </h3>
+
+          <p>
+            ${escapeHTML(
+              truncate(i.content,160)
+            )}
+          </p>
+
+          <div class="data-meta">
+
+            <span>
+              <i class="fa-regular fa-user"></i>
+              ${escapeHTML(
+                i.author ||
+                "Karang Taruna Rajeg"
+              )}
+            </span>
+
+            <span>
+              ${formatDate(i.created_at)}
+            </span>
+
+          </div>
+
+        </article>
+
+      `).join("");
+
+  }catch(e){
+
+    console.error(e);
+
+    showEmpty(
+      "journalsList",
+      "Gagal memuat jurnal."
+    );
+  }
+}
+
+/* LOAD PENGUMUMAN */
+async function loadAnnouncements(){
+
+  const c=
+    document.getElementById("announcementsList");
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from("announcements")
+      .select("*")
+      .eq("published",true)
+      .order(
+        "created_at",
+        {
+          ascending:false
         }
+      )
+      .limit(6);
 
-        container.innerHTML = data.map(item => {
+    if(error){
 
-          return `
-            <article class="data-card">
+      console.error(error);
 
-              <div class="data-icon">
-                <i class="fa-solid fa-bullhorn"></i>
-              </div>
+      showEmpty(
+        "announcementsList",
+        "Gagal memuat pengumuman."
+      );
 
-              <h3>
-                ${escapeHTML(item.title)}
-              </h3>
+      return;
+    }
 
-              <p>
-                ${escapeHTML(
-                  truncate(item.content, 160)
-                )}
-              </p>
+    if(!data || !data.length){
 
-              <div class="data-meta">
+      showEmpty(
+        "announcementsList",
+        "Belum ada pengumuman yang dipublikasikan."
+      );
 
+      return;
+    }
+
+    c.innerHTML=
+      data.map(i=>`
+
+        <article class="data-card">
+
+          <div class="data-icon">
+            <i class="fa-solid fa-bullhorn"></i>
+          </div>
+
+          <h3>
+            ${escapeHTML(i.title)}
+          </h3>
+
+          <p>
+            ${escapeHTML(
+              truncate(i.content,160)
+            )}
+          </p>
+
+          <div class="data-meta">
+
+            <span>
+              <i class="fa-regular fa-calendar"></i>
+              ${formatDate(
+                i.event_date ||
+                i.created_at
+              )}
+            </span>
+
+          </div>
+
+        </article>
+
+      `).join("");
+
+  }catch(e){
+
+    console.error(e);
+
+    showEmpty(
+      "announcementsList",
+      "Gagal memuat pengumuman."
+    );
+  }
+}
+
+/* LOAD PRESTASI */
+async function loadAchievements(){
+
+  const c=
+    document.getElementById("achievementsList");
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from("achievements")
+      .select("*")
+      .eq("published",true)
+      .order(
+        "year",
+        {
+          ascending:false
+        }
+      )
+      .limit(6);
+
+    if(error){
+
+      console.error(error);
+
+      showEmpty(
+        "achievementsList",
+        "Gagal memuat prestasi."
+      );
+
+      return;
+    }
+
+    if(!data || !data.length){
+
+      showEmpty(
+        "achievementsList",
+        "Belum ada prestasi yang dipublikasikan."
+      );
+
+      return;
+    }
+
+    c.innerHTML=
+      data.map(i=>`
+
+        <article class="data-card">
+
+          <div class="data-icon">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+
+          <h3>
+            ${escapeHTML(i.title)}
+          </h3>
+
+          <p>
+            ${escapeHTML(
+              truncate(i.description,170)
+            )}
+          </p>
+
+          <div class="data-meta">
+
+            <span>
+              <i class="fa-regular fa-calendar"></i>
+              ${escapeHTML(i.year || "-")}
+            </span>
+
+          </div>
+
+        </article>
+
+      `).join("");
+
+  }catch(e){
+
+    console.error(e);
+
+    showEmpty(
+      "achievementsList",
+      "Gagal memuat prestasi."
+    );
+  }
+}
+
+/* LOAD PROGRAM */
+async function loadPrograms(){
+
+  const c=
+    document.getElementById("programsList");
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from("programs")
+      .select("*")
+      .eq("published",true)
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      )
+      .limit(6);
+
+    if(error){
+
+      console.error(error);
+
+      showEmpty(
+        "programsList",
+        "Gagal memuat program."
+      );
+
+      return;
+    }
+
+    if(!data || !data.length){
+
+      showEmpty(
+        "programsList",
+        "Belum ada program yang dipublikasikan."
+      );
+
+      return;
+    }
+
+    c.innerHTML=
+      data.map(i=>`
+
+        <article class="data-card">
+
+          <div class="data-icon">
+            <i class="fa-solid fa-handshake"></i>
+          </div>
+
+          <h3>
+            ${escapeHTML(i.title)}
+          </h3>
+
+          <p>
+            ${escapeHTML(
+              truncate(i.description,160)
+            )}
+          </p>
+
+          <div class="data-meta">
+
+            ${
+              i.status
+              ?
+              `
+                <span>
+                  <i class="fa-solid fa-circle-check"></i>
+                  ${escapeHTML(i.status)}
+                </span>
+              `
+              :
+              ""
+            }
+
+            ${
+              i.event_date
+              ?
+              `
                 <span>
                   <i class="fa-regular fa-calendar"></i>
-                  ${item.event_date
-                    ? formatDate(item.event_date)
-                    : formatDate(item.created_at)}
+                  ${formatDate(i.event_date)}
                 </span>
+              `
+              :
+              ""
+            }
 
-              </div>
+          </div>
 
-            </article>
-          `;
+        </article>
 
-        }).join("");
+      `).join("");
 
-      } catch (error) {
+  }catch(e){
 
-        console.error(error);
-        showEmpty(
-          "announcementsList",
-          "Gagal memuat pengumuman."
-        );
+    console.error(e);
 
-      }
+    showEmpty(
+      "programsList",
+      "Gagal memuat program."
+    );
+  }
+}
 
+/* LOAD GALERI */
+async function loadGallery(){
+
+  const c=
+    document.getElementById("galleryList");
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabase
+      .from("gallery")
+      .select("*")
+      .eq("published",true)
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      )
+      .limit(6);
+
+    if(error){
+
+      console.error(error);
+
+      showEmpty(
+        "galleryList",
+        "Gagal memuat dokumentasi."
+      );
+
+      return;
     }
 
+    if(!data || !data.length){
 
-    /* =========================
-       PRESTASI
-    ========================= */
+      showEmpty(
+        "galleryList",
+        "Belum ada dokumentasi yang dipublikasikan."
+      );
 
-    async function loadAchievements() {
-
-      const container =
-        document.getElementById("achievementsList");
-
-      try {
-
-        const { data, error } = await supabase
-          .from("achievements")
-          .select("*")
-          .eq("published", true)
-          .order("year", { ascending: false })
-          .limit(6);
-
-        if (error) {
-          console.error(error);
-          showEmpty("achievementsList", "Belum ada prestasi.");
-          return;
-        }
-
-        if (!data || data.length === 0) {
-          showEmpty(
-            "achievementsList",
-            "Belum ada prestasi yang dipublikasikan."
-          );
-          return;
-        }
-
-        container.innerHTML = data.map(item => {
-
-          return `
-            <article class="data-card">
-
-              <div class="data-icon">
-                <i class="fa-solid fa-trophy"></i>
-              </div>
-
-              <h3>
-                ${escapeHTML(item.title)}
-              </h3>
-
-              <p>
-                ${escapeHTML(
-                  truncate(item.description, 170)
-                )}
-              </p>
-
-              <div class="data-meta">
-
-                <span>
-                  <i class="fa-regular fa-calendar"></i>
-                  ${escapeHTML(item.year || "-")}
-                </span>
-
-              </div>
-
-            </article>
-          `;
-
-        }).join("");
-
-        document.getElementById("statAchievements").textContent =
-          data.length;
-
-      } catch (error) {
-
-        console.error(error);
-        showEmpty("achievementsList", "Gagal memuat prestasi.");
-
-      }
-
+      return;
     }
 
+    c.innerHTML=
+      data.map(i=>`
 
-    /* =========================
-       PROGRAM
-    ========================= */
+        <article class="data-card">
 
-    async function loadPrograms() {
+          ${
+            i.image_url
+            ?
+            `
+              <img
+                src="${escapeHTML(i.image_url)}"
+                alt="${escapeHTML(i.title)}"
+                style="
+                  width:100%;
+                  height:190px;
+                  object-fit:cover;
+                  border-radius:13px;
+                  margin-bottom:15px;
+                "
+              >
+            `
+            :
+            ""
+          }
 
-      const container =
-        document.getElementById("programsList");
+          <h3>
+            ${escapeHTML(i.title)}
+          </h3>
 
-      try {
+          <p>
+            ${escapeHTML(i.description || "")}
+          </p>
 
-        const { data, error } = await supabase
-          .from("programs")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false })
-          .limit(6);
+          <div class="data-meta">
 
-        if (error) {
-          console.error(error);
-          showEmpty("programsList", "Belum ada program.");
-          return;
+            <span>
+              <i class="fa-regular fa-calendar"></i>
+              ${formatDate(
+                i.event_date ||
+                i.created_at
+              )}
+            </span>
+
+          </div>
+
+        </article>
+
+      `).join("");
+
+  }catch(e){
+
+    console.error(e);
+
+    showEmpty(
+      "galleryList",
+      "Gagal memuat dokumentasi."
+    );
+  }
+}
+
+/* MOBILE MENU */
+const mobileToggle=
+  document.getElementById("mobileToggle");
+
+mobileToggle.addEventListener(
+  "click",
+  ()=>{
+    document
+      .querySelector(".nav-menu")
+      .classList.toggle("mobile-open");
+  }
+);
+
+document
+  .querySelectorAll(".nav-link")
+  .forEach(
+    link=>{
+      link.addEventListener(
+        "click",
+        ()=>{
+          document
+            .querySelector(".nav-menu")
+            .classList.remove("mobile-open");
         }
-
-        if (!data || data.length === 0) {
-          showEmpty(
-            "programsList",
-            "Belum ada program yang dipublikasikan."
-          );
-          return;
-        }
-
-        container.innerHTML = data.map(item => {
-
-          return `
-            <article class="data-card">
-
-              <div class="data-icon">
-                <i class="fa-solid fa-handshake"></i>
-              </div>
-
-              <h3>
-                ${escapeHTML(item.title)}
-              </h3>
-
-              <p>
-                ${escapeHTML(
-                  truncate(item.description, 160)
-                )}
-              </p>
-
-              <div class="data-meta">
-
-                ${
-                  item.status
-                  ? `
-                    <span>
-                      <i class="fa-solid fa-circle-check"></i>
-                      ${escapeHTML(item.status)}
-                    </span>
-                  `
-                  : ""
-                }
-
-                ${
-                  item.event_date
-                  ? `
-                    <span>
-                      <i class="fa-regular fa-calendar"></i>
-                      ${formatDate(item.event_date)}
-                    </span>
-                  `
-                  : ""
-                }
-
-              </div>
-
-            </article>
-          `;
-
-        }).join("");
-
-        document.getElementById("statPrograms").textContent =
-          data.length;
-
-      } catch (error) {
-
-        console.error(error);
-        showEmpty("programsList", "Gagal memuat program.");
-
-      }
-
+      );
     }
-
-
-    /* =========================
-       DOKUMENTASI
-    ========================= */
-
-    async function loadGallery() {
-
-      const container =
-        document.getElementById("galleryList");
-
-      try {
-
-        const { data, error } = await supabase
-          .from("gallery")
-          .select("*")
-          .eq("published", true)
-          .order("created_at", { ascending: false })
-          .limit(6);
-
-        if (error) {
-          console.error(error);
-          showEmpty("galleryList", "Belum ada dokumentasi.");
-          return;
-        }
-
-        if (!data || data.length === 0) {
-          showEmpty(
-            "galleryList",
-            "Belum ada dokumentasi yang dipublikasikan."
-          );
-          return;
-        }
-
-        container.innerHTML = data.map(item => {
-
-          return `
-            <article class="data-card">
-
-              ${
-                item.image_url
-                ? `
-                  <img
-                    src="${escapeHTML(item.image_url)}"
-                    alt="${escapeHTML(item.title)}"
-                    style="
-                      width:100%;
-                      height:190px;
-                      object-fit:cover;
-                      border-radius:13px;
-                      margin-bottom:15px;
-                    "
-                  >
-                `
-                : `
-                  <div class="data-icon">
-                    <i class="fa-solid fa-images"></i>
-                  </div>
-                `
-              }
-
-              <h3>
-                ${escapeHTML(item.title)}
-              </h3>
-
-              <p>
-                ${escapeHTML(
-                  truncate(item.description, 140)
-                )}
-              </p>
-
-              <div class="data-meta">
-
-                ${
-                  item.event_date
-                  ? `
-                    <span>
-                      <i class="fa-regular fa-calendar"></i>
-                      ${formatDate(item.event_date)}
-                    </span>
-                  `
-                  : ""
-                }
-
-              </div>
-
-            </article>
-          `;
-
-        }).join("");
-
-        document.getElementById("statGallery").textContent =
-          data.length;
-
-      } catch (error) {
-
-        console.error(error);
-        showEmpty(
-          "galleryList",
-          "Gagal memuat dokumentasi."
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       HITUNG DATA STATISTIK
-    ========================= */
-
-    async function loadStatistics() {
-
-      try {
-
-        const [
-          officials,
-          programs,
-          achievements,
-          gallery
-        ] = await Promise.all([
-
-          supabase
-            .from("officials")
-            .select("id", { count: "exact", head: true })
-            .eq("active", true),
-
-          supabase
-            .from("programs")
-            .select("id", { count: "exact", head: true })
-            .eq("published", true),
-
-          supabase
-            .from("achievements")
-            .select("id", { count: "exact", head: true })
-            .eq("published", true),
-
-          supabase
-            .from("gallery")
-            .select("id", { count: "exact", head: true })
-            .eq("published", true)
-
-        ]);
-
-        document.getElementById("statOfficials").textContent =
-          officials.count || 0;
-
-        document.getElementById("statPrograms").textContent =
-          programs.count || 0;
-
-        document.getElementById("statAchievements").textContent =
-          achievements.count || 0;
-
-        document.getElementById("statGallery").textContent =
-          gallery.count || 0;
-
-      } catch (error) {
-
-        console.error("Statistics error:", error);
-
-      }
-
-    }
-
-
-    /* =========================
-       MOBILE MENU
-    ========================= */
-
-    const mobileToggle =
-      document.getElementById("mobileToggle");
-
-    const navMenu =
-      document.getElementById("navMenu");
-
-    mobileToggle.addEventListener("click", () => {
-
-      navMenu.classList.toggle("open");
-
-      const icon = mobileToggle.querySelector("i");
-
-      if (navMenu.classList.contains("open")) {
-
-        icon.className = "fa-solid fa-xmark";
-
-      } else {
-
-        icon.className = "fa-solid fa-bars";
-
-      }
-
-    });
-
-
-    document.querySelectorAll(".nav-link").forEach(link => {
-
-      link.addEventListener("click", () => {
-
-        navMenu.classList.remove("open");
-
-        const icon = mobileToggle.querySelector("i");
-
-        icon.className = "fa-solid fa-bars";
-
-      });
-
-    });
-
-
-    /* =========================
-       SEARCH
-    ========================= */
-
-    const searchBtn =
-      document.getElementById("searchBtn");
-
-    const searchOverlay =
-      document.getElementById("searchOverlay");
-
-    const closeSearch =
-      document.getElementById("closeSearch");
-
-    const searchInput =
-      document.getElementById("searchInput");
-
-
-    searchBtn.addEventListener("click", () => {
-
-      searchOverlay.classList.add("show");
-
-      setTimeout(() => {
-        searchInput.focus();
-      }, 100);
-
-    });
-
-
-    closeSearch.addEventListener("click", () => {
-
-      searchOverlay.classList.remove("show");
-
-    });
-
-
-    searchOverlay.addEventListener("click", (event) => {
-
-      if (event.target === searchOverlay) {
-
-        searchOverlay.classList.remove("show");
-
-      }
-
-    });
-
-
-    document.addEventListener("keydown", (event) => {
-
-      if (event.key === "Escape") {
-
-        searchOverlay.classList.remove("show");
-
-      }
-
-    });
-
-
-    /* =========================
-       ACTIVE NAV
-    ========================= */
-
-    const sections =
-      document.querySelectorAll("section[id]");
-
-    const navLinks =
-      document.querySelectorAll(".nav-link");
-
-    window.addEventListener("scroll", () => {
-
-      let current = "";
-
-      sections.forEach(section => {
-
-        const sectionTop =
-          section.offsetTop - 130;
-
-        if (window.scrollY >= sectionTop) {
-          current = section.getAttribute("id");
-        }
-
-      });
-
-      navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        if (
-          link.getAttribute("href") === "#" + current
-        ) {
-          link.classList.add("active");
-        }
-
-      });
-
-    });
-
-
-    /* =========================
-       TAHUN FOOTER
-    ========================= */
-
-    document.getElementById("currentYear").textContent =
-      new Date().getFullYear();
-
-
-    /* =========================
-       LOAD SEMUA DATA
-    ========================= */
-
-    async function initializeWebsite() {
-
-      await Promise.all([
-
-        loadNews(),
-        loadOfficials(),
-        loadJournals(),
-        loadAnnouncements(),
-        loadAchievements(),
-        loadPrograms(),
-        loadGallery(),
-        loadStatistics()
-
-      ]);
-
-    }
-
-
-    initializeWebsite();
-
-  </script>
+  );
+
+/* CSS MOBILE MENU */
+const style=
+  document.createElement("style");
+
+style.textContent=`
+@media(max-width:1100px){
+
+  .nav-menu.mobile-open{
+    display:flex;
+    position:absolute;
+    left:12px;
+    right:12px;
+    top:70px;
+    background:#fff;
+    border:1px solid #e7ebf2;
+    border-radius:14px;
+    padding:10px;
+    box-shadow:
+      0 15px 40px
+      rgba(7,31,73,.12);
+    flex-direction:column;
+    align-items:stretch
+  }
+
+  .nav-menu.mobile-open .nav-link{
+    width:100%
+  }
+
+}
+`;
+
+document.head.appendChild(style);
+
+/* TAHUN FOOTER */
+document.getElementById("currentYear").textContent=
+  new Date().getFullYear();
+
+/* LOAD SEMUA DATA */
+Promise.all([
+  loadNews(),
+  loadOfficials(),
+  loadJournals(),
+  loadAnnouncements(),
+  loadAchievements(),
+  loadPrograms(),
+  loadGallery()
+]);
+</script>
 
 </body>
 </html>
