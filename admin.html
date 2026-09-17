@@ -6,12 +6,14 @@
 
   <title>Login Admin — Karang Taruna Rajeg</title>
 
+  <!-- =====================================================
+       SUPABASE
+       ===================================================== -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase.js"></script>
 
   <style>
     * {
@@ -23,56 +25,104 @@
     body {
       font-family: "Inter", sans-serif;
       min-height: 100vh;
+
       background:
-        radial-gradient(circle at top left, rgba(255, 204, 0, .18), transparent 35%),
-        linear-gradient(135deg, #071a3d 0%, #0d2857 55%, #061633 100%);
+        radial-gradient(
+          circle at top left,
+          rgba(255, 204, 0, 0.20),
+          transparent 35%
+        ),
+        linear-gradient(
+          135deg,
+          #071a3d 0%,
+          #0d2857 55%,
+          #061633 100%
+        );
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       padding: 24px;
+
       color: #17233d;
     }
+
+    /* =====================================================
+       CONTAINER
+       ===================================================== */
 
     .login-wrapper {
       width: 100%;
       max-width: 1000px;
       min-height: 600px;
-      background: #fff;
+
+      background: #ffffff;
+
       border-radius: 28px;
+
       overflow: hidden;
+
       display: grid;
       grid-template-columns: 1fr 1fr;
-      box-shadow: 0 30px 80px rgba(0,0,0,.28);
+
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.28);
     }
+
+    /* =====================================================
+       LEFT BRAND
+       ===================================================== */
 
     .brand-panel {
       position: relative;
-      background: linear-gradient(160deg, #ffcc00, #f4b900);
+
+      background:
+        linear-gradient(
+          160deg,
+          #ffcc00,
+          #f4b900
+        );
+
       padding: 55px;
+
       display: flex;
       flex-direction: column;
       justify-content: center;
+
       overflow: hidden;
     }
 
     .brand-panel::before {
       content: "";
+
       position: absolute;
+
       width: 300px;
       height: 300px;
+
       border-radius: 50%;
-      background: rgba(255,255,255,.13);
+
+      background:
+        rgba(255, 255, 255, 0.13);
+
       top: -100px;
       right: -100px;
     }
 
     .brand-panel::after {
       content: "";
+
       position: absolute;
+
       width: 220px;
       height: 220px;
+
       border-radius: 50%;
-      background: rgba(7,26,61,.08);
+
+      background:
+        rgba(7, 26, 61, 0.08);
+
       bottom: -100px;
       left: -70px;
     }
@@ -82,70 +132,121 @@
       z-index: 2;
     }
 
+    /* =====================================================
+       LOGO
+       ===================================================== */
+
     .logo {
       width: 125px;
       height: 125px;
+
       object-fit: contain;
-      background: #fff;
+
+      background: #ffffff;
+
       border-radius: 24px;
+
       padding: 12px;
+
       margin-bottom: 28px;
-      box-shadow: 0 15px 35px rgba(0,0,0,.12);
+
+      box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.12);
     }
+
+    /* =====================================================
+       BRAND TEXT
+       ===================================================== */
 
     .brand-panel h1 {
       font-size: 34px;
+
       line-height: 1.15;
+
       color: #071a3d;
+
       margin-bottom: 16px;
+
       font-weight: 800;
     }
 
     .brand-panel p {
       color: #253b61;
+
       line-height: 1.7;
+
       font-size: 15px;
+
       max-width: 410px;
     }
 
     .brand-badge {
       display: inline-flex;
+
       width: fit-content;
+
       margin-top: 25px;
+
       background: #071a3d;
-      color: #fff;
+
+      color: #ffffff;
+
       padding: 9px 15px;
+
       border-radius: 50px;
+
       font-size: 12px;
+
       font-weight: 700;
-      letter-spacing: .5px;
+
+      letter-spacing: 0.5px;
     }
+
+    /* =====================================================
+       RIGHT FORM
+       ===================================================== */
 
     .form-panel {
       padding: 55px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
-      background: #fff;
+
+      background: #ffffff;
     }
 
     .form-box {
       width: 100%;
+
       max-width: 400px;
     }
 
     .form-box h2 {
       font-size: 30px;
+
       color: #071a3d;
+
       margin-bottom: 8px;
+
       font-weight: 800;
     }
 
     .subtitle {
       color: #758198;
+
       font-size: 14px;
+
       margin-bottom: 32px;
+
+      line-height: 1.6;
     }
+
+    /* =====================================================
+       FIELD
+       ===================================================== */
 
     .field {
       margin-bottom: 20px;
@@ -153,11 +254,19 @@
 
     .field label {
       display: block;
+
       margin-bottom: 8px;
+
       font-size: 13px;
+
       font-weight: 700;
+
       color: #263653;
     }
+
+    /* =====================================================
+       INPUT
+       ===================================================== */
 
     .input-wrap {
       position: relative;
@@ -165,92 +274,172 @@
 
     .input-wrap input {
       width: 100%;
+
       height: 52px;
+
       border: 1px solid #dce2eb;
+
       border-radius: 13px;
+
       padding: 0 48px 0 16px;
+
       font-family: inherit;
+
       font-size: 14px;
+
       outline: none;
-      transition: .2s;
+
+      transition: 0.2s;
+
       color: #17233d;
-      background: #fff;
+
+      background: #ffffff;
     }
 
     .input-wrap input:focus {
       border-color: #ffcc00;
-      box-shadow: 0 0 0 4px rgba(255,204,0,.15);
+
+      box-shadow:
+        0 0 0 4px rgba(255, 204, 0, 0.15);
     }
+
+    /* =====================================================
+       PASSWORD TOGGLE
+       ===================================================== */
 
     .password-toggle {
       position: absolute;
+
       right: 15px;
+
       top: 50%;
+
       transform: translateY(-50%);
+
       border: 0;
+
       background: transparent;
+
       cursor: pointer;
+
       color: #68758c;
-      font-size: 13px;
+
+      font-size: 12px;
+
       font-weight: 700;
     }
 
+    /* =====================================================
+       BUTTON
+       ===================================================== */
+
     .login-button {
       width: 100%;
+
       height: 53px;
+
       border: none;
+
       border-radius: 13px;
+
       background: #071a3d;
-      color: #fff;
+
+      color: #ffffff;
+
       font-family: inherit;
+
       font-size: 14px;
+
       font-weight: 800;
+
       cursor: pointer;
-      transition: .2s;
+
+      transition: 0.2s;
+
       margin-top: 5px;
     }
 
     .login-button:hover {
       background: #0d2857;
+
       transform: translateY(-1px);
     }
 
     .login-button:disabled {
-      opacity: .65;
+      opacity: 0.65;
+
       cursor: not-allowed;
+
       transform: none;
     }
 
+    /* =====================================================
+       MESSAGE
+       ===================================================== */
+
     .message {
       display: none;
+
       margin-top: 18px;
-      padding: 13px 15px;
+
+      padding: 14px 15px;
+
       border-radius: 12px;
+
       font-size: 13px;
+
       line-height: 1.55;
+
+      word-break: break-word;
     }
 
     .message.error {
       display: block;
+
       background: #fff0f0;
+
       color: #a52525;
+
       border: 1px solid #ffd0d0;
     }
 
     .message.success {
       display: block;
+
       background: #eefaf2;
+
       color: #20733b;
+
       border: 1px solid #ccefd6;
     }
 
+    .message.info {
+      display: block;
+
+      background: #eef5ff;
+
+      color: #24558f;
+
+      border: 1px solid #cfe0f8;
+    }
+
+    /* =====================================================
+       BACK LINK
+       ===================================================== */
+
     .back-link {
       display: block;
+
       text-align: center;
+
       margin-top: 22px;
+
       color: #68758c;
+
       text-decoration: none;
+
       font-size: 13px;
+
       font-weight: 600;
     }
 
@@ -258,20 +447,31 @@
       color: #071a3d;
     }
 
+    /* =====================================================
+       LOADING
+       ===================================================== */
+
     .loading {
       display: inline-flex;
+
       align-items: center;
-      gap: 8px;
+
       justify-content: center;
+
+      gap: 8px;
     }
 
     .spinner {
       width: 15px;
       height: 15px;
+
       border: 2px solid rgba(255,255,255,.4);
-      border-top-color: #fff;
+
+      border-top-color: #ffffff;
+
       border-radius: 50%;
-      animation: spin .7s linear infinite;
+
+      animation: spin 0.7s linear infinite;
     }
 
     @keyframes spin {
@@ -280,14 +480,21 @@
       }
     }
 
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+
     @media (max-width: 800px) {
+
       .login-wrapper {
         grid-template-columns: 1fr;
+
         max-width: 520px;
       }
 
       .brand-panel {
         padding: 38px;
+
         min-height: 320px;
       }
 
@@ -298,6 +505,7 @@
       .logo {
         width: 90px;
         height: 90px;
+
         margin-bottom: 20px;
       }
 
@@ -307,6 +515,7 @@
     }
 
     @media (max-width: 480px) {
+
       body {
         padding: 12px;
       }
@@ -319,6 +528,10 @@
       .form-panel {
         padding: 28px;
       }
+
+      .brand-panel h1 {
+        font-size: 25px;
+      }
     }
   </style>
 </head>
@@ -327,7 +540,12 @@
 
   <div class="login-wrapper">
 
+    <!-- ===================================================
+         BRAND PANEL
+         =================================================== -->
+
     <section class="brand-panel">
+
       <div class="brand-content">
 
         <img
@@ -353,8 +571,13 @@
         </span>
 
       </div>
+
     </section>
 
+
+    <!-- ===================================================
+         LOGIN FORM
+         =================================================== -->
 
     <section class="form-panel">
 
@@ -366,25 +589,40 @@
           Silakan masuk menggunakan akun administrator.
         </p>
 
+
         <form id="loginForm">
 
+          <!-- EMAIL -->
+
           <div class="field">
-            <label for="email">Email</label>
+
+            <label for="email">
+              Email
+            </label>
 
             <div class="input-wrap">
+
               <input
                 type="email"
                 id="email"
                 placeholder="Masukkan email admin"
                 autocomplete="username"
+                value="adminkartunrajeg@gmail.com"
                 required
               >
+
             </div>
+
           </div>
 
 
+          <!-- PASSWORD -->
+
           <div class="field">
-            <label for="password">Password</label>
+
+            <label for="password">
+              Password
+            </label>
 
             <div class="input-wrap">
 
@@ -405,8 +643,11 @@
               </button>
 
             </div>
+
           </div>
 
+
+          <!-- LOGIN BUTTON -->
 
           <button
             type="submit"
@@ -419,11 +660,15 @@
         </form>
 
 
+        <!-- MESSAGE -->
+
         <div
           id="message"
           class="message"
         ></div>
 
+
+        <!-- BACK -->
 
         <a
           href="index.html"
@@ -439,21 +684,97 @@
   </div>
 
 
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
   <script>
 
-    const loginForm = document.getElementById("loginForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const loginButton = document.getElementById("loginButton");
-    const messageBox = document.getElementById("message");
-    const togglePassword = document.getElementById("togglePassword");
+    /* =====================================================
+       KONFIGURASI SUPABASE
+       ===================================================== */
+
+    const SUPABASE_URL =
+      "https://qemzczsltxbiyxsvpebv.supabase.co";
 
 
-    function showMessage(text, type = "error") {
+    /*
+     * PENTING:
+     *
+     * Tempel Publishable Key project Supabase kamu
+     * di antara tanda kutip di bawah.
+     *
+     * JANGAN gunakan service_role key.
+     */
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "TEMPEL_PUBLISHABLE_KEY_SUPABASE_DI_SINI";
+
+
+    /* =====================================================
+       VALIDASI CONFIG
+       ===================================================== */
+
+    if (
+      !SUPABASE_PUBLISHABLE_KEY ||
+      SUPABASE_PUBLISHABLE_KEY ===
+      "TEMPEL_PUBLISHABLE_KEY_SUPABASE_DI_SINI"
+    ) {
+
+      console.error(
+        "Publishable Key Supabase belum diisi."
+      );
+
+    }
+
+
+    /* =====================================================
+       BUAT CLIENT SUPABASE
+       ===================================================== */
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    /* =====================================================
+       ELEMENT
+       ===================================================== */
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const emailInput =
+      document.getElementById("email");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const messageBox =
+      document.getElementById("message");
+
+    const togglePassword =
+      document.getElementById("togglePassword");
+
+
+    /* =====================================================
+       MESSAGE
+       ===================================================== */
+
+    function showMessage(
+      text,
+      type = "error"
+    ) {
 
       messageBox.textContent = text;
 
-      messageBox.className = "message " + type;
+      messageBox.className =
+        "message " + type;
 
     }
 
@@ -462,260 +783,437 @@
 
       messageBox.textContent = "";
 
-      messageBox.className = "message";
+      messageBox.className =
+        "message";
 
     }
 
 
-    togglePassword.addEventListener("click", function () {
+    /* =====================================================
+       TOGGLE PASSWORD
+       ===================================================== */
 
-      if (passwordInput.type === "password") {
+    togglePassword.addEventListener(
+      "click",
+      function () {
 
-        passwordInput.type = "text";
+        if (
+          passwordInput.type === "password"
+        ) {
 
-        togglePassword.textContent = "Sembunyikan";
+          passwordInput.type = "text";
 
-      } else {
+          togglePassword.textContent =
+            "Sembunyikan";
 
-        passwordInput.type = "password";
+        } else {
 
-        togglePassword.textContent = "Lihat";
+          passwordInput.type = "password";
+
+          togglePassword.textContent =
+            "Lihat";
+
+        }
 
       }
+    );
 
-    });
 
+    /* =====================================================
+       CHECK SESSION
+       ===================================================== */
 
     async function checkExistingSession() {
 
       try {
 
         const {
-          data: {
-            session
-          },
+          data,
           error
-        } = await supabase.auth.getSession();
+        } =
+          await supabaseClient.auth.getSession();
 
 
         if (error) {
 
-          console.error("SESSION ERROR:", error);
+          console.error(
+            "SESSION ERROR:",
+            error
+          );
 
           return;
 
         }
 
 
-        if (session) {
+        if (data && data.session) {
 
-          window.location.href = "admin-dashboard.html";
+          console.log(
+            "Session ditemukan."
+          );
+
+          window.location.href =
+            "admin-dashboard.html";
 
         }
 
       } catch (error) {
 
-        console.error("CHECK SESSION ERROR:", error);
+        console.error(
+          "CHECK SESSION ERROR:",
+          error
+        );
 
       }
 
     }
 
 
-    loginForm.addEventListener("submit", async function (event) {
+    /* =====================================================
+       LOGIN
+       ===================================================== */
 
-      event.preventDefault();
+    loginForm.addEventListener(
+      "submit",
+      async function (event) {
 
-      clearMessage();
+        event.preventDefault();
+
+        clearMessage();
 
 
-      const email = emailInput.value.trim();
+        const email =
+          emailInput.value.trim();
 
-      const password = passwordInput.value;
+        const password =
+          passwordInput.value;
 
 
-      if (!email || !password) {
+        /* -----------------------------------------------
+           VALIDASI
+           ----------------------------------------------- */
 
-        showMessage("Email dan password wajib diisi.");
+        if (!email) {
 
-        return;
+          showMessage(
+            "Email wajib diisi."
+          );
+
+          return;
+
+        }
+
+
+        if (!password) {
+
+          showMessage(
+            "Password wajib diisi."
+          );
+
+          return;
+
+        }
+
+
+        /* -----------------------------------------------
+           LOADING
+           ----------------------------------------------- */
+
+        loginButton.disabled = true;
+
+        loginButton.innerHTML = `
+          <span class="loading">
+            <span class="spinner"></span>
+            Memproses login...
+          </span>
+        `;
+
+
+        try {
+
+          console.log(
+            "================================"
+          );
+
+          console.log(
+            "LOGIN DIMULAI"
+          );
+
+          console.log(
+            "Email:",
+            email
+          );
+
+
+          /* -------------------------------------------
+             LOGIN SUPABASE
+             ------------------------------------------- */
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth
+              .signInWithPassword({
+
+                email: email,
+
+                password: password
+
+              });
+
+
+          console.log(
+            "LOGIN RESPONSE:",
+            data,
+            error
+          );
+
+
+          /* -------------------------------------------
+             ERROR LOGIN
+             ------------------------------------------- */
+
+          if (error) {
+
+            console.error(
+              "SUPABASE LOGIN ERROR:",
+              error
+            );
+
+
+            showMessage(
+              "Login gagal: " +
+              (
+                error.message ||
+                "Kesalahan tidak diketahui."
+              ),
+              "error"
+            );
+
+
+            return;
+
+          }
+
+
+          /* -------------------------------------------
+             USER CHECK
+             ------------------------------------------- */
+
+          if (
+            !data ||
+            !data.user
+          ) {
+
+            showMessage(
+              "Login gagal: data user tidak ditemukan.",
+              "error"
+            );
+
+            return;
+
+          }
+
+
+          console.log(
+            "USER ID:",
+            data.user.id
+          );
+
+
+          console.log(
+            "USER EMAIL:",
+            data.user.email
+          );
+
+
+          /* -------------------------------------------
+             PROFILE CHECK
+             ------------------------------------------- */
+
+          const {
+            data: profile,
+            error: profileError
+          } =
+            await supabaseClient
+
+              .from("profiles")
+
+              .select(
+                "id, full_name, role"
+              )
+
+              .eq(
+                "id",
+                data.user.id
+              )
+
+              .maybeSingle();
+
+
+          console.log(
+            "PROFILE:",
+            profile
+          );
+
+
+          console.log(
+            "PROFILE ERROR:",
+            profileError
+          );
+
+
+          /* -------------------------------------------
+             PROFILE ERROR
+             ------------------------------------------- */
+
+          if (profileError) {
+
+            console.error(
+              "PROFILE ERROR:",
+              profileError
+            );
+
+
+            await supabaseClient.auth
+              .signOut();
+
+
+            showMessage(
+              "Login berhasil, tetapi profil admin tidak bisa dibaca: " +
+              profileError.message,
+              "error"
+            );
+
+
+            return;
+
+          }
+
+
+          /* -------------------------------------------
+             PROFILE TIDAK ADA
+             ------------------------------------------- */
+
+          if (!profile) {
+
+            await supabaseClient.auth
+              .signOut();
+
+
+            showMessage(
+              "Akun berhasil login, tetapi akun ini belum terhubung ke tabel profiles.",
+              "error"
+            );
+
+
+            return;
+
+          }
+
+
+          /* -------------------------------------------
+             CEK ROLE
+             ------------------------------------------- */
+
+          const role =
+            String(
+              profile.role || ""
+            ).toLowerCase();
+
+
+          console.log(
+            "ROLE:",
+            role
+          );
+
+
+          if (
+            role !== "admin" &&
+            role !== "editor"
+          ) {
+
+            await supabaseClient.auth
+              .signOut();
+
+
+            showMessage(
+              "Akun ini tidak memiliki akses administrator. Role saat ini: " +
+              (
+                profile.role ||
+                "tidak ada"
+              ),
+              "error"
+            );
+
+
+            return;
+
+          }
+
+
+          /* -------------------------------------------
+             BERHASIL
+             ------------------------------------------- */
+
+          console.log(
+            "LOGIN BERHASIL"
+          );
+
+
+          showMessage(
+            "Login berhasil. Membuka dashboard...",
+            "success"
+          );
+
+
+          setTimeout(
+            function () {
+
+              window.location.href =
+                "admin-dashboard.html";
+
+            },
+            700
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "LOGIN EXCEPTION:",
+            error
+          );
+
+
+          showMessage(
+            "Terjadi kesalahan: " +
+            (
+              error?.message ||
+              "Tidak dapat terhubung ke Supabase."
+            ),
+            "error"
+          );
+
+
+        } finally {
+
+          loginButton.disabled =
+            false;
+
+          loginButton.textContent =
+            "Masuk ke Dashboard";
+
+        }
 
       }
+    );
 
 
-      loginButton.disabled = true;
-
-      loginButton.innerHTML = `
-        <span class="loading">
-          <span class="spinner"></span>
-          Memproses login...
-        </span>
-      `;
-
-
-      try {
-
-        console.log("Mencoba login:", email);
-
-
-        const {
-          data,
-          error
-        } = await supabase.auth.signInWithPassword({
-
-          email: email,
-
-          password: password
-
-        });
-
-
-        console.log("Supabase login response:", data, error);
-
-
-        if (error) {
-
-          console.error("SUPABASE LOGIN ERROR:", error);
-
-          showMessage(
-            "Login gagal: " +
-            (error.message || "Kesalahan tidak diketahui.")
-          );
-
-          return;
-
-        }
-
-
-        if (!data || !data.user) {
-
-          showMessage(
-            "Login gagal: Supabase tidak mengembalikan data user."
-          );
-
-          return;
-
-        }
-
-
-        console.log("User berhasil login:", data.user.id);
-
-
-        /*
-         * CEK PROFILE ADMIN
-         */
-
-        const {
-          data: profile,
-          error: profileError
-        } = await supabase
-
-          .from("profiles")
-
-          .select("id, full_name, role")
-
-          .eq("id", data.user.id)
-
-          .maybeSingle();
-
-
-        console.log(
-          "Profile:",
-          profile,
-          "Profile error:",
-          profileError
-        );
-
-
-        if (profileError) {
-
-          await supabase.auth.signOut();
-
-          showMessage(
-            "Login berhasil, tetapi profil admin gagal dibaca: " +
-            profileError.message
-          );
-
-          return;
-
-        }
-
-
-        if (!profile) {
-
-          await supabase.auth.signOut();
-
-          showMessage(
-            "Akun berhasil login, tetapi belum memiliki data profil admin di tabel profiles."
-          );
-
-          return;
-
-        }
-
-
-        if (
-          profile.role !== "admin" &&
-          profile.role !== "editor"
-        ) {
-
-          await supabase.auth.signOut();
-
-          showMessage(
-            "Akun ini tidak memiliki akses administrator."
-          );
-
-          return;
-
-        }
-
-
-        /*
-         * SEMUA AMAN
-         */
-
-        showMessage(
-          "Login berhasil. Membuka dashboard...",
-          "success"
-        );
-
-
-        setTimeout(function () {
-
-          window.location.href = "admin-dashboard.html";
-
-        }, 500);
-
-
-      } catch (error) {
-
-        console.error("LOGIN EXCEPTION:", error);
-
-
-        showMessage(
-          "Terjadi kesalahan: " +
-          (
-            error?.message ||
-            "Tidak dapat terhubung ke Supabase."
-          )
-        );
-
-
-      } finally {
-
-        loginButton.disabled = false;
-
-        loginButton.textContent =
-          "Masuk ke Dashboard";
-
-      }
-
-    });
-
-
-    /*
-     * CEK SESSION SAAT HALAMAN DIBUKA
-     */
+    /* =====================================================
+       JALANKAN CHECK SESSION
+       ===================================================== */
 
     checkExistingSession();
 
