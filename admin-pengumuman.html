@@ -1,0 +1,2486 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Pengumuman | Admin Karang Taruna Rajeg
+  </title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    :root{
+      --navy:#071b3a;
+      --navy2:#0d2b5c;
+      --yellow:#f5c400;
+      --yellow2:#ffd83d;
+      --white:#fff;
+      --bg:#f4f7fb;
+      --text:#172033;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --danger:#dc2626;
+      --success:#15803d;
+
+      --shadow:
+        0 15px 45px rgba(7,27,58,.10);
+
+      --radius:18px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    button,
+    input,
+    textarea,
+    select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar{
+      width:270px;
+
+      position:fixed;
+      top:0;
+      left:0;
+      bottom:0;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--navy),
+          #041329
+        );
+
+      color:white;
+
+      display:flex;
+      flex-direction:column;
+
+      z-index:100;
+
+      box-shadow:
+        8px 0 30px rgba(0,0,0,.08);
+    }
+
+    .brand{
+      padding:25px 20px;
+
+      display:flex;
+      align-items:center;
+
+      gap:13px;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+    }
+
+    .brand img{
+      width:52px;
+      height:52px;
+
+      object-fit:contain;
+
+      background:white;
+
+      border-radius:14px;
+
+      padding:5px;
+    }
+
+    .brand-title{
+      font-size:14px;
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    .brand-sub{
+      font-size:10px;
+      color:#aebbd0;
+      margin-top:3px;
+    }
+
+    .menu{
+      padding:20px 14px;
+      flex:1;
+      overflow-y:auto;
+    }
+
+    .menu-title{
+      color:#71809a;
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:1.5px;
+
+      padding:
+        0 12px
+        10px;
+
+      text-transform:uppercase;
+    }
+
+    .menu-item{
+      width:100%;
+
+      border:0;
+
+      background:transparent;
+
+      color:#c8d1df;
+
+      display:flex;
+      align-items:center;
+
+      gap:12px;
+
+      padding:12px;
+
+      border-radius:12px;
+
+      margin-bottom:5px;
+
+      text-align:left;
+
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:
+        rgba(255,255,255,.08);
+
+      color:white;
+    }
+
+    .menu-item.active{
+      background:var(--yellow);
+
+      color:var(--navy);
+
+      font-weight:800;
+    }
+
+    .menu-icon{
+      width:28px;
+      text-align:center;
+      font-size:18px;
+    }
+
+    .sidebar-bottom{
+      padding:15px;
+
+      border-top:
+        1px solid
+        rgba(255,255,255,.08);
+    }
+
+    .user-box{
+      background:
+        rgba(255,255,255,.06);
+
+      border-radius:14px;
+
+      padding:13px;
+
+      margin-bottom:10px;
+    }
+
+    .user-name{
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .user-role{
+      font-size:10px;
+      color:#aebbd0;
+      margin-top:3px;
+      text-transform:uppercase;
+    }
+
+    .logout-btn{
+      width:100%;
+
+      border:0;
+
+      background:
+        rgba(220,38,38,.17);
+
+      color:#ffb3b3;
+
+      padding:11px;
+
+      border-radius:10px;
+
+      font-weight:800;
+    }
+
+    .logout-btn:hover{
+      background:#dc2626;
+      color:white;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main{
+      margin-left:270px;
+
+      min-height:100vh;
+
+      width:
+        calc(100% - 270px);
+    }
+
+    .topbar{
+      min-height:76px;
+
+      background:white;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:15px;
+
+      padding:
+        0 30px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .topbar-left h1{
+      color:var(--navy);
+
+      font-size:23px;
+
+      font-weight:800;
+    }
+
+    .topbar-left p{
+      color:var(--muted);
+
+      font-size:11px;
+
+      margin-top:3px;
+    }
+
+    .back-btn{
+      border:
+        1px solid
+        var(--border);
+
+      background:white;
+
+      color:var(--navy);
+
+      border-radius:10px;
+
+      padding:
+        10px
+        14px;
+
+      font-size:12px;
+
+      font-weight:700;
+    }
+
+    .back-btn:hover{
+      border-color:var(--yellow);
+      background:#fffdf0;
+    }
+
+    .content{
+      padding:30px;
+    }
+
+    /* =========================
+       LAYOUT
+    ========================= */
+
+    .layout{
+      display:grid;
+
+      grid-template-columns:
+        410px
+        minmax(0,1fr);
+
+      gap:22px;
+
+      align-items:start;
+    }
+
+    .panel{
+      background:white;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius);
+
+      box-shadow:
+        var(--shadow);
+
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:21px 22px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .panel-header h2{
+      color:var(--navy);
+
+      font-size:17px;
+
+      font-weight:800;
+    }
+
+    .panel-header p{
+      color:var(--muted);
+
+      font-size:10px;
+
+      margin-top:4px;
+
+      line-height:1.5;
+    }
+
+    .panel-body{
+      padding:22px;
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-group{
+      margin-bottom:16px;
+    }
+
+    .form-group label{
+      display:block;
+
+      color:var(--navy);
+
+      font-size:11px;
+
+      font-weight:800;
+
+      margin-bottom:7px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select{
+      width:100%;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:#fff;
+
+      border-radius:11px;
+
+      outline:none;
+
+      padding:11px 12px;
+
+      font-size:12px;
+
+      color:var(--text);
+
+      transition:.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus{
+      border-color:var(--yellow);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(245,196,0,.13);
+    }
+
+    .form-group textarea{
+      min-height:240px;
+
+      resize:vertical;
+
+      line-height:1.7;
+    }
+
+    .help{
+      margin-top:5px;
+
+      font-size:9px;
+
+      color:var(--muted);
+
+      line-height:1.45;
+    }
+
+    .form-actions{
+      display:flex;
+
+      gap:10px;
+
+      margin-top:20px;
+    }
+
+    .btn{
+      border:0;
+
+      border-radius:11px;
+
+      padding:
+        12px
+        16px;
+
+      font-size:11px;
+
+      font-weight:800;
+    }
+
+    .btn-primary{
+      flex:1;
+
+      background:var(--yellow);
+
+      color:var(--navy);
+    }
+
+    .btn-primary:hover{
+      background:var(--yellow2);
+    }
+
+    .btn-secondary{
+      background:#eef1f5;
+
+      color:var(--navy);
+    }
+
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    /* =========================
+       LIST
+    ========================= */
+
+    .toolbar{
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      gap:12px;
+
+      margin-bottom:15px;
+    }
+
+    .search{
+      width:100%;
+
+      max-width:360px;
+
+      position:relative;
+    }
+
+    .search i{
+      position:absolute;
+
+      left:12px;
+
+      top:50%;
+
+      transform:
+        translateY(-50%);
+
+      color:#9099aa;
+
+      font-size:12px;
+    }
+
+    .search input{
+      width:100%;
+
+      padding:
+        11px
+        12px
+        11px
+        35px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:11px;
+
+      outline:none;
+
+      font-size:11px;
+    }
+
+    .count{
+      color:var(--muted);
+
+      font-size:10px;
+
+      white-space:nowrap;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .announcement-list{
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0,1fr)
+        );
+
+      gap:15px;
+    }
+
+    .announcement-card{
+      background:white;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:16px;
+
+      padding:18px;
+
+      transition:.2s;
+    }
+
+    .announcement-card:hover{
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 30px
+        rgba(7,27,58,.08);
+    }
+
+    .announcement-top{
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:flex-start;
+
+      gap:10px;
+    }
+
+    .announcement-label{
+      display:inline-flex;
+
+      background:#fff8d8;
+
+      color:#896700;
+
+      padding:
+        5px
+        9px;
+
+      border-radius:8px;
+
+      font-size:9px;
+
+      font-weight:800;
+    }
+
+    .status{
+      display:inline-flex;
+
+      padding:
+        5px
+        9px;
+
+      border-radius:20px;
+
+      font-size:8px;
+
+      font-weight:800;
+    }
+
+    .status-published{
+      background:#dcfce7;
+      color:#166534;
+    }
+
+    .status-draft{
+      background:#eef2f7;
+      color:#667085;
+    }
+
+    .announcement-title{
+      margin-top:13px;
+
+      color:var(--navy);
+
+      font-size:15px;
+
+      font-weight:800;
+
+      line-height:1.45;
+    }
+
+    .announcement-content{
+      margin-top:12px;
+
+      color:#667085;
+
+      font-size:10px;
+
+      line-height:1.65;
+
+      display:-webkit-box;
+
+      -webkit-line-clamp:5;
+
+      -webkit-box-orient:vertical;
+
+      overflow:hidden;
+    }
+
+    .announcement-date{
+      margin-top:12px;
+
+      color:#8a93a5;
+
+      font-size:9px;
+    }
+
+    .announcement-actions{
+      display:flex;
+
+      gap:8px;
+
+      margin-top:15px;
+
+      padding-top:13px;
+
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    .action-btn{
+      flex:1;
+
+      border:0;
+
+      border-radius:9px;
+
+      padding:9px;
+
+      font-size:10px;
+
+      font-weight:800;
+    }
+
+    .edit-btn{
+      background:#eef4ff;
+      color:#174ea6;
+    }
+
+    .delete-btn{
+      background:#fff0f0;
+      color:#b91c1c;
+    }
+
+    /* EMPTY */
+
+    .empty{
+      border:
+        1px dashed
+        var(--border);
+
+      border-radius:15px;
+
+      padding:45px 20px;
+
+      text-align:center;
+
+      color:var(--muted);
+
+      font-size:11px;
+
+      grid-column:1/-1;
+    }
+
+    .empty-icon{
+      font-size:32px;
+
+      margin-bottom:10px;
+
+      opacity:.65;
+    }
+
+    /* TOAST */
+
+    .toast{
+      position:fixed;
+
+      right:22px;
+      bottom:22px;
+
+      z-index:500;
+
+      max-width:350px;
+
+      padding:
+        13px
+        17px;
+
+      border-radius:12px;
+
+      color:white;
+
+      font-size:11px;
+
+      font-weight:700;
+
+      box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.2);
+
+      transform:
+        translateY(25px);
+
+      opacity:0;
+
+      pointer-events:none;
+
+      transition:.25s;
+    }
+
+    .toast.show{
+      transform:
+        translateY(0);
+
+      opacity:1;
+    }
+
+    .toast.success{
+      background:#15803d;
+    }
+
+    .toast.error{
+      background:#dc2626;
+    }
+
+    /* LOADING */
+
+    #loadingScreen{
+      position:fixed;
+
+      inset:0;
+
+      z-index:999;
+
+      background:#f4f7fb;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      color:var(--navy);
+
+      font-size:14px;
+
+      font-weight:800;
+    }
+
+    .mobile-menu{
+      display:none;
+
+      width:42px;
+      height:42px;
+
+      border:0;
+
+      background:var(--navy);
+
+      color:white;
+
+      border-radius:10px;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:1100px){
+
+      .layout{
+        grid-template-columns:1fr;
+      }
+
+      .announcement-list{
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0,1fr)
+          );
+      }
+
+    }
+
+    @media(max-width:800px){
+
+      .sidebar{
+        transform:
+          translateX(-100%);
+
+        transition:.25s;
+      }
+
+      .sidebar.open{
+        transform:
+          translateX(0);
+      }
+
+      .main{
+        margin-left:0;
+        width:100%;
+      }
+
+      .mobile-menu{
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        font-size:17px;
+      }
+
+      .topbar{
+        padding:
+          0 18px;
+      }
+
+      .content{
+        padding:18px;
+      }
+
+      .announcement-list{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+    @media(max-width:520px){
+
+      .topbar-left h1{
+        font-size:18px;
+      }
+
+      .topbar-left p{
+        display:none;
+      }
+
+      .toolbar{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .search{
+        max-width:none;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div id="loadingScreen">
+  Memeriksa akses administrator...
+</div>
+
+
+<div
+  id="app"
+  style="display:none;"
+>
+
+  <!-- SIDEBAR -->
+
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
+
+    <div class="brand">
+
+      <img
+        src="logo-karang-taruna2.webp"
+        alt="Logo Karang Taruna"
+      >
+
+      <div>
+
+        <div class="brand-title">
+          KARANG TARUNA<br>
+          KECAMATAN RAJEG
+        </div>
+
+        <div class="brand-sub">
+          Kabupaten Tangerang • Banten
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="menu">
+
+      <div class="menu-title">
+        Konten Website
+      </div>
+
+
+      <button
+        class="menu-item"
+        onclick="goDashboard()"
+      >
+        <span class="menu-icon">🏠</span>
+        <span>Dashboard</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="goBerita()"
+      >
+        <span class="menu-icon">📰</span>
+        <span>Kabar Berita</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="goPengurus()"
+      >
+        <span class="menu-icon">👥</span>
+        <span>Profil Pengurus</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="goJurnal()"
+      >
+        <span class="menu-icon">📚</span>
+        <span>Jurnal</span>
+      </button>
+
+
+      <button
+        class="menu-item active"
+      >
+        <span class="menu-icon">📢</span>
+        <span>Pengumuman</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Prestasi')"
+      >
+        <span class="menu-icon">🏆</span>
+        <span>Prestasi</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Program & Kegiatan')"
+      >
+        <span class="menu-icon">📅</span>
+        <span>Program & Kegiatan</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Dokumentasi')"
+      >
+        <span class="menu-icon">📸</span>
+        <span>Dokumentasi</span>
+      </button>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="user-box">
+
+        <div
+          class="user-name"
+          id="userName"
+        >
+          Administrator
+        </div>
+
+        <div
+          class="user-role"
+          id="userRole"
+        >
+          admin
+        </div>
+
+      </div>
+
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        Keluar
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          class="mobile-menu"
+          onclick="toggleSidebar()"
+        >
+          ☰
+        </button>
+
+        <div>
+
+          <h1>
+            Pengumuman
+          </h1>
+
+          <p>
+            Kelola informasi dan pengumuman Karang Taruna Kecamatan Rajeg
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="back-btn"
+        onclick="goDashboard()"
+      >
+        ← Dashboard
+      </button>
+
+    </header>
+
+
+    <section class="content">
+
+      <div class="layout">
+
+
+        <!-- FORM -->
+
+        <div class="panel">
+
+          <div class="panel-header">
+
+            <h2 id="formTitle">
+              Tambah Pengumuman
+            </h2>
+
+            <p>
+              Buat informasi penting untuk ditampilkan kepada masyarakat.
+            </p>
+
+          </div>
+
+
+          <div class="panel-body">
+
+            <form id="announcementForm">
+
+              <input
+                type="hidden"
+                id="announcementId"
+              >
+
+
+              <div class="form-group">
+
+                <label for="title">
+                  Judul Pengumuman
+                </label>
+
+                <input
+                  type="text"
+                  id="title"
+                  placeholder="Contoh: Rapat Koordinasi Pengurus"
+                  required
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="eventDate">
+                  Tanggal / Waktu Kegiatan
+                </label>
+
+                <input
+                  type="datetime-local"
+                  id="eventDate"
+                >
+
+                <div class="help">
+                  Kosongkan jika pengumuman tidak terkait tanggal kegiatan tertentu.
+                </div>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="content">
+                  Isi Pengumuman
+                </label>
+
+                <textarea
+                  id="content"
+                  placeholder="Tulis isi pengumuman di sini..."
+                  required
+                ></textarea>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="published">
+                  Status Publikasi
+                </label>
+
+                <select id="published">
+
+                  <option value="false">
+                    Draft
+                  </option>
+
+                  <option value="true">
+                    Terbit
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onclick="resetForm()"
+                >
+                  Reset
+                </button>
+
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="saveBtn"
+                >
+                  Simpan Pengumuman
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+
+        <!-- LIST -->
+
+        <div>
+
+          <div class="toolbar">
+
+            <div class="search">
+
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari judul pengumuman..."
+              >
+
+            </div>
+
+
+            <div
+              class="count"
+              id="countText"
+            >
+              0 pengumuman
+            </div>
+
+          </div>
+
+
+          <div
+            class="announcement-list"
+            id="announcementList"
+          >
+
+            <div class="empty">
+
+              <div class="empty-icon">
+                📢
+              </div>
+
+              Memuat pengumuman...
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+  "https://qemzczsltxbiyxsvpebv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true
+      }
+    }
+  );
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let allAnnouncements = [];
+
+let editingId = null;
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    try{
+
+      await checkAuth();
+
+      setupEvents();
+
+      await loadAnnouncements();
+
+      document.getElementById(
+        "loadingScreen"
+      ).style.display =
+        "none";
+
+      document.getElementById(
+        "app"
+      ).style.display =
+        "block";
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      document.getElementById(
+        "loadingScreen"
+      ).textContent =
+        error.message ||
+        "Gagal memuat halaman.";
+
+      setTimeout(
+        () => {
+
+          window.location.href =
+            "admin.html";
+
+        },
+        1500
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+async function checkAuth(){
+
+  const {
+    data:{
+      session
+    }
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if(!session){
+
+    window.location.href =
+      "admin.html";
+
+    return;
+
+  }
+
+
+  const {
+    data:profile,
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select(
+        "id, full_name, role"
+      )
+      .eq(
+        "id",
+        session.user.id
+      )
+      .maybeSingle();
+
+
+  if(error){
+
+    throw error;
+
+  }
+
+
+  if(
+    !profile ||
+    !["admin","editor"].includes(
+      profile.role
+    )
+  ){
+
+    await supabaseClient
+      .auth
+      .signOut();
+
+    window.location.href =
+      "admin.html";
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "userName"
+  ).textContent =
+    profile.full_name ||
+    session.user.email ||
+    "Administrator";
+
+
+  document.getElementById(
+    "userRole"
+  ).textContent =
+    profile.role;
+
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+function setupEvents(){
+
+  document.getElementById(
+    "announcementForm"
+  ).addEventListener(
+    "submit",
+    saveAnnouncement
+  );
+
+
+  document.getElementById(
+    "searchInput"
+  ).addEventListener(
+    "input",
+    filterAnnouncements
+  );
+
+}
+
+
+/* =====================================================
+   LOAD
+===================================================== */
+
+async function loadAnnouncements(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("announcements")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    throw error;
+
+  }
+
+
+  allAnnouncements =
+    data || [];
+
+
+  renderAnnouncements(
+    allAnnouncements
+  );
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderAnnouncements(list){
+
+  const container =
+    document.getElementById(
+      "announcementList"
+    );
+
+
+  document.getElementById(
+    "countText"
+  ).textContent =
+    `${list.length} pengumuman`;
+
+
+  if(!list.length){
+
+    container.innerHTML = `
+      <div class="empty">
+
+        <div class="empty-icon">
+          📢
+        </div>
+
+        <strong>
+          Belum ada pengumuman
+        </strong>
+
+        <div style="margin-top:6px;">
+          Silakan buat pengumuman pertama melalui form.
+        </div>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    list.map(
+      item => {
+
+        const status =
+          item.published
+          ?
+          `
+            <span class="status status-published">
+              TERBIT
+            </span>
+          `
+          :
+          `
+            <span class="status status-draft">
+              DRAFT
+            </span>
+          `;
+
+
+        const eventDate =
+          item.event_date
+          ?
+          formatDateTime(
+            item.event_date
+          )
+          :
+          "Tidak ada jadwal";
+
+
+        return `
+          <article
+            class="announcement-card"
+          >
+
+            <div class="announcement-top">
+
+              <span class="announcement-label">
+                PENGUMUMAN
+              </span>
+
+              ${status}
+
+            </div>
+
+
+            <h3 class="announcement-title">
+              ${escapeHtml(
+                item.title ||
+                "Tanpa Judul"
+              )}
+            </h3>
+
+
+            <div class="announcement-content">
+              ${escapeHtml(
+                item.content ||
+                "Belum ada isi pengumuman."
+              )}
+            </div>
+
+
+            <div class="announcement-date">
+
+              <i class="fa-regular fa-calendar"></i>
+
+              ${escapeHtml(
+                eventDate
+              )}
+
+            </div>
+
+
+            <div class="announcement-actions">
+
+              <button
+                class="action-btn edit-btn"
+                onclick="editAnnouncement(${item.id})"
+              >
+                ✏️ Edit
+              </button>
+
+
+              <button
+                class="action-btn delete-btn"
+                onclick="deleteAnnouncement(${item.id})"
+              >
+                🗑️ Hapus
+              </button>
+
+            </div>
+
+          </article>
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+async function saveAnnouncement(event){
+
+  event.preventDefault();
+
+
+  const title =
+    document.getElementById(
+      "title"
+    ).value.trim();
+
+
+  const content =
+    document.getElementById(
+      "content"
+    ).value.trim();
+
+
+  const eventDateValue =
+    document.getElementById(
+      "eventDate"
+    ).value;
+
+
+  const published =
+    document.getElementById(
+      "published"
+    ).value === "true";
+
+
+  if(!title){
+
+    showToast(
+      "Judul pengumuman wajib diisi.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!content){
+
+    showToast(
+      "Isi pengumuman wajib diisi.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  let eventDate = null;
+
+
+  if(eventDateValue){
+
+    const date =
+      new Date(
+        eventDateValue
+      );
+
+
+    if(
+      Number.isNaN(
+        date.getTime()
+      )
+    ){
+
+      showToast(
+        "Tanggal kegiatan tidak valid.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    eventDate =
+      date.toISOString();
+
+  }
+
+
+  const saveBtn =
+    document.getElementById(
+      "saveBtn"
+    );
+
+
+  saveBtn.disabled =
+    true;
+
+
+  saveBtn.textContent =
+    "Menyimpan...";
+
+
+  try{
+
+    const payload = {
+
+      title,
+
+      content,
+
+      event_date:
+        eventDate,
+
+      published
+
+    };
+
+
+    /* UPDATE */
+
+    if(editingId){
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("announcements")
+          .update(payload)
+          .eq(
+            "id",
+            editingId
+          );
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      showToast(
+        "Pengumuman berhasil diperbarui.",
+        "success"
+      );
+
+    }
+
+    /* INSERT */
+
+    else{
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("announcements")
+          .insert(payload);
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      showToast(
+        "Pengumuman berhasil ditambahkan.",
+        "success"
+      );
+
+    }
+
+
+    resetForm();
+
+    await loadAnnouncements();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    showToast(
+      error.message ||
+      "Gagal menyimpan pengumuman.",
+      "error"
+    );
+
+  }
+  finally{
+
+    saveBtn.disabled =
+      false;
+
+    saveBtn.textContent =
+      editingId
+      ?
+      "Simpan Perubahan"
+      :
+      "Simpan Pengumuman";
+
+  }
+
+}
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function editAnnouncement(id){
+
+  const item =
+    allAnnouncements.find(
+      announcement =>
+        Number(announcement.id) ===
+        Number(id)
+    );
+
+
+  if(!item){
+
+    showToast(
+      "Data pengumuman tidak ditemukan.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  editingId =
+    item.id;
+
+
+  document.getElementById(
+    "announcementId"
+  ).value =
+    item.id;
+
+
+  document.getElementById(
+    "title"
+  ).value =
+    item.title || "";
+
+
+  document.getElementById(
+    "content"
+  ).value =
+    item.content || "";
+
+
+  document.getElementById(
+    "published"
+  ).value =
+    item.published
+    ?
+    "true"
+    :
+    "false";
+
+
+  document.getElementById(
+    "eventDate"
+  ).value =
+    toDatetimeLocal(
+      item.event_date
+    );
+
+
+  document.getElementById(
+    "formTitle"
+  ).textContent =
+    "Edit Pengumuman";
+
+
+  document.getElementById(
+    "saveBtn"
+  ).textContent =
+    "Simpan Perubahan";
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+async function deleteAnnouncement(id){
+
+  const item =
+    allAnnouncements.find(
+      announcement =>
+        Number(announcement.id) ===
+        Number(id)
+    );
+
+
+  if(!item){
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      `Hapus pengumuman "${item.title}"?\n\nData yang sudah dihapus tidak dapat dikembalikan.`
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("announcements")
+        .delete()
+        .eq(
+          "id",
+          id
+        );
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    showToast(
+      "Pengumuman berhasil dihapus.",
+      "success"
+    );
+
+
+    if(
+      Number(editingId) ===
+      Number(id)
+    ){
+
+      resetForm();
+
+    }
+
+
+    await loadAnnouncements();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    showToast(
+      error.message ||
+      "Gagal menghapus pengumuman.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function filterAnnouncements(){
+
+  const keyword =
+    document.getElementById(
+      "searchInput"
+    ).value
+      .toLowerCase()
+      .trim();
+
+
+  if(!keyword){
+
+    renderAnnouncements(
+      allAnnouncements
+    );
+
+    return;
+
+  }
+
+
+  const filtered =
+    allAnnouncements.filter(
+      item => {
+
+        const title =
+          (
+            item.title ||
+            ""
+          )
+          .toLowerCase();
+
+
+        const content =
+          (
+            item.content ||
+            ""
+          )
+          .toLowerCase();
+
+
+        return (
+          title.includes(keyword) ||
+          content.includes(keyword)
+        );
+
+      }
+    );
+
+
+  renderAnnouncements(
+    filtered
+  );
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetForm(){
+
+  editingId =
+    null;
+
+
+  document
+    .getElementById(
+      "announcementForm"
+    )
+    .reset();
+
+
+  document.getElementById(
+    "announcementId"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "formTitle"
+  ).textContent =
+    "Tambah Pengumuman";
+
+
+  document.getElementById(
+    "saveBtn"
+  ).textContent =
+    "Simpan Pengumuman";
+
+
+  document.getElementById(
+    "published"
+  ).value =
+    "false";
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function goDashboard(){
+
+  window.location.href =
+    "admin-dashboard.html";
+
+}
+
+
+function goBerita(){
+
+  window.location.href =
+    "admin-berita.html";
+
+}
+
+
+function goPengurus(){
+
+  window.location.href =
+    "admin-pengurus.html";
+
+}
+
+
+function goJurnal(){
+
+  window.location.href =
+    "admin-jurnal.html";
+
+}
+
+
+function comingSoon(name){
+
+  showToast(
+    `${name} akan kita aktifkan berikutnya.`,
+    "success"
+  );
+
+}
+
+
+/* =====================================================
+   MOBILE SIDEBAR
+===================================================== */
+
+function toggleSidebar(){
+
+  document
+    .getElementById("sidebar")
+    .classList.toggle(
+      "open"
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+
+  const confirmed =
+    confirm(
+      "Yakin ingin keluar dari panel administrasi?"
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  await supabaseClient
+    .auth
+    .signOut();
+
+
+  window.location.href =
+    "admin.html";
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function showToast(
+  message,
+  type="success"
+){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.className =
+    `toast show ${type}`;
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3500
+    );
+
+}
+
+
+/* =====================================================
+   DATE FORMAT
+===================================================== */
+
+function formatDateTime(
+  value
+){
+
+  if(!value){
+
+    return "-";
+
+  }
+
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "-";
+
+  }
+
+
+  return date.toLocaleString(
+    "id-ID",
+    {
+      day:"numeric",
+      month:"long",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+
+/* =====================================================
+   DATETIME LOCAL
+===================================================== */
+
+function toDatetimeLocal(
+  value
+){
+
+  if(!value){
+
+    return "";
+
+  }
+
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "";
+
+  }
+
+
+  const local =
+    new Date(
+      date.getTime() -
+      date.getTimezoneOffset() * 60000
+    );
+
+
+  return local
+    .toISOString()
+    .slice(
+      0,
+      16
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+</script>
+
+</body>
+</html>
