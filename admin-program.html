@@ -1,0 +1,3074 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Program & Kegiatan | Admin Karang Taruna Rajeg
+  </title>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <style>
+
+    :root{
+      --navy:#071b3a;
+      --navy2:#0d2b5c;
+      --yellow:#f5c400;
+      --yellow2:#ffd83d;
+      --bg:#f4f7fb;
+      --text:#172033;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --danger:#dc2626;
+      --success:#15803d;
+      --shadow:0 15px 45px rgba(7,27,58,.10);
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    button,
+    input,
+    textarea,
+    select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    #loadingScreen{
+      position:fixed;
+      inset:0;
+      z-index:999;
+      background:var(--bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--navy);
+      font-size:14px;
+      font-weight:800;
+    }
+
+    #app{
+      display:none;
+      min-height:100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+      width:270px;
+      position:fixed;
+      left:0;
+      top:0;
+      bottom:0;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--navy),
+          #041329
+        );
+
+      color:white;
+
+      display:flex;
+      flex-direction:column;
+
+      z-index:100;
+
+      box-shadow:
+        8px 0 30px rgba(0,0,0,.08);
+    }
+
+    .brand{
+      padding:25px 20px;
+
+      display:flex;
+      align-items:center;
+
+      gap:13px;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+    }
+
+    .brand img{
+      width:52px;
+      height:52px;
+
+      object-fit:contain;
+
+      background:white;
+
+      border-radius:14px;
+
+      padding:5px;
+    }
+
+    .brand-title{
+      font-size:14px;
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    .brand-sub{
+      font-size:10px;
+      color:#aebbd0;
+      margin-top:3px;
+    }
+
+    .menu{
+      padding:20px 14px;
+      flex:1;
+      overflow-y:auto;
+    }
+
+    .menu-title{
+      color:#71809a;
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:1.5px;
+
+      padding:
+        0 12px
+        10px;
+
+      text-transform:uppercase;
+    }
+
+    .menu-item{
+      width:100%;
+
+      border:0;
+
+      background:transparent;
+
+      color:#c8d1df;
+
+      display:flex;
+      align-items:center;
+
+      gap:12px;
+
+      padding:12px;
+
+      border-radius:12px;
+
+      margin-bottom:5px;
+
+      text-align:left;
+
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:
+        rgba(255,255,255,.08);
+
+      color:white;
+    }
+
+    .menu-item.active{
+      background:var(--yellow);
+
+      color:var(--navy);
+
+      font-weight:800;
+    }
+
+    .menu-icon{
+      width:28px;
+
+      text-align:center;
+
+      font-size:18px;
+    }
+
+    .sidebar-bottom{
+      padding:15px;
+
+      border-top:
+        1px solid
+        rgba(255,255,255,.08);
+    }
+
+    .user-box{
+      background:
+        rgba(255,255,255,.06);
+
+      border-radius:14px;
+
+      padding:13px;
+
+      margin-bottom:10px;
+    }
+
+    .user-name{
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .user-role{
+      font-size:10px;
+
+      color:#aebbd0;
+
+      margin-top:3px;
+
+      text-transform:uppercase;
+    }
+
+    .logout-btn{
+      width:100%;
+
+      border:0;
+
+      background:
+        rgba(220,38,38,.17);
+
+      color:#ffb3b3;
+
+      padding:11px;
+
+      border-radius:10px;
+
+      font-weight:800;
+    }
+
+    .logout-btn:hover{
+      background:#dc2626;
+      color:white;
+    }
+
+    /* MAIN */
+
+    .main{
+      margin-left:270px;
+
+      min-height:100vh;
+
+      width:
+        calc(100% - 270px);
+    }
+
+    .topbar{
+      min-height:76px;
+
+      background:white;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:15px;
+
+      padding:
+        0 30px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .topbar-left h1{
+      color:var(--navy);
+
+      font-size:23px;
+
+      font-weight:800;
+    }
+
+    .topbar-left p{
+      color:var(--muted);
+
+      font-size:11px;
+
+      margin-top:3px;
+    }
+
+    .back-btn{
+      border:
+        1px solid
+        var(--border);
+
+      background:white;
+
+      color:var(--navy);
+
+      border-radius:10px;
+
+      padding:
+        10px 14px;
+
+      font-size:12px;
+
+      font-weight:700;
+    }
+
+    .back-btn:hover{
+      border-color:var(--yellow);
+      background:#fffdf0;
+    }
+
+    .content{
+      padding:30px;
+    }
+
+    /* LAYOUT */
+
+    .layout{
+      display:grid;
+
+      grid-template-columns:
+        410px
+        minmax(0,1fr);
+
+      gap:22px;
+
+      align-items:start;
+    }
+
+    .panel{
+      background:white;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:18px;
+
+      box-shadow:
+        var(--shadow);
+
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:21px 22px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .panel-header h2{
+      color:var(--navy);
+
+      font-size:17px;
+
+      font-weight:800;
+    }
+
+    .panel-header p{
+      color:var(--muted);
+
+      font-size:10px;
+
+      margin-top:4px;
+
+      line-height:1.5;
+    }
+
+    .panel-body{
+      padding:22px;
+    }
+
+    /* FORM */
+
+    .form-group{
+      margin-bottom:16px;
+    }
+
+    .form-group label{
+      display:block;
+
+      color:var(--navy);
+
+      font-size:11px;
+
+      font-weight:800;
+
+      margin-bottom:7px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select{
+      width:100%;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:#fff;
+
+      border-radius:11px;
+
+      outline:none;
+
+      padding:11px 12px;
+
+      font-size:12px;
+
+      color:var(--text);
+
+      transition:.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus{
+      border-color:var(--yellow);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(245,196,0,.13);
+    }
+
+    .form-group textarea{
+      min-height:170px;
+
+      resize:vertical;
+
+      line-height:1.7;
+    }
+
+    .row-2{
+      display:grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap:12px;
+    }
+
+    .help{
+      margin-top:5px;
+
+      font-size:9px;
+
+      color:var(--muted);
+    }
+
+    /* IMAGE */
+
+    .image-upload{
+      border:
+        1px dashed
+        #cfd6e2;
+
+      background:#fafbfd;
+
+      border-radius:14px;
+
+      padding:14px;
+    }
+
+    .current-photo{
+      display:none;
+
+      margin-top:12px;
+    }
+
+    .current-photo img{
+      width:100%;
+
+      height:180px;
+
+      object-fit:cover;
+
+      border-radius:12px;
+
+      border:
+        1px solid
+        var(--border);
+    }
+
+    .image-preview{
+      display:none;
+
+      margin-top:12px;
+    }
+
+    .image-preview img{
+      width:100%;
+
+      height:180px;
+
+      object-fit:cover;
+
+      border-radius:12px;
+
+      border:
+        1px solid
+        var(--border);
+    }
+
+    .photo-label{
+      font-size:9px;
+
+      color:var(--muted);
+
+      margin-bottom:6px;
+    }
+
+    /* BUTTONS */
+
+    .form-actions{
+      display:flex;
+
+      gap:10px;
+
+      margin-top:20px;
+    }
+
+    .btn{
+      border:0;
+
+      border-radius:11px;
+
+      padding:
+        12px 16px;
+
+      font-size:11px;
+
+      font-weight:800;
+    }
+
+    .btn-primary{
+      flex:1;
+
+      background:var(--yellow);
+
+      color:var(--navy);
+    }
+
+    .btn-primary:hover{
+      background:var(--yellow2);
+    }
+
+    .btn-secondary{
+      background:#eef1f5;
+
+      color:var(--navy);
+    }
+
+    .btn:disabled{
+      opacity:.55;
+
+      cursor:not-allowed;
+    }
+
+    /* TOOLBAR */
+
+    .toolbar{
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      gap:12px;
+
+      margin-bottom:15px;
+    }
+
+    .search{
+      width:100%;
+
+      max-width:360px;
+
+      position:relative;
+    }
+
+    .search i{
+      position:absolute;
+
+      left:12px;
+
+      top:50%;
+
+      transform:
+        translateY(-50%);
+
+      color:#9099aa;
+
+      font-size:12px;
+    }
+
+    .search input{
+      width:100%;
+
+      padding:
+        11px
+        12px
+        11px
+        35px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:11px;
+
+      outline:none;
+
+      font-size:11px;
+    }
+
+    .count{
+      color:var(--muted);
+
+      font-size:10px;
+
+      white-space:nowrap;
+    }
+
+    /* CARDS */
+
+    .program-list{
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0,1fr)
+        );
+
+      gap:15px;
+    }
+
+    .program-card{
+      background:white;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:16px;
+
+      overflow:hidden;
+
+      transition:.2s;
+    }
+
+    .program-card:hover{
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 30px
+        rgba(7,27,58,.08);
+    }
+
+    .program-image{
+      height:180px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--navy),
+          var(--navy2)
+        );
+
+      position:relative;
+
+      overflow:hidden;
+    }
+
+    .program-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .program-placeholder{
+      height:100%;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      color:
+        rgba(255,255,255,.75);
+
+      font-size:45px;
+    }
+
+    .status-publish{
+      position:absolute;
+
+      top:10px;
+
+      right:10px;
+
+      padding:
+        5px 9px;
+
+      border-radius:20px;
+
+      font-size:8px;
+
+      font-weight:800;
+
+      background:#dcfce7;
+
+      color:#166534;
+    }
+
+    .status-draft{
+      position:absolute;
+
+      top:10px;
+
+      right:10px;
+
+      padding:
+        5px 9px;
+
+      border-radius:20px;
+
+      font-size:8px;
+
+      font-weight:800;
+
+      background:#eef2f7;
+
+      color:#667085;
+    }
+
+    .status-program{
+      display:inline-flex;
+
+      padding:
+        5px 9px;
+
+      border-radius:8px;
+
+      font-size:9px;
+
+      font-weight:800;
+
+      background:#fff8d8;
+
+      color:#896700;
+    }
+
+    .program-body{
+      padding:16px;
+    }
+
+    .program-title{
+      margin-top:11px;
+
+      color:var(--navy);
+
+      font-size:15px;
+
+      font-weight:800;
+
+      line-height:1.45;
+    }
+
+    .program-description{
+      margin-top:10px;
+
+      color:#667085;
+
+      font-size:10px;
+
+      line-height:1.65;
+
+      display:-webkit-box;
+
+      -webkit-line-clamp:4;
+
+      -webkit-box-orient:vertical;
+
+      overflow:hidden;
+    }
+
+    .program-meta{
+      margin-top:13px;
+
+      display:grid;
+
+      gap:6px;
+
+      color:#7b8493;
+
+      font-size:9px;
+    }
+
+    .program-meta i{
+      width:14px;
+
+      color:var(--yellow);
+    }
+
+    .program-actions{
+      display:flex;
+
+      gap:8px;
+
+      margin-top:15px;
+
+      padding-top:13px;
+
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    .action-btn{
+      flex:1;
+
+      border:0;
+
+      border-radius:9px;
+
+      padding:9px;
+
+      font-size:10px;
+
+      font-weight:800;
+    }
+
+    .edit-btn{
+      background:#eef4ff;
+
+      color:#174ea6;
+    }
+
+    .delete-btn{
+      background:#fff0f0;
+
+      color:#b91c1c;
+    }
+
+    /* EMPTY */
+
+    .empty{
+      border:
+        1px dashed
+        var(--border);
+
+      border-radius:15px;
+
+      padding:45px 20px;
+
+      text-align:center;
+
+      color:var(--muted);
+
+      font-size:11px;
+
+      grid-column:1/-1;
+    }
+
+    .empty-icon{
+      font-size:32px;
+
+      margin-bottom:10px;
+
+      opacity:.65;
+    }
+
+    /* TOAST */
+
+    .toast{
+      position:fixed;
+
+      right:22px;
+      bottom:22px;
+
+      z-index:500;
+
+      max-width:350px;
+
+      padding:
+        13px 17px;
+
+      border-radius:12px;
+
+      color:white;
+
+      font-size:11px;
+
+      font-weight:700;
+
+      box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.2);
+
+      transform:
+        translateY(25px);
+
+      opacity:0;
+
+      pointer-events:none;
+
+      transition:.25s;
+    }
+
+    .toast.show{
+      transform:
+        translateY(0);
+
+      opacity:1;
+    }
+
+    .toast.success{
+      background:#15803d;
+    }
+
+    .toast.error{
+      background:#dc2626;
+    }
+
+    .mobile-menu{
+      display:none;
+
+      width:42px;
+      height:42px;
+
+      border:0;
+
+      background:var(--navy);
+
+      color:white;
+
+      border-radius:10px;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:1100px){
+
+      .layout{
+        grid-template-columns:1fr;
+      }
+
+      .program-list{
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0,1fr)
+          );
+      }
+
+    }
+
+    @media(max-width:800px){
+
+      .sidebar{
+        transform:
+          translateX(-100%);
+
+        transition:.25s;
+      }
+
+      .sidebar.open{
+        transform:
+          translateX(0);
+      }
+
+      .main{
+        margin-left:0;
+
+        width:100%;
+      }
+
+      .mobile-menu{
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        font-size:17px;
+      }
+
+      .topbar{
+        padding:
+          0 18px;
+      }
+
+      .content{
+        padding:18px;
+      }
+
+      .program-list{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+    @media(max-width:520px){
+
+      .topbar-left h1{
+        font-size:18px;
+      }
+
+      .topbar-left p{
+        display:none;
+      }
+
+      .toolbar{
+        flex-direction:column;
+
+        align-items:stretch;
+      }
+
+      .search{
+        max-width:none;
+      }
+
+      .row-2{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div id="loadingScreen">
+  Memeriksa akses administrator...
+</div>
+
+
+<div id="app">
+
+
+  <!-- SIDEBAR -->
+
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
+
+    <div class="brand">
+
+      <img
+        src="logo-karang-taruna2.webp"
+        alt="Logo Karang Taruna"
+      >
+
+      <div>
+
+        <div class="brand-title">
+          KARANG TARUNA<br>
+          KECAMATAN RAJEG
+        </div>
+
+        <div class="brand-sub">
+          Kabupaten Tangerang • Banten
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="menu">
+
+      <div class="menu-title">
+        Konten Website
+      </div>
+
+
+      <button
+        class="menu-item"
+        onclick="goDashboard()"
+      >
+        <span class="menu-icon">🏠</span>
+        <span>Dashboard</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="goBerita()"
+      >
+        <span class="menu-icon">📰</span>
+        <span>Kabar Berita</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="goPengurus()"
+      >
+        <span class="menu-icon">👥</span>
+        <span>Profil Pengurus</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="goJurnal()"
+      >
+        <span class="menu-icon">📚</span>
+        <span>Jurnal</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="goPengumuman()"
+      >
+        <span class="menu-icon">📢</span>
+        <span>Pengumuman</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="goPrestasi()"
+      >
+        <span class="menu-icon">🏆</span>
+        <span>Prestasi</span>
+      </button>
+
+
+      <!-- ACTIVE -->
+
+      <button
+        class="menu-item active"
+      >
+        <span class="menu-icon">📅</span>
+        <span>Program & Kegiatan</span>
+      </button>
+
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Dokumentasi')"
+      >
+        <span class="menu-icon">📸</span>
+        <span>Dokumentasi</span>
+      </button>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="user-box">
+
+        <div
+          class="user-name"
+          id="userName"
+        >
+          Administrator
+        </div>
+
+        <div
+          class="user-role"
+          id="userRole"
+        >
+          admin
+        </div>
+
+      </div>
+
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        Keluar
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          class="mobile-menu"
+          onclick="toggleSidebar()"
+        >
+          ☰
+        </button>
+
+        <div>
+
+          <h1>
+            Program & Kegiatan
+          </h1>
+
+          <p>
+            Kelola program kerja dan kegiatan Karang Taruna Kecamatan Rajeg
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="back-btn"
+        onclick="goDashboard()"
+      >
+        ← Dashboard
+      </button>
+
+    </header>
+
+
+    <section class="content">
+
+      <div class="layout">
+
+
+        <!-- FORM -->
+
+        <div class="panel">
+
+          <div class="panel-header">
+
+            <h2 id="formTitle">
+              Tambah Program
+            </h2>
+
+            <p>
+              Buat dan kelola program kerja serta kegiatan organisasi.
+            </p>
+
+          </div>
+
+
+          <div class="panel-body">
+
+            <form id="programForm">
+
+              <input
+                type="hidden"
+                id="programId"
+              >
+
+
+              <div class="form-group">
+
+                <label for="title">
+                  Nama Program / Kegiatan
+                </label>
+
+                <input
+                  type="text"
+                  id="title"
+                  placeholder="Contoh: Bakti Sosial Pemuda Rajeg"
+                  required
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="description">
+                  Deskripsi
+                </label>
+
+                <textarea
+                  id="description"
+                  placeholder="Tulis penjelasan mengenai program atau kegiatan..."
+                  required
+                ></textarea>
+
+              </div>
+
+
+              <div class="row-2">
+
+
+                <div class="form-group">
+
+                  <label for="status">
+                    Status Program
+                  </label>
+
+                  <select id="status">
+
+                    <option value="Rencana">
+                      Rencana
+                    </option>
+
+                    <option value="Berjalan">
+                      Berjalan
+                    </option>
+
+                    <option value="Selesai">
+                      Selesai
+                    </option>
+
+                  </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="eventDate">
+                    Tanggal Kegiatan
+                  </label>
+
+                  <input
+                    type="datetime-local"
+                    id="eventDate"
+                  >
+
+                </div>
+
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="location">
+                  Lokasi
+                </label>
+
+                <input
+                  type="text"
+                  id="location"
+                  placeholder="Contoh: Aula Kecamatan Rajeg"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="published">
+                  Status Publikasi
+                </label>
+
+                <select id="published">
+
+                  <option value="false">
+                    Draft
+                  </option>
+
+                  <option value="true">
+                    Terbit
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="imageFile">
+                  Foto Kegiatan
+                </label>
+
+                <div class="image-upload">
+
+                  <input
+                    type="file"
+                    id="imageFile"
+                    accept="image/jpeg,image/png,image/webp"
+                  >
+
+                  <div class="help">
+                    Format JPG, PNG atau WEBP. Maksimal 5 MB.
+                  </div>
+
+
+                  <div
+                    class="current-photo"
+                    id="currentPhoto"
+                  >
+
+                    <div class="photo-label">
+                      Foto saat ini
+                    </div>
+
+                    <img
+                      id="currentPhotoImg"
+                      src=""
+                      alt="Foto saat ini"
+                    >
+
+                  </div>
+
+
+                  <div
+                    class="image-preview"
+                    id="imagePreview"
+                  >
+
+                    <div class="photo-label">
+                      Preview foto baru
+                    </div>
+
+                    <img
+                      id="previewImg"
+                      src=""
+                      alt="Preview"
+                    >
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onclick="resetForm()"
+                >
+                  Reset
+                </button>
+
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="saveBtn"
+                >
+                  Simpan Program
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+
+        <!-- LIST -->
+
+        <div>
+
+          <div class="toolbar">
+
+            <div class="search">
+
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari program, status, atau lokasi..."
+              >
+
+            </div>
+
+
+            <div
+              class="count"
+              id="countText"
+            >
+              0 program
+            </div>
+
+          </div>
+
+
+          <div
+            class="program-list"
+            id="programList"
+          >
+
+            <div class="empty">
+
+              <div class="empty-icon">
+                📅
+              </div>
+
+              Memuat program...
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+  "https://qemzczsltxbiyxsvpebv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true
+      }
+    }
+  );
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let allPrograms = [];
+
+let editingId = null;
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    try{
+
+      await checkAuth();
+
+      setupEvents();
+
+      await loadPrograms();
+
+      document.getElementById(
+        "loadingScreen"
+      ).style.display =
+        "none";
+
+      document.getElementById(
+        "app"
+      ).style.display =
+        "block";
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      document.getElementById(
+        "loadingScreen"
+      ).textContent =
+        error.message ||
+        "Gagal memuat halaman.";
+
+      setTimeout(
+        () => {
+
+          window.location.href =
+            "admin.html";
+
+        },
+        1500
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+async function checkAuth(){
+
+  const {
+    data:{
+      session
+    }
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if(!session){
+
+    window.location.href =
+      "admin.html";
+
+    return;
+
+  }
+
+
+  const {
+    data:profile,
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select(
+        "id, full_name, role"
+      )
+      .eq(
+        "id",
+        session.user.id
+      )
+      .maybeSingle();
+
+
+  if(error){
+
+    throw error;
+
+  }
+
+
+  if(
+    !profile ||
+    !["admin","editor"].includes(
+      profile.role
+    )
+  ){
+
+    await supabaseClient
+      .auth
+      .signOut();
+
+    window.location.href =
+      "admin.html";
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "userName"
+  ).textContent =
+    profile.full_name ||
+    session.user.email ||
+    "Administrator";
+
+
+  document.getElementById(
+    "userRole"
+  ).textContent =
+    profile.role;
+
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+function setupEvents(){
+
+  document.getElementById(
+    "programForm"
+  ).addEventListener(
+    "submit",
+    saveProgram
+  );
+
+
+  document.getElementById(
+    "searchInput"
+  ).addEventListener(
+    "input",
+    filterPrograms
+  );
+
+
+  document.getElementById(
+    "imageFile"
+  ).addEventListener(
+    "change",
+    previewImage
+  );
+
+}
+
+
+/* =====================================================
+   LOAD
+===================================================== */
+
+async function loadPrograms(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("programs")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    throw error;
+
+  }
+
+
+  allPrograms =
+    data || [];
+
+
+  renderPrograms(
+    allPrograms
+  );
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderPrograms(list){
+
+  const container =
+    document.getElementById(
+      "programList"
+    );
+
+
+  document.getElementById(
+    "countText"
+  ).textContent =
+    `${list.length} program`;
+
+
+  if(!list.length){
+
+    container.innerHTML = `
+      <div class="empty">
+
+        <div class="empty-icon">
+          📅
+        </div>
+
+        <strong>
+          Belum ada program
+        </strong>
+
+        <div style="margin-top:6px;">
+          Tambahkan program atau kegiatan pertama melalui form.
+        </div>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    list.map(
+      item => {
+
+        const status =
+          item.published
+          ?
+          `
+            <span class="status-publish">
+              TERBIT
+            </span>
+          `
+          :
+          `
+            <span class="status-draft">
+              DRAFT
+            </span>
+          `;
+
+
+        const image =
+          item.image_url
+          ?
+          `
+            <img
+              src="${escapeAttribute(
+                item.image_url
+              )}"
+              alt="${escapeHtml(
+                item.title
+              )}"
+            >
+          `
+          :
+          `
+            <div class="program-placeholder">
+              📅
+            </div>
+          `;
+
+
+        return `
+          <article class="program-card">
+
+            <div class="program-image">
+
+              ${image}
+
+              ${status}
+
+            </div>
+
+
+            <div class="program-body">
+
+              <span class="status-program">
+                ${escapeHtml(
+                  item.status ||
+                  "Rencana"
+                )}
+              </span>
+
+
+              <div class="program-title">
+                ${escapeHtml(
+                  item.title ||
+                  "Tanpa Judul"
+                )}
+              </div>
+
+
+              <div class="program-description">
+                ${escapeHtml(
+                  item.description ||
+                  "Belum ada deskripsi."
+                )}
+              </div>
+
+
+              <div class="program-meta">
+
+                ${
+                  item.event_date
+                  ?
+                  `
+                    <div>
+                      <i class="fa-regular fa-calendar"></i>
+                      ${escapeHtml(
+                        formatDateTime(
+                          item.event_date
+                        )
+                      )}
+                    </div>
+                  `
+                  :
+                  ""
+                }
+
+
+                ${
+                  item.location
+                  ?
+                  `
+                    <div>
+                      <i class="fa-solid fa-location-dot"></i>
+                      ${escapeHtml(
+                        item.location
+                      )}
+                    </div>
+                  `
+                  :
+                  ""
+                }
+
+              </div>
+
+
+              <div class="program-actions">
+
+                <button
+                  class="action-btn edit-btn"
+                  onclick="editProgram(${item.id})"
+                >
+                  ✏️ Edit
+                </button>
+
+
+                <button
+                  class="action-btn delete-btn"
+                  onclick="deleteProgram(${item.id})"
+                >
+                  🗑️ Hapus
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+async function saveProgram(event){
+
+  event.preventDefault();
+
+
+  const title =
+    document.getElementById(
+      "title"
+    ).value.trim();
+
+
+  const description =
+    document.getElementById(
+      "description"
+    ).value.trim();
+
+
+  const status =
+    document.getElementById(
+      "status"
+    ).value;
+
+
+  const eventDateValue =
+    document.getElementById(
+      "eventDate"
+    ).value;
+
+
+  const location =
+    document.getElementById(
+      "location"
+    ).value.trim();
+
+
+  const published =
+    document.getElementById(
+      "published"
+    ).value === "true";
+
+
+  if(!title){
+
+    showToast(
+      "Nama program wajib diisi.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!description){
+
+    showToast(
+      "Deskripsi program wajib diisi.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  let eventDate = null;
+
+
+  if(eventDateValue){
+
+    const date =
+      new Date(
+        eventDateValue
+      );
+
+
+    if(
+      Number.isNaN(
+        date.getTime()
+      )
+    ){
+
+      showToast(
+        "Tanggal kegiatan tidak valid.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    eventDate =
+      date.toISOString();
+
+  }
+
+
+  let imageUrl = null;
+
+
+  if(editingId){
+
+    const oldItem =
+      allPrograms.find(
+        item =>
+          Number(item.id) ===
+          Number(editingId)
+      );
+
+    imageUrl =
+      oldItem?.image_url ||
+      null;
+
+  }
+
+
+  const file =
+    document.getElementById(
+      "imageFile"
+    ).files[0];
+
+
+  const saveBtn =
+    document.getElementById(
+      "saveBtn"
+    );
+
+
+  saveBtn.disabled =
+    true;
+
+
+  saveBtn.textContent =
+    "Menyimpan...";
+
+
+  try{
+
+    if(file){
+
+      imageUrl =
+        await uploadImage(file);
+
+    }
+
+
+    const payload = {
+
+      title,
+
+      description,
+
+      status,
+
+      event_date:
+        eventDate,
+
+      location,
+
+      image_url:
+        imageUrl,
+
+      published
+
+    };
+
+
+    if(editingId){
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("programs")
+          .update(payload)
+          .eq(
+            "id",
+            editingId
+          );
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      showToast(
+        "Program berhasil diperbarui.",
+        "success"
+      );
+
+    }
+    else{
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("programs")
+          .insert(payload);
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      showToast(
+        "Program berhasil ditambahkan.",
+        "success"
+      );
+
+    }
+
+
+    resetForm();
+
+    await loadPrograms();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    showToast(
+      error.message ||
+      "Gagal menyimpan program.",
+      "error"
+    );
+
+  }
+  finally{
+
+    saveBtn.disabled =
+      false;
+
+    saveBtn.textContent =
+      editingId
+      ?
+      "Simpan Perubahan"
+      :
+      "Simpan Program";
+
+  }
+
+}
+
+
+/* =====================================================
+   UPLOAD IMAGE
+===================================================== */
+
+async function uploadImage(file){
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ];
+
+
+  if(
+    !allowedTypes.includes(
+      file.type
+    )
+  ){
+
+    throw new Error(
+      "Format gambar harus JPG, PNG, atau WEBP."
+    );
+
+  }
+
+
+  if(
+    file.size >
+    5 * 1024 * 1024
+  ){
+
+    throw new Error(
+      "Ukuran gambar maksimal 5 MB."
+    );
+
+  }
+
+
+  const filename =
+    file.name
+      .toLowerCase()
+      .replace(
+        /[^a-z0-9.]+/g,
+        "-"
+      )
+      .replace(
+        /^-+|-+$/g,
+        ""
+      );
+
+
+  const path =
+    "programs/" +
+    Date.now() +
+    "-" +
+    filename;
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from("Media")
+      .upload(
+        path,
+        file,
+        {
+          cacheControl:"3600",
+          upsert:false
+        }
+      );
+
+
+  if(error){
+
+    throw error;
+
+  }
+
+
+  const {
+    data
+  } =
+    supabaseClient
+      .storage
+      .from("Media")
+      .getPublicUrl(
+        path
+      );
+
+
+  return data.publicUrl;
+
+}
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function editProgram(id){
+
+  const item =
+    allPrograms.find(
+      program =>
+        Number(program.id) ===
+        Number(id)
+    );
+
+
+  if(!item){
+
+    showToast(
+      "Data program tidak ditemukan.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  editingId =
+    item.id;
+
+
+  document.getElementById(
+    "programId"
+  ).value =
+    item.id;
+
+
+  document.getElementById(
+    "title"
+  ).value =
+    item.title || "";
+
+
+  document.getElementById(
+    "description"
+  ).value =
+    item.description || "";
+
+
+  document.getElementById(
+    "status"
+  ).value =
+    item.status || "Rencana";
+
+
+  document.getElementById(
+    "eventDate"
+  ).value =
+    toDatetimeLocal(
+      item.event_date
+    );
+
+
+  document.getElementById(
+    "location"
+  ).value =
+    item.location || "";
+
+
+  document.getElementById(
+    "published"
+  ).value =
+    item.published
+    ?
+    "true"
+    :
+    "false";
+
+
+  document.getElementById(
+    "formTitle"
+  ).textContent =
+    "Edit Program";
+
+
+  document.getElementById(
+    "saveBtn"
+  ).textContent =
+    "Simpan Perubahan";
+
+
+  document.getElementById(
+    "imageFile"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "imagePreview"
+  ).style.display =
+    "none";
+
+
+  const currentPhoto =
+    document.getElementById(
+      "currentPhoto"
+    );
+
+
+  if(item.image_url){
+
+    currentPhoto.style.display =
+      "block";
+
+    document.getElementById(
+      "currentPhotoImg"
+    ).src =
+      item.image_url;
+
+  }
+  else{
+
+    currentPhoto.style.display =
+      "none";
+
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+async function deleteProgram(id){
+
+  const item =
+    allPrograms.find(
+      program =>
+        Number(program.id) ===
+        Number(id)
+    );
+
+
+  if(!item){
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      `Hapus program "${item.title}"?\n\nData yang sudah dihapus tidak dapat dikembalikan.`
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("programs")
+        .delete()
+        .eq(
+          "id",
+          id
+        );
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    showToast(
+      "Program berhasil dihapus.",
+      "success"
+    );
+
+
+    if(
+      Number(editingId) ===
+      Number(id)
+    ){
+
+      resetForm();
+
+    }
+
+
+    await loadPrograms();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    showToast(
+      error.message ||
+      "Gagal menghapus program.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function filterPrograms(){
+
+  const keyword =
+    document.getElementById(
+      "searchInput"
+    ).value
+      .toLowerCase()
+      .trim();
+
+
+  if(!keyword){
+
+    renderPrograms(
+      allPrograms
+    );
+
+    return;
+
+  }
+
+
+  const filtered =
+    allPrograms.filter(
+      item => {
+
+        const title =
+          (
+            item.title ||
+            ""
+          )
+          .toLowerCase();
+
+
+        const description =
+          (
+            item.description ||
+            ""
+          )
+          .toLowerCase();
+
+
+        const status =
+          (
+            item.status ||
+            ""
+          )
+          .toLowerCase();
+
+
+        const location =
+          (
+            item.location ||
+            ""
+          )
+          .toLowerCase();
+
+
+        return (
+          title.includes(keyword) ||
+          description.includes(keyword) ||
+          status.includes(keyword) ||
+          location.includes(keyword)
+        );
+
+      }
+    );
+
+
+  renderPrograms(
+    filtered
+  );
+
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+function previewImage(event){
+
+  const file =
+    event.target.files[0];
+
+
+  if(!file){
+
+    document.getElementById(
+      "imagePreview"
+    ).style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    function(e){
+
+      document.getElementById(
+        "previewImg"
+      ).src =
+        e.target.result;
+
+      document.getElementById(
+        "imagePreview"
+      ).style.display =
+        "block";
+
+    };
+
+
+  reader.readAsDataURL(
+    file
+  );
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetForm(){
+
+  editingId =
+    null;
+
+
+  document
+    .getElementById(
+      "programForm"
+    )
+    .reset();
+
+
+  document.getElementById(
+    "programId"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "formTitle"
+  ).textContent =
+    "Tambah Program";
+
+
+  document.getElementById(
+    "saveBtn"
+  ).textContent =
+    "Simpan Program";
+
+
+  document.getElementById(
+    "status"
+  ).value =
+    "Rencana";
+
+
+  document.getElementById(
+    "published"
+  ).value =
+    "false";
+
+
+  document.getElementById(
+    "imagePreview"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "currentPhoto"
+  ).style.display =
+    "none";
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function goDashboard(){
+
+  window.location.href =
+    "admin-dashboard.html";
+
+}
+
+
+function goBerita(){
+
+  window.location.href =
+    "admin-berita.html";
+
+}
+
+
+function goPengurus(){
+
+  window.location.href =
+    "admin-pengurus.html";
+
+}
+
+
+function goJurnal(){
+
+  window.location.href =
+    "admin-jurnal.html";
+
+}
+
+
+function goPengumuman(){
+
+  window.location.href =
+    "admin-pengumuman.html";
+
+}
+
+
+function goPrestasi(){
+
+  window.location.href =
+    "admin-prestasi.html";
+
+}
+
+
+function comingSoon(name){
+
+  showToast(
+    `${name} akan kita aktifkan berikutnya.`,
+    "success"
+  );
+
+}
+
+
+/* =====================================================
+   MOBILE SIDEBAR
+===================================================== */
+
+function toggleSidebar(){
+
+  document
+    .getElementById(
+      "sidebar"
+    )
+    .classList.toggle(
+      "open"
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+
+  const confirmed =
+    confirm(
+      "Yakin ingin keluar dari panel administrasi?"
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  await supabaseClient
+    .auth
+    .signOut();
+
+
+  window.location.href =
+    "admin.html";
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function showToast(
+  message,
+  type="success"
+){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.className =
+    `toast show ${type}`;
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3500
+    );
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDateTime(
+  value
+){
+
+  if(!value){
+
+    return "-";
+
+  }
+
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "-";
+
+  }
+
+
+  return date.toLocaleString(
+    "id-ID",
+    {
+      day:"numeric",
+      month:"long",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+
+/* =====================================================
+   DATETIME LOCAL
+===================================================== */
+
+function toDatetimeLocal(
+  value
+){
+
+  if(!value){
+
+    return "";
+
+  }
+
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "";
+
+  }
+
+
+  const local =
+    new Date(
+      date.getTime() -
+      date.getTimezoneOffset() * 60000
+    );
+
+
+  return local
+    .toISOString()
+    .slice(
+      0,
+      16
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHtml(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+function escapeAttribute(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+</script>
+
+</body>
+</html>
