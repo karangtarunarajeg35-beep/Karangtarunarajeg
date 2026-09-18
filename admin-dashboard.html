@@ -531,8 +531,6 @@
         </button>
 
 
-        <!-- SUDAH AKTIF -->
-
         <button
           onclick="openPengurus()"
         >
@@ -541,7 +539,7 @@
 
 
         <button
-          onclick="comingSoon('Jurnal')"
+          onclick="openJurnal()"
         >
           📚 Jurnal
         </button>
@@ -753,7 +751,7 @@
             </button>
 
 
-            <!-- PENGURUS AKTIF -->
+            <!-- PENGURUS -->
 
             <button
               onclick="openPengurus()"
@@ -773,7 +771,7 @@
             <!-- JURNAL -->
 
             <button
-              onclick="comingSoon('Jurnal')"
+              onclick="openJurnal()"
             >
 
               <strong>
@@ -957,8 +955,6 @@ async function checkAdminAccess() {
 
   try {
 
-    /* CEK SESSION */
-
     const {
       data,
       error
@@ -994,8 +990,6 @@ async function checkAdminAccess() {
     const user =
       session.user;
 
-
-    /* CEK PROFILE */
 
     const {
       data: profile,
@@ -1036,8 +1030,6 @@ async function checkAdminAccess() {
     }
 
 
-    /* CEK ROLE */
-
     if (
       profile.role !== "admin" &&
       profile.role !== "editor"
@@ -1056,8 +1048,6 @@ async function checkAdminAccess() {
     }
 
 
-    /* TAMPILKAN NAMA ADMIN */
-
     document.getElementById(
       "adminName"
     ).textContent =
@@ -1066,16 +1056,12 @@ async function checkAdminAccess() {
       "Administrator";
 
 
-    /* TAMPILKAN DASHBOARD */
-
     loading.style.display =
       "none";
 
     app.style.display =
       "block";
 
-
-    /* LOAD STATISTIK */
 
     await loadStats();
 
@@ -1102,8 +1088,6 @@ async function loadStats() {
   try {
 
 
-    /* BERITA */
-
     const news =
       await supabaseClient
         .from("news")
@@ -1125,8 +1109,6 @@ async function loadStats() {
     ).textContent =
       news.count ?? 0;
 
-
-    /* PENGURUS */
 
     const officials =
       await supabaseClient
@@ -1150,8 +1132,6 @@ async function loadStats() {
       officials.count ?? 0;
 
 
-    /* PROGRAM */
-
     const programs =
       await supabaseClient
         .from("programs")
@@ -1173,8 +1153,6 @@ async function loadStats() {
     ).textContent =
       programs.count ?? 0;
 
-
-    /* GALERI */
 
     const gallery =
       await supabaseClient
@@ -1211,7 +1189,7 @@ async function loadStats() {
 
 
 /* =====================================================
-   MENU
+   DASHBOARD
 ===================================================== */
 
 function showDashboard() {
@@ -1241,6 +1219,18 @@ function openPengurus() {
 
   window.location.href =
     "admin-pengurus.html";
+
+}
+
+
+/* =====================================================
+   JURNAL
+===================================================== */
+
+function openJurnal() {
+
+  window.location.href =
+    "admin-jurnal.html";
 
 }
 
@@ -1317,14 +1307,14 @@ async function logout() {
 
 
 /* =====================================================
-   JALANKAN SECURITY CHECK
+   RUN
 ===================================================== */
 
 checkAdminAccess();
 
 
 /* =====================================================
-   JIKA SESSION BERUBAH
+   SESSION MONITOR
 ===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
