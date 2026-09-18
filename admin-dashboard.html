@@ -1,1081 +1,1926 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="UTF-8">
+  <title>Dashboard Admin - Karang Taruna Kecamatan Rajeg</title>
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<title>
-Dashboard Admin - Karang Taruna Rajeg
-</title>
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    :root{
+      --navy:#071b3a;
+      --navy2:#0d2a57;
+      --yellow:#f4c400;
+      --white:#ffffff;
+      --bg:#f4f7fb;
+      --text:#172033;
+      --muted:#687386;
+      --border:#e7ebf1;
+      --green:#198754;
+      --red:#dc3545;
+      --blue:#1761c7;
+    }
 
-<style>
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    /* =========================
+       SIDEBAR
+    ========================= */
 
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f4f7fb;
-  color:#172033;
-}
+    .sidebar{
+      position:fixed;
+      left:0;
+      top:0;
+      bottom:0;
+      width:260px;
+      background:linear-gradient(180deg,var(--navy),#04132b);
+      color:#fff;
+      z-index:1000;
+      display:flex;
+      flex-direction:column;
+      box-shadow:4px 0 20px rgba(0,0,0,.08);
+      overflow-y:auto;
+    }
 
-#loading{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#071d49;
-  font-size:17px;
-  font-weight:bold;
-}
+    .brand{
+      padding:24px 20px 20px;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
 
-#app{
-  display:none;
-  min-height:100vh;
-}
+    .brand-top{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
 
-.error-screen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
+    .brand img{
+      width:52px;
+      height:52px;
+      background:#fff;
+      border-radius:12px;
+      padding:5px;
+      object-fit:contain;
+      flex-shrink:0;
+    }
 
-.error-box{
-  background:white;
-  max-width:550px;
-  width:100%;
-  padding:35px;
-  text-align:center;
-  border-radius:18px;
-  box-shadow:0 10px 40px rgba(0,0,0,.08);
-}
+    .brand h1{
+      font-size:16px;
+      line-height:1.35;
+      font-weight:800;
+    }
 
-.error-box h2{
-  color:#c62828;
-  margin-bottom:15px;
-}
+    .brand p{
+      color:#b9c7dc;
+      font-size:11px;
+      margin-top:3px;
+    }
 
-.error-box p{
-  color:#555;
-  line-height:1.6;
-}
+    .admin-info{
+      background:rgba(255,255,255,.07);
+      border-radius:12px;
+      padding:12px;
+      margin-top:12px;
+    }
 
-.error-box button{
-  margin-top:20px;
-  padding:11px 20px;
-  border:0;
-  border-radius:8px;
-  background:#071d49;
-  color:white;
-  cursor:pointer;
-}
+    .admin-info .label{
+      color:#99a9c2;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      margin-bottom:4px;
+    }
 
-.sidebar{
-  position:fixed;
-  top:0;
-  left:0;
-  bottom:0;
-  width:260px;
-  background:#071d49;
-  color:white;
-  padding:24px 17px;
-  overflow-y:auto;
-}
+    .admin-info .name{
+      font-size:13px;
+      font-weight:700;
+      word-break:break-word;
+    }
 
-.brand{
-  text-align:center;
-  padding-bottom:24px;
-  margin-bottom:18px;
-  border-bottom:1px solid rgba(255,255,255,.15);
-}
+    .admin-info .role{
+      display:inline-block;
+      margin-top:7px;
+      background:var(--yellow);
+      color:var(--navy);
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:800;
+      text-transform:uppercase;
+    }
 
-.brand h2{
-  font-size:19px;
-  line-height:1.35;
-}
+    .nav{
+      padding:18px 12px;
+      flex:1;
+    }
 
-.brand p{
-  margin-top:7px;
-  font-size:11px;
-  opacity:.7;
-}
+    .nav-title{
+      font-size:10px;
+      color:#71839f;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      padding:0 10px 9px;
+      font-weight:700;
+    }
 
-.menu-title{
-  margin:18px 10px 8px;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  opacity:.5;
-}
+    .nav-item{
+      width:100%;
+      border:none;
+      background:transparent;
+      color:#dce5f3;
+      padding:12px 13px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:4px;
+      text-align:left;
+      transition:.2s;
+    }
 
-.menu button{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:white;
-  text-align:left;
-  padding:12px 13px;
-  border-radius:8px;
-  margin-bottom:3px;
-  cursor:pointer;
-  font-size:14px;
-}
+    .nav-item:hover{
+      background:rgba(255,255,255,.09);
+      color:#fff;
+      transform:translateX(2px);
+    }
 
-.menu button:hover{
-  background:rgba(255,255,255,.1);
-}
+    .nav-item.active{
+      background:var(--yellow);
+      color:var(--navy);
+      font-weight:800;
+    }
 
-.menu button.active{
-  background:#f5c400;
-  color:#071d49;
-  font-weight:bold;
-}
+    .nav-icon{
+      width:25px;
+      text-align:center;
+      font-size:16px;
+    }
 
-.logout{
-  border-top:1px solid rgba(255,255,255,.15);
-  margin-top:18px;
-  padding-top:18px;
-}
+    .sidebar-bottom{
+      padding:14px 12px 18px;
+      border-top:1px solid rgba(255,255,255,.1);
+    }
 
-.logout button{
-  background:#d62828;
-  text-align:center;
-  font-weight:bold;
-}
+    .logout-btn{
+      width:100%;
+      border:none;
+      border-radius:10px;
+      background:rgba(220,53,69,.15);
+      color:#ffb6bd;
+      padding:12px;
+      font-size:13px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s;
+    }
 
-.main{
-  margin-left:260px;
-  min-height:100vh;
-}
+    .logout-btn:hover{
+      background:var(--red);
+      color:#fff;
+    }
 
-.topbar{
-  height:72px;
-  background:white;
-  padding:0 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
-}
+    /* =========================
+       MAIN
+    ========================= */
 
-.topbar h1{
-  font-size:23px;
-  color:#071d49;
-}
+    .main{
+      margin-left:260px;
+      min-height:100vh;
+    }
 
-.admin-info{
-  font-size:13px;
-  color:#666;
-}
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:500;
+      background:#fff;
+      border-bottom:1px solid var(--border);
+      padding:17px 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+    }
 
-.content{
-  padding:30px;
-}
+    .topbar-title h2{
+      color:var(--navy);
+      font-size:22px;
+      margin-bottom:3px;
+    }
 
-.welcome{
-  background:linear-gradient(135deg,#071d49,#123b80);
-  color:white;
-  padding:30px;
-  border-radius:17px;
-  margin-bottom:25px;
-}
+    .topbar-title p{
+      color:var(--muted);
+      font-size:12px;
+    }
 
-.welcome h2{
-  font-size:25px;
-  margin-bottom:8px;
-}
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
 
-.welcome p{
-  line-height:1.6;
-  opacity:.85;
-}
+    .site-btn{
+      border:none;
+      background:#edf2f8;
+      color:var(--navy);
+      border-radius:9px;
+      padding:10px 14px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+    }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-  margin-bottom:25px;
-}
+    .site-btn:hover{
+      background:#dde6f2;
+    }
 
-.stat-card{
-  background:white;
-  padding:22px;
-  border-radius:15px;
-  box-shadow:0 5px 20px rgba(0,0,0,.05);
-  border-left:5px solid #f5c400;
-}
+    .content{
+      padding:28px;
+    }
 
-.stat-card h3{
-  font-size:12px;
-  color:#777;
-  margin-bottom:10px;
-}
+    /* =========================
+       WELCOME
+    ========================= */
 
-.stat-number{
-  font-size:30px;
-  font-weight:bold;
-  color:#071d49;
-}
+    .welcome{
+      background:
+        linear-gradient(
+          135deg,
+          var(--navy) 0%,
+          var(--navy2) 70%,
+          #17427e 100%
+        );
+      color:#fff;
+      border-radius:20px;
+      padding:26px 28px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:25px;
+      margin-bottom:22px;
+      overflow:hidden;
+      position:relative;
+    }
 
-.panel{
-  background:white;
-  padding:25px;
-  border-radius:16px;
-  box-shadow:0 5px 20px rgba(0,0,0,.05);
-}
+    .welcome::after{
+      content:"";
+      position:absolute;
+      right:-50px;
+      top:-80px;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:rgba(244,196,0,.12);
+    }
 
-.panel h2{
-  color:#071d49;
-  margin-bottom:10px;
-}
+    .welcome-text{
+      position:relative;
+      z-index:2;
+    }
 
-.panel p{
-  color:#666;
-  line-height:1.6;
-}
+    .welcome-text .small{
+      color:#d8e2f2;
+      font-size:12px;
+      margin-bottom:7px;
+    }
 
-.quick-menu{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-top:20px;
-}
+    .welcome-text h1{
+      font-size:26px;
+      margin-bottom:7px;
+    }
 
-.quick-menu button{
-  padding:18px;
-  background:#f7f9fc;
-  border:1px solid #e5e9f0;
-  border-radius:12px;
-  text-align:left;
-  cursor:pointer;
-  transition:.2s;
-}
+    .welcome-text p{
+      color:#cdd8e8;
+      font-size:13px;
+      line-height:1.6;
+      max-width:700px;
+    }
 
-.quick-menu button:hover{
-  border-color:#f5c400;
-  background:#fffdf0;
-  transform:translateY(-2px);
-}
+    .welcome-logo{
+      position:relative;
+      z-index:2;
+      width:86px;
+      height:86px;
+      background:#fff;
+      border-radius:18px;
+      padding:8px;
+      object-fit:contain;
+      flex-shrink:0;
+    }
 
-.quick-menu strong{
-  display:block;
-  color:#071d49;
-  margin-bottom:5px;
-}
+    /* =========================
+       STATS
+    ========================= */
 
-.quick-menu span{
-  font-size:12px;
-  color:#777;
-}
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+      margin-bottom:25px;
+    }
 
-@media(max-width:900px){
+    .stat{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:19px;
+      box-shadow:0 5px 20px rgba(7,27,58,.05);
+    }
 
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
+    .stat-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:13px;
+    }
 
-  .quick-menu{
-    grid-template-columns:repeat(2,1fr);
-  }
+    .stat-label{
+      color:#687386;
+      font-size:12px;
+      font-weight:700;
+    }
 
-}
+    .stat-icon{
+      width:38px;
+      height:38px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#f3f6fa;
+      border-radius:10px;
+      font-size:18px;
+    }
 
-@media(max-width:650px){
+    .stat-number{
+      font-size:29px;
+      color:var(--navy);
+      font-weight:800;
+    }
 
-  .sidebar{
-    position:relative;
-    width:100%;
-  }
+    /* =========================
+       SECTION
+    ========================= */
 
-  .main{
-    margin-left:0;
-  }
+    .section-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:15px;
+      margin-bottom:15px;
+    }
 
-  .stats,
-  .quick-menu{
-    grid-template-columns:1fr;
-  }
+    .section-title h3{
+      color:var(--navy);
+      font-size:19px;
+      margin-bottom:3px;
+    }
 
-  .topbar{
-    height:auto;
-    padding:18px;
-    gap:10px;
-  }
+    .section-title p{
+      color:var(--muted);
+      font-size:12px;
+    }
 
-  .content{
-    padding:18px;
-  }
+    /* =========================
+       QUICK MENU
+    ========================= */
 
-  .admin-info{
-    font-size:11px;
-  }
+    .menu-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+      margin-bottom:28px;
+    }
 
-}
+    .menu-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:20px;
+      cursor:pointer;
+      box-shadow:0 5px 20px rgba(7,27,58,.05);
+      transition:.2s;
+      min-height:150px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
 
-</style>
+    .menu-card:hover{
+      transform:translateY(-3px);
+      border-color:#d8dee8;
+      box-shadow:0 12px 28px rgba(7,27,58,.10);
+    }
 
+    .menu-icon{
+      width:46px;
+      height:46px;
+      border-radius:13px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff8d7;
+      font-size:21px;
+      margin-bottom:16px;
+    }
+
+    .menu-card h4{
+      color:var(--navy);
+      font-size:15px;
+      margin-bottom:5px;
+    }
+
+    .menu-card p{
+      color:#718096;
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    .menu-arrow{
+      margin-top:13px;
+      font-size:12px;
+      color:#7b8799;
+      font-weight:700;
+    }
+
+    /* =========================
+       BOTTOM GRID
+    ========================= */
+
+    .bottom-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:20px;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:21px;
+      box-shadow:0 5px 20px rgba(7,27,58,.05);
+    }
+
+    .panel h3{
+      font-size:17px;
+      color:var(--navy);
+      margin-bottom:5px;
+    }
+
+    .panel-sub{
+      color:var(--muted);
+      font-size:11px;
+      margin-bottom:18px;
+    }
+
+    .latest-list{
+      display:grid;
+      gap:11px;
+    }
+
+    .latest-item{
+      border:1px solid #edf0f4;
+      border-radius:11px;
+      padding:12px 13px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
+    .latest-item-main{
+      min-width:0;
+    }
+
+    .latest-title{
+      font-size:13px;
+      color:#18243a;
+      font-weight:700;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .latest-date{
+      font-size:10px;
+      color:#7b8799;
+      margin-top:4px;
+    }
+
+    .latest-badge{
+      padding:5px 8px;
+      border-radius:999px;
+      font-size:9px;
+      font-weight:800;
+      flex-shrink:0;
+    }
+
+    .published{
+      background:#e7f8ef;
+      color:#198754;
+    }
+
+    .draft{
+      background:#fff0f1;
+      color:#c82333;
+    }
+
+    .system-box{
+      border-radius:12px;
+      padding:14px;
+      margin-bottom:11px;
+      background:#f6f8fb;
+      border:1px solid #edf0f4;
+    }
+
+    .system-box:last-child{
+      margin-bottom:0;
+    }
+
+    .system-label{
+      color:#788397;
+      font-size:10px;
+      margin-bottom:5px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+      font-weight:700;
+    }
+
+    .system-value{
+      color:var(--navy);
+      font-weight:700;
+      font-size:13px;
+      word-break:break-word;
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading{
+      min-height:70vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#687386;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .spinner{
+      width:38px;
+      height:38px;
+      border:4px solid #e7ebf1;
+      border-top-color:var(--navy);
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    #app{
+      display:none;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    .mobile-menu-btn{
+      display:none;
+      border:none;
+      background:var(--navy);
+      color:#fff;
+      width:40px;
+      height:40px;
+      border-radius:9px;
+      cursor:pointer;
+      font-size:18px;
+    }
+
+    .overlay{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.4);
+      z-index:900;
+    }
+
+    @media(max-width:1100px){
+
+      .stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .menu-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .bottom-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:800px){
+
+      .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+      }
+
+      .sidebar.open{
+        transform:translateX(0);
+      }
+
+      .overlay.open{
+        display:block;
+      }
+
+      .main{
+        margin-left:0;
+      }
+
+      .mobile-menu-btn{
+        display:block;
+      }
+
+      .topbar{
+        padding:14px 16px;
+      }
+
+      .content{
+        padding:18px 14px;
+      }
+
+      .welcome{
+        padding:20px;
+      }
+
+      .welcome-logo{
+        display:none;
+      }
+
+      .welcome-text h1{
+        font-size:21px;
+      }
+    }
+
+    @media(max-width:600px){
+
+      .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+      }
+
+      .stat{
+        padding:15px;
+      }
+
+      .stat-number{
+        font-size:23px;
+      }
+
+      .menu-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+      }
+
+      .menu-card{
+        min-height:135px;
+        padding:15px;
+      }
+
+      .menu-card h4{
+        font-size:13px;
+      }
+
+      .menu-card p{
+        font-size:10px;
+      }
+
+      .topbar-title h2{
+        font-size:18px;
+      }
+
+      .site-btn{
+        display:none;
+      }
+    }
+
+    @media(max-width:420px){
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .menu-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="loading">
-  Memeriksa akses administrator...
-</div>
-
-<div
-  id="errorScreen"
-  style="display:none;"
->
-
-  <div class="error-screen">
-
-    <div class="error-box">
-
-      <h2>
-        Akses Dashboard Ditolak
-      </h2>
-
-      <p id="errorText">
-        Memeriksa...
-      </p>
-
-      <button onclick="goLogin()">
-        Kembali ke Login
-      </button>
-
-    </div>
-
+  <!-- LOADING -->
+  <div id="loadingScreen" class="loading">
+    <div class="spinner"></div>
+    <div>Memuat dashboard...</div>
   </div>
 
-</div>
+  <!-- APP -->
+  <div id="app">
 
-<div id="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
 
-  <aside class="sidebar">
+      <div class="brand">
 
-    <div class="brand">
+        <div class="brand-top">
 
-      <h2>
-        KARANG TARUNA<br>
-        KECAMATAN RAJEG
-      </h2>
+          <img
+            src="https://karangtarunarajeg35-beep.github.io/Karangtarunarajeg/logo-karang-taruna2.webp"
+            alt="Logo Karang Taruna"
+          >
 
-      <p>
-        Kabupaten Tangerang · Banten
-      </p>
+          <div>
+            <h1>Karang Taruna Rajeg</h1>
+            <p>Panel Administrator</p>
+          </div>
 
-    </div>
+        </div>
 
-    <div class="menu">
+        <div class="admin-info">
 
-      <div class="menu-title">
-        Konten Website
+          <div class="label">Login sebagai</div>
+
+          <div class="name" id="adminName">
+            Administrator
+          </div>
+
+          <div class="role" id="adminRole">
+            ADMIN
+          </div>
+
+        </div>
+
       </div>
 
-      <button
-        class="active"
-        onclick="showDashboard()"
-      >
-        🏠 Dashboard
-      </button>
+      <nav class="nav">
 
-      <button onclick="openBerita()">
-        📰 Kabar Berita
-      </button>
+        <div class="nav-title">
+          Utama
+        </div>
 
-      <button onclick="openPengurus()">
-        👥 Profil Pengurus
-      </button>
+        <button
+          class="nav-item active"
+          onclick="goDashboard()"
+        >
+          <span class="nav-icon">🏠</span>
+          Dashboard
+        </button>
 
-      <button onclick="openJurnal()">
-        📚 Jurnal
-      </button>
 
-      <button onclick="openPengumuman()">
-        📢 Pengumuman
-      </button>
+        <div class="nav-title" style="margin-top:15px;">
+          Kelola Konten
+        </div>
 
-      <button onclick="openPrestasi()">
-        🏆 Prestasi
-      </button>
+        <button
+          class="nav-item"
+          onclick="openBerita()"
+        >
+          <span class="nav-icon">📰</span>
+          Kabar Berita
+        </button>
 
-      <!-- SUDAH AKTIF -->
+        <button
+          class="nav-item"
+          onclick="openPengurus()"
+        >
+          <span class="nav-icon">👥</span>
+          Profil Pengurus
+        </button>
 
-      <button onclick="openProgram()">
-        📅 Program & Kegiatan
-      </button>
+        <button
+          class="nav-item"
+          onclick="openJurnal()"
+        >
+          <span class="nav-icon">📖</span>
+          Jurnal
+        </button>
 
-      <button onclick="comingSoon('Dokumentasi')">
-        📸 Dokumentasi
-      </button>
+        <button
+          class="nav-item"
+          onclick="openPengumuman()"
+        >
+          <span class="nav-icon">📢</span>
+          Pengumuman
+        </button>
 
-      <div class="menu-title">
-        Sistem
-      </div>
+        <button
+          class="nav-item"
+          onclick="openPrestasi()"
+        >
+          <span class="nav-icon">🏆</span>
+          Prestasi
+        </button>
 
-      <button onclick="comingSoon('Pengaturan')">
-        ⚙️ Pengaturan
-      </button>
+        <button
+          class="nav-item"
+          onclick="openProgram()"
+        >
+          <span class="nav-icon">📋</span>
+          Program & Kegiatan
+        </button>
 
-      <div class="logout">
+        <button
+          class="nav-item"
+          onclick="openDokumentasi()"
+        >
+          <span class="nav-icon">📸</span>
+          Dokumentasi
+        </button>
 
-        <button onclick="logout()">
-          Keluar
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <button
+          class="logout-btn"
+          onclick="logout()"
+        >
+          🚪 Keluar dari Admin
         </button>
 
       </div>
 
-    </div>
+    </aside>
 
-  </aside>
+    <div
+      class="overlay"
+      id="overlay"
+      onclick="closeSidebar()"
+    ></div>
 
-  <main class="main">
 
-    <header class="topbar">
+    <!-- MAIN -->
+    <main class="main">
 
-      <h1>
-        Dashboard Admin
-      </h1>
+      <!-- TOPBAR -->
+      <header class="topbar">
 
-      <div class="admin-info">
+        <div style="display:flex;align-items:center;gap:12px;">
 
-        Login sebagai:
-
-        <strong id="adminName">
-          Administrator
-        </strong>
-
-      </div>
-
-    </header>
-
-    <section class="content">
-
-      <div class="welcome">
-
-        <h2>
-          Selamat Datang 👋
-        </h2>
-
-        <p>
-          Panel administrasi website
-          Karang Taruna Kecamatan Rajeg.
-          Kelola seluruh informasi organisasi
-          melalui panel ini.
-        </p>
-
-      </div>
-
-      <div class="stats">
-
-        <div class="stat-card">
-
-          <h3>
-            Berita Terbit
-          </h3>
-
-          <div
-            class="stat-number"
-            id="statNews"
+          <button
+            class="mobile-menu-btn"
+            onclick="toggleSidebar()"
           >
-            -
+            ☰
+          </button>
+
+          <div class="topbar-title">
+
+            <h2>Dashboard Admin</h2>
+
+            <p>
+              Panel pengelolaan Website Karang Taruna Kecamatan Rajeg
+            </p>
+
           </div>
 
         </div>
 
-        <div class="stat-card">
+        <div class="top-actions">
 
-          <h3>
-            Pengurus Aktif
-          </h3>
-
-          <div
-            class="stat-number"
-            id="statOfficials"
+          <button
+            class="site-btn"
+            onclick="openWebsite()"
           >
-            -
+            🌐 Lihat Website
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- CONTENT -->
+      <section class="content">
+
+        <!-- WELCOME -->
+        <div class="welcome">
+
+          <div class="welcome-text">
+
+            <div class="small">
+              PANEL ADMINISTRATOR
+            </div>
+
+            <h1>
+              Selamat Datang, <span id="welcomeName">Admin</span> 👋
+            </h1>
+
+            <p>
+              Kelola seluruh informasi Website Resmi
+              Karang Taruna Kecamatan Rajeg melalui satu dashboard.
+            </p>
+
+          </div>
+
+          <img
+            class="welcome-logo"
+            src="https://karangtarunarajeg35-beep.github.io/Karangtarunarajeg/logo-karang-taruna2.webp"
+            alt="Logo"
+          >
+
+        </div>
+
+
+        <!-- STATISTICS -->
+        <div class="stats">
+
+          <div class="stat">
+
+            <div class="stat-top">
+
+              <div class="stat-label">
+                TOTAL BERITA
+              </div>
+
+              <div class="stat-icon">
+                📰
+              </div>
+
+            </div>
+
+            <div
+              class="stat-number"
+              id="countNews"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-top">
+
+              <div class="stat-label">
+                TOTAL PENGURUS
+              </div>
+
+              <div class="stat-icon">
+                👥
+              </div>
+
+            </div>
+
+            <div
+              class="stat-number"
+              id="countOfficials"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-top">
+
+              <div class="stat-label">
+                PROGRAM & KEGIATAN
+              </div>
+
+              <div class="stat-icon">
+                📋
+              </div>
+
+            </div>
+
+            <div
+              class="stat-number"
+              id="countPrograms"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-top">
+
+              <div class="stat-label">
+                DOKUMENTASI
+              </div>
+
+              <div class="stat-icon">
+                📸
+              </div>
+
+            </div>
+
+            <div
+              class="stat-number"
+              id="countGallery"
+            >
+              0
+            </div>
+
           </div>
 
         </div>
 
-        <div class="stat-card">
 
-          <h3>
-            Program Terbit
-          </h3>
+        <!-- QUICK MENU -->
+        <div class="section-title">
 
-          <div
-            class="stat-number"
-            id="statPrograms"
-          >
-            -
+          <div>
+            <h3>Kelola Website</h3>
+            <p>
+              Pilih menu untuk mengelola konten website.
+            </p>
           </div>
 
         </div>
 
-        <div class="stat-card">
 
-          <h3>
-            Dokumentasi
-          </h3>
+        <div class="menu-grid">
 
+          <!-- BERITA -->
           <div
-            class="stat-number"
-            id="statGallery"
+            class="menu-card"
+            onclick="openBerita()"
           >
-            -
+
+            <div>
+
+              <div class="menu-icon">
+                📰
+              </div>
+
+              <h4>
+                Kabar Berita
+              </h4>
+
+              <p>
+                Tambah, edit dan hapus berita kegiatan.
+              </p>
+
+            </div>
+
+            <div class="menu-arrow">
+              Kelola →
+            </div>
+
+          </div>
+
+
+          <!-- PENGURUS -->
+          <div
+            class="menu-card"
+            onclick="openPengurus()"
+          >
+
+            <div>
+
+              <div class="menu-icon">
+                👥
+              </div>
+
+              <h4>
+                Profil Pengurus
+              </h4>
+
+              <p>
+                Kelola data pengurus dan struktur organisasi.
+              </p>
+
+            </div>
+
+            <div class="menu-arrow">
+              Kelola →
+            </div>
+
+          </div>
+
+
+          <!-- JURNAL -->
+          <div
+            class="menu-card"
+            onclick="openJurnal()"
+          >
+
+            <div>
+
+              <div class="menu-icon">
+                📖
+              </div>
+
+              <h4>
+                Jurnal
+              </h4>
+
+              <p>
+                Kelola tulisan, artikel dan jurnal organisasi.
+              </p>
+
+            </div>
+
+            <div class="menu-arrow">
+              Kelola →
+            </div>
+
+          </div>
+
+
+          <!-- PENGUMUMAN -->
+          <div
+            class="menu-card"
+            onclick="openPengumuman()"
+          >
+
+            <div>
+
+              <div class="menu-icon">
+                📢
+              </div>
+
+              <h4>
+                Pengumuman
+              </h4>
+
+              <p>
+                Kelola informasi dan agenda pengumuman.
+              </p>
+
+            </div>
+
+            <div class="menu-arrow">
+              Kelola →
+            </div>
+
+          </div>
+
+
+          <!-- PRESTASI -->
+          <div
+            class="menu-card"
+            onclick="openPrestasi()"
+          >
+
+            <div>
+
+              <div class="menu-icon">
+                🏆
+              </div>
+
+              <h4>
+                Prestasi
+              </h4>
+
+              <p>
+                Kelola penghargaan dan pencapaian organisasi.
+              </p>
+
+            </div>
+
+            <div class="menu-arrow">
+              Kelola →
+            </div>
+
+          </div>
+
+
+          <!-- PROGRAM -->
+          <div
+            class="menu-card"
+            onclick="openProgram()"
+          >
+
+            <div>
+
+              <div class="menu-icon">
+                📋
+              </div>
+
+              <h4>
+                Program & Kegiatan
+              </h4>
+
+              <p>
+                Kelola rencana, kegiatan berjalan dan kegiatan selesai.
+              </p>
+
+            </div>
+
+            <div class="menu-arrow">
+              Kelola →
+            </div>
+
+          </div>
+
+
+          <!-- DOKUMENTASI -->
+          <div
+            class="menu-card"
+            onclick="openDokumentasi()"
+          >
+
+            <div>
+
+              <div class="menu-icon">
+                📸
+              </div>
+
+              <h4>
+                Dokumentasi
+              </h4>
+
+              <p>
+                Kelola foto dokumentasi kegiatan organisasi.
+              </p>
+
+            </div>
+
+            <div class="menu-arrow">
+              Kelola →
+            </div>
+
+          </div>
+
+
+          <!-- WEBSITE -->
+          <div
+            class="menu-card"
+            onclick="openWebsite()"
+          >
+
+            <div>
+
+              <div class="menu-icon">
+                🌐
+              </div>
+
+              <h4>
+                Lihat Website
+              </h4>
+
+              <p>
+                Buka halaman publik website Karang Taruna Rajeg.
+              </p>
+
+            </div>
+
+            <div class="menu-arrow">
+              Buka →
+            </div>
+
           </div>
 
         </div>
 
-      </div>
 
-      <div class="panel">
+        <!-- BOTTOM -->
+        <div class="bottom-grid">
 
-        <h2>
-          Kelola Website
-        </h2>
+          <!-- AKTIVITAS -->
+          <div class="panel">
 
-        <p>
-          Pilih menu untuk mengelola
-          konten website Karang Taruna
-          Kecamatan Rajeg.
-        </p>
+            <h3>
+              Ringkasan Data
+            </h3>
 
-        <div class="quick-menu">
+            <div class="panel-sub">
+              Ringkasan jumlah konten yang tersedia di sistem.
+            </div>
 
-          <button onclick="openBerita()">
+            <div class="latest-list">
 
-            <strong>
-              📰 Kabar Berita
-            </strong>
+              <div class="latest-item">
 
-            <span>
-              Tambah, edit, hapus dan terbitkan berita.
-            </span>
+                <div class="latest-item-main">
 
-          </button>
+                  <div class="latest-title">
+                    Jurnal
+                  </div>
 
-          <button onclick="openPengurus()">
+                  <div class="latest-date">
+                    Data artikel dan tulisan organisasi
+                  </div>
 
-            <strong>
-              👥 Profil Pengurus
-            </strong>
+                </div>
 
-            <span>
-              Kelola data pengurus.
-            </span>
+                <span
+                  class="latest-badge published"
+                  id="countJournals"
+                >
+                  0 data
+                </span>
 
-          </button>
+              </div>
 
-          <button onclick="openJurnal()">
 
-            <strong>
-              📚 Jurnal
-            </strong>
+              <div class="latest-item">
 
-            <span>
-              Kelola jurnal organisasi.
-            </span>
+                <div class="latest-item-main">
 
-          </button>
+                  <div class="latest-title">
+                    Pengumuman
+                  </div>
 
-          <button onclick="openPengumuman()">
+                  <div class="latest-date">
+                    Informasi dan agenda organisasi
+                  </div>
 
-            <strong>
-              📢 Pengumuman
-            </strong>
+                </div>
 
-            <span>
-              Kelola pengumuman organisasi.
-            </span>
+                <span
+                  class="latest-badge published"
+                  id="countAnnouncements"
+                >
+                  0 data
+                </span>
 
-          </button>
+              </div>
 
-          <button onclick="openPrestasi()">
 
-            <strong>
-              🏆 Prestasi
-            </strong>
+              <div class="latest-item">
 
-            <span>
-              Kelola pencapaian dan penghargaan.
-            </span>
+                <div class="latest-item-main">
 
-          </button>
+                  <div class="latest-title">
+                    Prestasi
+                  </div>
 
-          <!-- PROGRAM AKTIF -->
+                  <div class="latest-date">
+                    Penghargaan dan pencapaian
+                  </div>
 
-          <button onclick="openProgram()">
+                </div>
 
-            <strong>
-              📅 Program & Kegiatan
-            </strong>
+                <span
+                  class="latest-badge published"
+                  id="countAchievements"
+                >
+                  0 data
+                </span>
 
-            <span>
-              Kelola program kerja dan kegiatan.
-            </span>
+              </div>
 
-          </button>
 
-          <button onclick="comingSoon('Dokumentasi')">
+              <div class="latest-item">
 
-            <strong>
-              📸 Dokumentasi
-            </strong>
+                <div class="latest-item-main">
 
-            <span>
-              Kelola foto dokumentasi.
-            </span>
+                  <div class="latest-title">
+                    Dokumentasi
+                  </div>
 
-          </button>
+                  <div class="latest-date">
+                    Foto kegiatan Karang Taruna
+                  </div>
+
+                </div>
+
+                <span
+                  class="latest-badge published"
+                  id="countGalleryBottom"
+                >
+                  0 data
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- SISTEM -->
+          <div class="panel">
+
+            <h3>
+              Informasi Sistem
+            </h3>
+
+            <div class="panel-sub">
+              Informasi akun dan platform yang digunakan.
+            </div>
+
+
+            <div class="system-box">
+
+              <div class="system-label">
+                Administrator
+              </div>
+
+              <div
+                class="system-value"
+                id="systemAdmin"
+              >
+                -
+              </div>
+
+            </div>
+
+
+            <div class="system-box">
+
+              <div class="system-label">
+                Role
+              </div>
+
+              <div
+                class="system-value"
+                id="systemRole"
+              >
+                -
+              </div>
+
+            </div>
+
+
+            <div class="system-box">
+
+              <div class="system-label">
+                Platform
+              </div>
+
+              <div class="system-value">
+                GitHub Pages + Supabase
+              </div>
+
+            </div>
+
+
+            <div class="system-box">
+
+              <div class="system-label">
+                Website
+              </div>
+
+              <div class="system-value">
+                Karang Taruna Kecamatan Rajeg
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
-      </div>
+      </section>
 
-    </section>
+    </main>
 
-  </main>
-
-</div>
+  </div>
 
 
-<script>
+  <script>
 
-const SUPABASE_URL =
-  "https://qemzczsltxbiyxsvpebv.supabase.co";
+    /* ============================================
+       SUPABASE
+    ============================================ */
 
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
+    const SUPABASE_URL =
+      "https://qemzczsltxbiyxsvpebv.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY,
-    {
-      auth:{
-        persistSession:true,
-        autoRefreshToken:true,
-        detectSessionInUrl:true
+    /* ============================================
+       AUTH CHECK
+    ============================================ */
+
+    async function checkAuth(){
+
+      try{
+
+        const {
+          data: { session },
+          error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+        if(sessionError){
+          console.error(sessionError);
+          window.location.href = "admin.html";
+          return false;
+        }
+
+        if(!session){
+
+          window.location.href = "admin.html";
+          return false;
+        }
+
+
+        const {
+          data: profile,
+          error: profileError
+        } = await supabaseClient
+          .from("profiles")
+          .select("id,full_name,role")
+          .eq("id",session.user.id)
+          .single();
+
+
+        if(profileError){
+
+          console.error(profileError);
+
+          await supabaseClient.auth.signOut();
+
+          window.location.href = "admin.html";
+
+          return false;
+        }
+
+
+        if(
+          !profile ||
+          !["admin","editor"].includes(profile.role)
+        ){
+
+          await supabaseClient.auth.signOut();
+
+          window.location.href = "admin.html";
+
+          return false;
+        }
+
+
+        /* Tampilkan identitas admin */
+
+        const displayName =
+          profile.full_name ||
+          session.user.email ||
+          "Administrator";
+
+
+        document.getElementById("adminName").textContent =
+          displayName;
+
+        document.getElementById("welcomeName").textContent =
+          displayName;
+
+        document.getElementById("adminRole").textContent =
+          profile.role.toUpperCase();
+
+        document.getElementById("systemAdmin").textContent =
+          session.user.email || displayName;
+
+        document.getElementById("systemRole").textContent =
+          profile.role.toUpperCase();
+
+
+        return true;
+
+      }catch(error){
+
+        console.error(error);
+
+        window.location.href = "admin.html";
+
+        return false;
       }
     }
-  );
 
 
-const loading =
-  document.getElementById("loading");
-
-const app =
-  document.getElementById("app");
-
-const errorScreen =
-  document.getElementById("errorScreen");
-
-const errorText =
-  document.getElementById("errorText");
-
-
-function showError(message){
-
-  loading.style.display =
-    "none";
-
-  app.style.display =
-    "none";
-
-  errorScreen.style.display =
-    "block";
-
-  errorText.textContent =
-    message;
-
-}
-
-
-function goLogin(){
-
-  window.location.replace(
-    "admin.html"
-  );
-
-}
-
-
-async function checkAdminAccess(){
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .auth
-        .getSession();
-
-
-    if(error){
-
-      throw new Error(
-        "Session tidak dapat diperiksa: " +
-        error.message
-      );
-
-    }
-
-
-    const session =
-      data.session;
-
-
-    if(!session){
-
-      goLogin();
-
-      return;
-
-    }
-
-
-    const user =
-      session.user;
-
-
-    const {
-      data:profile,
-      error:profileError
-    } =
-      await supabaseClient
-        .from("profiles")
-        .select(
-          "id, full_name, role"
-        )
-        .eq(
-          "id",
-          user.id
-        )
-        .maybeSingle();
-
-
-    if(profileError){
-
-      throw new Error(
-        "Profil admin tidak dapat dibaca: " +
-        profileError.message
-      );
-
-    }
-
-
-    if(!profile){
-
-      await supabaseClient
-        .auth
-        .signOut();
-
-      goLogin();
-
-      return;
-
-    }
-
-
-    if(
-      profile.role !== "admin" &&
-      profile.role !== "editor"
-    ){
-
-      await supabaseClient
-        .auth
-        .signOut();
-
-      showError(
-        "Akun ini tidak memiliki hak akses administrator."
-      );
-
-      return;
-
-    }
-
-
-    document.getElementById(
-      "adminName"
-    ).textContent =
-      profile.full_name ||
-      user.email ||
-      "Administrator";
-
-
-    loading.style.display =
-      "none";
-
-    app.style.display =
-      "block";
-
-
-    await loadStats();
-
-  }
-  catch(error){
-
-    console.error(error);
-
-    showError(
-      error.message
-    );
-
-  }
-
-}
-
-
-async function loadStats(){
-
-  try{
-
-    const news =
-      await supabaseClient
-        .from("news")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
+    /* ============================================
+       LOAD STATISTICS
+    ============================================ */
+
+    async function loadStatistics(){
+
+      const tables = [
+        {
+          table:"news",
+          element:"countNews"
+        },
+        {
+          table:"officials",
+          element:"countOfficials"
+        },
+        {
+          table:"programs",
+          element:"countPrograms"
+        },
+        {
+          table:"gallery",
+          element:"countGallery"
+        },
+        {
+          table:"journals",
+          element:"countJournals"
+        },
+        {
+          table:"announcements",
+          element:"countAnnouncements"
+        },
+        {
+          table:"achievements",
+          element:"countAchievements"
+        }
+      ];
+
+
+      for(const item of tables){
+
+        try{
+
+          const {
+            count,
+            error
+          } = await supabaseClient
+            .from(item.table)
+            .select("*", {
+              count:"exact",
+              head:true
+            });
+
+
+          if(error){
+
+            console.error(
+              "Gagal menghitung",
+              item.table,
+              error
+            );
+
+            const el =
+              document.getElementById(item.element);
+
+            if(el){
+              el.textContent = "0";
+            }
+
+            continue;
           }
-        )
-        .eq(
-          "published",
-          true
-        );
 
 
-    document.getElementById(
-      "statNews"
-    ).textContent =
-      news.count ?? 0;
+          const total =
+            count || 0;
 
 
-    const officials =
-      await supabaseClient
-        .from("officials")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
+          const element =
+            document.getElementById(item.element);
+
+
+          if(element){
+
+            if(
+              item.element === "countJournals" ||
+              item.element === "countAnnouncements" ||
+              item.element === "countAchievements"
+            ){
+
+              element.textContent =
+                total + " data";
+
+            }else{
+
+              element.textContent =
+                total;
+
+            }
           }
-        )
-        .eq(
-          "active",
-          true
-        );
 
 
-    document.getElementById(
-      "statOfficials"
-    ).textContent =
-      officials.count ?? 0;
+          if(item.table === "gallery"){
 
+            const bottom =
+              document.getElementById(
+                "countGalleryBottom"
+              );
 
-    const programs =
-      await supabaseClient
-        .from("programs")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
+            if(bottom){
+
+              bottom.textContent =
+                total + " data";
+
+            }
+
           }
-        )
-        .eq(
-          "published",
-          true
-        );
 
+        }catch(error){
 
-    document.getElementById(
-      "statPrograms"
-    ).textContent =
-      programs.count ?? 0;
+          console.error(error);
 
-
-    const gallery =
-      await supabaseClient
-        .from("gallery")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        )
-        .eq(
-          "published",
-          true
-        );
-
-
-    document.getElementById(
-      "statGallery"
-    ).textContent =
-      gallery.count ?? 0;
-
-  }
-  catch(error){
-
-    console.error(
-      "Statistik:",
-      error
-    );
-
-  }
-
-}
-
-
-function showDashboard(){
-
-  window.location.reload();
-
-}
-
-
-function openBerita(){
-
-  window.location.href =
-    "admin-berita.html";
-
-}
-
-
-function openPengurus(){
-
-  window.location.href =
-    "admin-pengurus.html";
-
-}
-
-
-function openJurnal(){
-
-  window.location.href =
-    "admin-jurnal.html";
-
-}
-
-
-function openPengumuman(){
-
-  window.location.href =
-    "admin-pengumuman.html";
-
-}
-
-
-function openPrestasi(){
-
-  window.location.href =
-    "admin-prestasi.html";
-
-}
-
-
-function openProgram(){
-
-  window.location.href =
-    "admin-program.html";
-
-}
-
-
-function comingSoon(name){
-
-  alert(
-    name +
-    " akan kita aktifkan berikutnya."
-  );
-
-}
-
-
-async function logout(){
-
-  const yakin =
-    confirm(
-      "Yakin ingin keluar dari Dashboard Admin?"
-    );
-
-
-  if(!yakin){
-
-    return;
-
-  }
-
-
-  try{
-
-    await supabaseClient
-      .auth
-      .signOut();
-
-  }
-  finally{
-
-    window.location.replace(
-      "admin.html"
-    );
-
-  }
-
-}
-
-
-checkAdminAccess();
-
-
-supabaseClient.auth.onAuthStateChange(
-  function(event,session){
-
-    if(
-      event === "SIGNED_OUT" ||
-      !session
-    ){
-
-      if(
-        window.location.pathname
-          .includes(
-            "admin-dashboard.html"
-          )
-      ){
-
-        window.location.replace(
-          "admin.html"
-        );
+        }
 
       }
 
     }
 
-  }
-);
 
-</script>
+    /* ============================================
+       NAVIGATION
+    ============================================ */
+
+    function goDashboard(){
+
+      closeSidebar();
+
+      window.location.href =
+        "admin-dashboard.html";
+    }
+
+
+    function openBerita(){
+
+      closeSidebar();
+
+      window.location.href =
+        "admin-berita.html";
+    }
+
+
+    function openPengurus(){
+
+      closeSidebar();
+
+      window.location.href =
+        "admin-pengurus.html";
+    }
+
+
+    function openJurnal(){
+
+      closeSidebar();
+
+      window.location.href =
+        "admin-jurnal.html";
+    }
+
+
+    function openPengumuman(){
+
+      closeSidebar();
+
+      window.location.href =
+        "admin-pengumuman.html";
+    }
+
+
+    function openPrestasi(){
+
+      closeSidebar();
+
+      window.location.href =
+        "admin-prestasi.html";
+    }
+
+
+    function openProgram(){
+
+      closeSidebar();
+
+      window.location.href =
+        "admin-program.html";
+    }
+
+
+    function openDokumentasi(){
+
+      closeSidebar();
+
+      window.location.href =
+        "admin-dokumentasi.html";
+    }
+
+
+    function openWebsite(){
+
+      window.location.href =
+        "index.html";
+    }
+
+
+    /* ============================================
+       LOGOUT
+    ============================================ */
+
+    async function logout(){
+
+      const confirmation =
+        confirm(
+          "Apakah Anda yakin ingin keluar dari dashboard?"
+        );
+
+      if(!confirmation){
+        return;
+      }
+
+
+      try{
+
+        await supabaseClient.auth.signOut();
+
+      }catch(error){
+
+        console.error(error);
+
+      }
+
+
+      window.location.href =
+        "admin.html";
+    }
+
+
+    /* ============================================
+       MOBILE SIDEBAR
+    ============================================ */
+
+    function toggleSidebar(){
+
+      const sidebar =
+        document.getElementById("sidebar");
+
+      const overlay =
+        document.getElementById("overlay");
+
+      sidebar.classList.toggle("open");
+
+      overlay.classList.toggle("open");
+    }
+
+
+    function closeSidebar(){
+
+      const sidebar =
+        document.getElementById("sidebar");
+
+      const overlay =
+        document.getElementById("overlay");
+
+      sidebar.classList.remove("open");
+
+      overlay.classList.remove("open");
+    }
+
+
+    /* ============================================
+       INIT
+    ============================================ */
+
+    (async function(){
+
+      const authenticated =
+        await checkAuth();
+
+      if(!authenticated){
+        return;
+      }
+
+
+      document.getElementById(
+        "loadingScreen"
+      ).style.display = "none";
+
+
+      document.getElementById(
+        "app"
+      ).style.display = "block";
+
+
+      await loadStatistics();
+
+    })();
+
+  </script>
 
 </body>
 </html>
