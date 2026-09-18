@@ -83,8 +83,6 @@ body{
   cursor:pointer;
 }
 
-/* SIDEBAR */
-
 .sidebar{
   position:fixed;
   top:0;
@@ -134,7 +132,6 @@ body{
   margin-bottom:3px;
   cursor:pointer;
   font-size:14px;
-  transition:.2s;
 }
 
 .menu button:hover{
@@ -158,8 +155,6 @@ body{
   text-align:center;
   font-weight:bold;
 }
-
-/* MAIN */
 
 .main{
   margin-left:260px;
@@ -208,8 +203,6 @@ body{
   opacity:.85;
 }
 
-/* STATS */
-
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -236,8 +229,6 @@ body{
   font-weight:bold;
   color:#071d49;
 }
-
-/* PANEL */
 
 .panel{
   background:white;
@@ -417,13 +408,13 @@ body{
         📢 Pengumuman
       </button>
 
-      <!-- PRESTASI AKTIF -->
-
       <button onclick="openPrestasi()">
         🏆 Prestasi
       </button>
 
-      <button onclick="comingSoon('Program & Kegiatan')">
+      <!-- SUDAH AKTIF -->
+
+      <button onclick="openProgram()">
         📅 Program & Kegiatan
       </button>
 
@@ -614,8 +605,6 @@ body{
 
           </button>
 
-          <!-- PRESTASI AKTIF -->
-
           <button onclick="openPrestasi()">
 
             <strong>
@@ -628,14 +617,16 @@ body{
 
           </button>
 
-          <button onclick="comingSoon('Program & Kegiatan')">
+          <!-- PROGRAM AKTIF -->
+
+          <button onclick="openProgram()">
 
             <strong>
               📅 Program & Kegiatan
             </strong>
 
             <span>
-              Kelola program dan kegiatan.
+              Kelola program kerja dan kegiatan.
             </span>
 
           </button>
@@ -662,6 +653,7 @@ body{
 
 </div>
 
+
 <script>
 
 const SUPABASE_URL =
@@ -669,6 +661,7 @@ const SUPABASE_URL =
 
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
+
 
 const supabaseClient =
   window.supabase.createClient(
@@ -998,6 +991,14 @@ function openPrestasi(){
 
   window.location.href =
     "admin-prestasi.html";
+
+}
+
+
+function openProgram(){
+
+  window.location.href =
+    "admin-program.html";
 
 }
 
