@@ -17,7 +17,6 @@
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
   ></script>
 
-
   <style>
 
     * {
@@ -26,70 +25,47 @@
       padding: 0;
     }
 
-
     body {
-
       font-family:
         Arial,
         Helvetica,
         sans-serif;
 
       background: #f4f7fb;
-
       color: #172033;
-
     }
 
-
     #loading {
-
       min-height: 100vh;
 
       display: flex;
-
       align-items: center;
-
       justify-content: center;
 
       font-size: 17px;
-
       color: #071d49;
-
       font-weight: bold;
-
     }
-
 
     #app {
-
       display: none;
-
       min-height: 100vh;
-
     }
 
-
     .error-screen {
-
       min-height: 100vh;
 
       display: flex;
-
       align-items: center;
-
       justify-content: center;
 
       padding: 20px;
 
       background: #f4f7fb;
-
     }
 
-
     .error-box {
-
       width: 100%;
-
       max-width: 550px;
 
       background: white;
@@ -103,57 +79,39 @@
       box-shadow:
         0 10px 40px
         rgba(0,0,0,.08);
-
     }
-
 
     .error-box h2 {
-
       color: #c62828;
-
       margin-bottom: 15px;
-
     }
-
 
     .error-box p {
-
       color: #555;
-
       line-height: 1.6;
-
     }
 
-
     .error-box button {
-
       margin-top: 20px;
 
       padding: 11px 20px;
 
       border: 0;
-
       border-radius: 8px;
 
       background: #071d49;
-
       color: white;
 
       cursor: pointer;
-
     }
-
 
     /* SIDEBAR */
 
     .sidebar {
-
       position: fixed;
 
       top: 0;
-
       left: 0;
-
       bottom: 0;
 
       width: 260px;
@@ -165,47 +123,33 @@
       padding: 24px 17px;
 
       overflow-y: auto;
-
     }
 
-
     .brand {
-
       text-align: center;
 
       padding-bottom: 24px;
-
       margin-bottom: 18px;
 
       border-bottom:
         1px solid
         rgba(255,255,255,.15);
-
     }
-
 
     .brand h2 {
-
       font-size: 19px;
-
       line-height: 1.35;
-
     }
 
-
     .brand p {
-
       margin-top: 7px;
 
       font-size: 11px;
 
       opacity: .7;
-
     }
 
-
     .menu-title {
-
       margin:
         18px 10px
         8px;
@@ -217,12 +161,9 @@
       letter-spacing: 1px;
 
       opacity: .5;
-
     }
 
-
     .menu button {
-
       width: 100%;
 
       border: 0;
@@ -243,30 +184,21 @@
 
       font-size: 14px;
 
+      transition: .2s;
     }
-
 
     .menu button:hover {
-
       background:
         rgba(255,255,255,.1);
-
     }
-
 
     .menu button.active {
-
       background: #f5c400;
-
       color: #071d49;
-
       font-weight: bold;
-
     }
 
-
     .logout {
-
       border-top:
         1px solid
         rgba(255,255,255,.15);
@@ -274,34 +206,22 @@
       margin-top: 18px;
 
       padding-top: 18px;
-
     }
-
 
     .logout button {
-
       background: #d62828;
-
       text-align: center;
-
       font-weight: bold;
-
     }
-
 
     /* MAIN */
 
     .main {
-
       margin-left: 260px;
-
       min-height: 100vh;
-
     }
 
-
     .topbar {
-
       height: 72px;
 
       background: white;
@@ -318,37 +238,23 @@
       box-shadow:
         0 2px 10px
         rgba(0,0,0,.05);
-
     }
-
 
     .topbar h1 {
-
       font-size: 23px;
-
       color: #071d49;
-
     }
-
 
     .admin-info {
-
       font-size: 13px;
-
       color: #666;
-
     }
-
 
     .content {
-
       padding: 30px;
-
     }
 
-
     .welcome {
-
       background:
         linear-gradient(
           135deg,
@@ -363,30 +269,21 @@
       border-radius: 17px;
 
       margin-bottom: 25px;
-
     }
-
 
     .welcome h2 {
-
       font-size: 25px;
-
       margin-bottom: 8px;
-
     }
-
 
     .welcome p {
-
       line-height: 1.6;
-
       opacity: .85;
-
     }
 
+    /* STATS */
 
     .stats {
-
       display: grid;
 
       grid-template-columns:
@@ -395,12 +292,9 @@
       gap: 18px;
 
       margin-bottom: 25px;
-
     }
 
-
     .stat-card {
-
       background: white;
 
       padding: 22px;
@@ -413,34 +307,23 @@
 
       border-left:
         5px solid #f5c400;
-
     }
-
 
     .stat-card h3 {
-
       font-size: 12px;
-
       color: #777;
-
       margin-bottom: 10px;
-
     }
-
 
     .stat-number {
-
       font-size: 30px;
-
       font-weight: bold;
-
       color: #071d49;
-
     }
 
+    /* PANEL */
 
     .panel {
-
       background: white;
 
       padding: 25px;
@@ -450,30 +333,19 @@
       box-shadow:
         0 5px 20px
         rgba(0,0,0,.05);
-
     }
-
 
     .panel h2 {
-
       color: #071d49;
-
       margin-bottom: 10px;
-
     }
-
 
     .panel p {
-
       color: #666;
-
       line-height: 1.6;
-
     }
 
-
     .quick-menu {
-
       display: grid;
 
       grid-template-columns:
@@ -482,12 +354,9 @@
       gap: 15px;
 
       margin-top: 20px;
-
     }
 
-
     .quick-menu button {
-
       padding: 18px;
 
       background: #f7f9fc;
@@ -501,94 +370,74 @@
 
       cursor: pointer;
 
+      transition: .2s;
     }
-
 
     .quick-menu button:hover {
-
       border-color: #f5c400;
-
       background: #fffdf0;
-
+      transform: translateY(-2px);
     }
 
-
     .quick-menu strong {
-
       display: block;
 
       color: #071d49;
 
       margin-bottom: 5px;
-
     }
-
 
     .quick-menu span {
-
       font-size: 12px;
-
       color: #777;
-
     }
 
+    /* RESPONSIVE */
 
     @media (max-width: 900px) {
 
       .stats {
-
         grid-template-columns:
           repeat(2, 1fr);
-
       }
 
       .quick-menu {
-
         grid-template-columns:
           repeat(2, 1fr);
-
       }
 
     }
 
-
     @media (max-width: 650px) {
 
       .sidebar {
-
         position: relative;
-
         width: 100%;
-
       }
 
       .main {
-
         margin-left: 0;
-
       }
 
       .stats,
       .quick-menu {
-
         grid-template-columns: 1fr;
-
       }
 
       .topbar {
-
         height: auto;
 
         padding: 18px;
 
         gap: 10px;
-
       }
 
       .content {
-
         padding: 18px;
+      }
 
+      .admin-info {
+        font-size: 11px;
       }
 
     }
@@ -597,16 +446,12 @@
 
 </head>
 
-
 <body>
-
 
   <!-- LOADING -->
 
   <div id="loading">
-
     Memeriksa akses administrator...
-
   </div>
 
 
@@ -646,9 +491,9 @@
 
   <div id="app">
 
+    <!-- SIDEBAR -->
 
     <aside class="sidebar">
-
 
       <div class="brand">
 
@@ -665,7 +510,6 @@
 
 
       <div class="menu">
-
 
         <div class="menu-title">
           Konten Website
@@ -687,8 +531,10 @@
         </button>
 
 
+        <!-- SUDAH AKTIF -->
+
         <button
-          onclick="comingSoon('Profil Pengurus')"
+          onclick="openPengurus()"
         >
           👥 Profil Pengurus
         </button>
@@ -751,12 +597,12 @@
 
         </div>
 
-
       </div>
-
 
     </aside>
 
+
+    <!-- MAIN -->
 
     <main class="main">
 
@@ -770,6 +616,7 @@
         <div class="admin-info">
 
           Login sebagai:
+
           <strong id="adminName">
             Administrator
           </strong>
@@ -797,6 +644,8 @@
 
         </div>
 
+
+        <!-- STATISTICS -->
 
         <div class="stats">
 
@@ -868,6 +717,8 @@
         </div>
 
 
+        <!-- QUICK MENU -->
+
         <div class="panel">
 
           <h2>
@@ -883,6 +734,8 @@
 
           <div class="quick-menu">
 
+
+            <!-- BERITA -->
 
             <button
               onclick="openBerita()"
@@ -900,8 +753,10 @@
             </button>
 
 
+            <!-- PENGURUS AKTIF -->
+
             <button
-              onclick="comingSoon('Profil Pengurus')"
+              onclick="openPengurus()"
             >
 
               <strong>
@@ -914,6 +769,8 @@
 
             </button>
 
+
+            <!-- JURNAL -->
 
             <button
               onclick="comingSoon('Jurnal')"
@@ -930,6 +787,8 @@
             </button>
 
 
+            <!-- PENGUMUMAN -->
+
             <button
               onclick="comingSoon('Pengumuman')"
             >
@@ -944,6 +803,8 @@
 
             </button>
 
+
+            <!-- PRESTASI -->
 
             <button
               onclick="comingSoon('Prestasi')"
@@ -960,6 +821,8 @@
             </button>
 
 
+            <!-- PROGRAM -->
+
             <button
               onclick="comingSoon('Program & Kegiatan')"
             >
@@ -974,6 +837,8 @@
 
             </button>
 
+
+            <!-- DOKUMENTASI -->
 
             <button
               onclick="comingSoon('Dokumentasi')"
@@ -997,80 +862,450 @@
 
       </section>
 
-
     </main>
-
 
   </div>
 
 
 <script>
 
-  /* ==========================================
-     SUPABASE CONFIG
-     ========================================== */
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
 
-  const SUPABASE_URL =
-    "https://qemzczsltxbiyxsvpebv.supabase.co";
+const SUPABASE_URL =
+  "https://qemzczsltxbiyxsvpebv.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
 
 
-  /* ==========================================
-     CLIENT
-     ========================================== */
+/* =====================================================
+   CLIENT
+===================================================== */
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY,
-      {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true
-        }
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
       }
+    }
+  );
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loading =
+  document.getElementById("loading");
+
+const app =
+  document.getElementById("app");
+
+const errorScreen =
+  document.getElementById("errorScreen");
+
+const errorText =
+  document.getElementById("errorText");
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(message) {
+
+  loading.style.display =
+    "none";
+
+  app.style.display =
+    "none";
+
+  errorScreen.style.display =
+    "block";
+
+  errorText.textContent =
+    message;
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function goLogin() {
+
+  window.location.replace(
+    "admin.html"
+  );
+
+}
+
+
+/* =====================================================
+   SECURITY CHECK
+===================================================== */
+
+async function checkAdminAccess() {
+
+  try {
+
+    /* CEK SESSION */
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
+
+
+    if (error) {
+
+      throw new Error(
+        "Session tidak dapat diperiksa: " +
+        error.message
+      );
+
+    }
+
+
+    const session =
+      data.session;
+
+
+    if (!session) {
+
+      goLogin();
+
+      return;
+
+    }
+
+
+    const user =
+      session.user;
+
+
+    /* CEK PROFILE */
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select(
+          "id, full_name, role"
+        )
+        .eq(
+          "id",
+          user.id
+        )
+        .maybeSingle();
+
+
+    if (profileError) {
+
+      throw new Error(
+        "Profil admin tidak dapat dibaca: " +
+        profileError.message
+      );
+
+    }
+
+
+    if (!profile) {
+
+      await supabaseClient
+        .auth
+        .signOut();
+
+      goLogin();
+
+      return;
+
+    }
+
+
+    /* CEK ROLE */
+
+    if (
+      profile.role !== "admin" &&
+      profile.role !== "editor"
+    ) {
+
+      await supabaseClient
+        .auth
+        .signOut();
+
+      showError(
+        "Akun ini tidak memiliki hak akses administrator."
+      );
+
+      return;
+
+    }
+
+
+    /* TAMPILKAN NAMA ADMIN */
+
+    document.getElementById(
+      "adminName"
+    ).textContent =
+      profile.full_name ||
+      user.email ||
+      "Administrator";
+
+
+    /* TAMPILKAN DASHBOARD */
+
+    loading.style.display =
+      "none";
+
+    app.style.display =
+      "block";
+
+
+    /* LOAD STATISTIK */
+
+    await loadStats();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showError(
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   STATISTIK
+===================================================== */
+
+async function loadStats() {
+
+  try {
+
+
+    /* BERITA */
+
+    const news =
+      await supabaseClient
+        .from("news")
+        .select(
+          "id",
+          {
+            count: "exact",
+            head: true
+          }
+        )
+        .eq(
+          "published",
+          true
+        );
+
+
+    document.getElementById(
+      "statNews"
+    ).textContent =
+      news.count ?? 0;
+
+
+    /* PENGURUS */
+
+    const officials =
+      await supabaseClient
+        .from("officials")
+        .select(
+          "id",
+          {
+            count: "exact",
+            head: true
+          }
+        )
+        .eq(
+          "active",
+          true
+        );
+
+
+    document.getElementById(
+      "statOfficials"
+    ).textContent =
+      officials.count ?? 0;
+
+
+    /* PROGRAM */
+
+    const programs =
+      await supabaseClient
+        .from("programs")
+        .select(
+          "id",
+          {
+            count: "exact",
+            head: true
+          }
+        )
+        .eq(
+          "published",
+          true
+        );
+
+
+    document.getElementById(
+      "statPrograms"
+    ).textContent =
+      programs.count ?? 0;
+
+
+    /* GALERI */
+
+    const gallery =
+      await supabaseClient
+        .from("gallery")
+        .select(
+          "id",
+          {
+            count: "exact",
+            head: true
+          }
+        )
+        .eq(
+          "published",
+          true
+        );
+
+
+    document.getElementById(
+      "statGallery"
+    ).textContent =
+      gallery.count ?? 0;
+
+
+  } catch (error) {
+
+    console.error(
+      "Statistik:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+function showDashboard() {
+
+  window.location.reload();
+
+}
+
+
+/* =====================================================
+   KABAR BERITA
+===================================================== */
+
+function openBerita() {
+
+  window.location.href =
+    "admin-berita.html";
+
+}
+
+
+/* =====================================================
+   PROFIL PENGURUS
+===================================================== */
+
+function openPengurus() {
+
+  window.location.href =
+    "admin-pengurus.html";
+
+}
+
+
+/* =====================================================
+   FITUR LAIN
+===================================================== */
+
+function comingSoon(name) {
+
+  alert(
+    name +
+    " akan kita aktifkan berikutnya."
+  );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout() {
+
+  const yakin =
+    confirm(
+      "Yakin ingin keluar dari Dashboard Admin?"
     );
 
 
-  const loading =
-    document.getElementById("loading");
+  if (!yakin) {
 
-  const app =
-    document.getElementById("app");
-
-  const errorScreen =
-    document.getElementById("errorScreen");
-
-  const errorText =
-    document.getElementById("errorText");
-
-
-  /* ==========================================
-     ERROR
-     ========================================== */
-
-  function showError(message) {
-
-    loading.style.display = "none";
-
-    app.style.display = "none";
-
-    errorScreen.style.display = "block";
-
-    errorText.textContent =
-      message;
+    return;
 
   }
 
 
-  /* ==========================================
-     LOGIN
-     ========================================== */
+  try {
 
-  function goLogin() {
+    const {
+      error
+    } =
+      await supabaseClient
+        .auth
+        .signOut();
+
+
+    if (error) {
+
+      console.error(
+        "Logout error:",
+        error
+      );
+
+    }
+
+
+    window.location.replace(
+      "admin.html"
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
 
     window.location.replace(
       "admin.html"
@@ -1078,399 +1313,45 @@
 
   }
 
-
-  /* ==========================================
-     SECURITY CHECK
-     ========================================== */
-
-  async function checkAdminAccess() {
-
-    try {
+}
 
 
-      /*
-        1. CEK SESSION
-      */
+/* =====================================================
+   JALANKAN SECURITY CHECK
+===================================================== */
 
-      const {
-        data,
-        error
-      } =
-      await supabaseClient.auth.getSession();
+checkAdminAccess();
 
 
-      if (error) {
+/* =====================================================
+   JIKA SESSION BERUBAH
+===================================================== */
 
-        throw new Error(
-          "Session tidak dapat diperiksa: " +
-          error.message
-        );
+supabaseClient.auth.onAuthStateChange(
+  function(event, session) {
 
-      }
-
-
-      const session =
-        data.session;
-
-
-      /*
-        TIDAK ADA SESSION
-      */
-
-      if (!session) {
-
-        goLogin();
-
-        return;
-
-      }
-
-
-      const user =
-        session.user;
-
-
-      /*
-        2. CEK PROFILE
-      */
-
-      const {
-        data: profile,
-        error: profileError
-      } =
-      await supabaseClient
-        .from("profiles")
-        .select(
-          "id, full_name, role"
-        )
-        .eq("id", user.id)
-        .maybeSingle();
-
-
-      if (profileError) {
-
-        throw new Error(
-          "Profil admin tidak dapat dibaca: " +
-          profileError.message
-        );
-
-      }
-
-
-      /*
-        PROFILE TIDAK ADA
-      */
-
-      if (!profile) {
-
-        await supabaseClient.auth.signOut();
-
-        goLogin();
-
-        return;
-
-      }
-
-
-      /*
-        ROLE TIDAK SESUAI
-      */
+    if (
+      event === "SIGNED_OUT" ||
+      !session
+    ) {
 
       if (
-        profile.role !== "admin" &&
-        profile.role !== "editor"
+        window.location.pathname
+          .includes(
+            "admin-dashboard.html"
+          )
       ) {
 
-        await supabaseClient.auth.signOut();
-
-        showError(
-          "Akun ini tidak memiliki hak akses administrator."
-        );
-
-        return;
-
-      }
-
-
-      /*
-        3. AKSES SAH
-      */
-
-      document.getElementById(
-        "adminName"
-      ).textContent =
-        profile.full_name ||
-        user.email ||
-        "Administrator";
-
-
-      loading.style.display =
-        "none";
-
-      app.style.display =
-        "block";
-
-
-      /*
-        4. LOAD DATA
-      */
-
-      await loadStats();
-
-    }
-
-    catch (error) {
-
-      console.error(error);
-
-      showError(
-        error.message
-      );
-
-    }
-
-  }
-
-
-  /* ==========================================
-     STATISTIK
-     ========================================== */
-
-  async function loadStats() {
-
-    try {
-
-
-      const news =
-        await supabaseClient
-          .from("news")
-          .select(
-            "id",
-            {
-              count: "exact",
-              head: true
-            }
-          )
-          .eq(
-            "published",
-            true
-          );
-
-
-      document.getElementById(
-        "statNews"
-      ).textContent =
-        news.count ?? 0;
-
-
-      const officials =
-        await supabaseClient
-          .from("officials")
-          .select(
-            "id",
-            {
-              count: "exact",
-              head: true
-            }
-          )
-          .eq(
-            "active",
-            true
-          );
-
-
-      document.getElementById(
-        "statOfficials"
-      ).textContent =
-        officials.count ?? 0;
-
-
-      const programs =
-        await supabaseClient
-          .from("programs")
-          .select(
-            "id",
-            {
-              count: "exact",
-              head: true
-            }
-          )
-          .eq(
-            "published",
-            true
-          );
-
-
-      document.getElementById(
-        "statPrograms"
-      ).textContent =
-        programs.count ?? 0;
-
-
-      const gallery =
-        await supabaseClient
-          .from("gallery")
-          .select(
-            "id",
-            {
-              count: "exact",
-              head: true
-            }
-          )
-          .eq(
-            "published",
-            true
-          );
-
-
-      document.getElementById(
-        "statGallery"
-      ).textContent =
-        gallery.count ?? 0;
-
-
-    }
-
-    catch (error) {
-
-      console.error(
-        "Statistik:",
-        error
-      );
-
-    }
-
-  }
-
-
-  /* ==========================================
-     MENU
-     ========================================== */
-
-  function showDashboard() {
-
-    window.location.reload();
-
-  }
-
-
-  function openBerita() {
-
-    window.location.href =
-      "admin-berita.html";
-
-  }
-
-
-  function comingSoon(name) {
-
-    alert(
-      name +
-      " akan kita aktifkan berikutnya."
-    );
-
-  }
-
-
-  /* ==========================================
-     LOGOUT
-     ========================================== */
-
-  async function logout() {
-
-    const yakin =
-      confirm(
-        "Yakin ingin keluar dari Dashboard Admin?"
-      );
-
-
-    if (!yakin) {
-
-      return;
-
-    }
-
-
-    try {
-
-      /*
-        Hapus session Supabase
-      */
-
-      const {
-        error
-      } =
-      await supabaseClient.auth.signOut();
-
-
-      if (error) {
-
-        console.error(
-          "Logout error:",
-          error
+        window.location.replace(
+          "admin.html"
         );
 
       }
 
-
-      /*
-        Bersihkan cache browser
-        yang berkaitan dengan halaman
-      */
-
-      window.location.replace(
-        "admin.html"
-      );
-
-    }
-
-    catch (error) {
-
-      console.error(error);
-
-      window.location.replace(
-        "admin.html"
-      );
-
     }
 
   }
-
-
-  /* ==========================================
-     JALANKAN SECURITY CHECK
-     ========================================== */
-
-  checkAdminAccess();
-
-
-  /* ==========================================
-     JIKA SESSION BERUBAH
-     ========================================== */
-
-  supabaseClient.auth.onAuthStateChange(
-    function(event, session) {
-
-      if (
-        event === "SIGNED_OUT" ||
-        !session
-      ) {
-
-        if (
-          window.location.pathname
-            .includes("admin-dashboard.html")
-        ) {
-
-          window.location.replace(
-            "admin.html"
-          );
-
-        }
-
-      }
-
-    }
-  );
+);
 
 </script>
 
