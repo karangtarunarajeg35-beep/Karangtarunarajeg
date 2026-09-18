@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 
   <meta charset="UTF-8">
@@ -19,242 +20,262 @@
 
   <style>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
     }
 
-    body {
+    body{
       font-family:
         Arial,
         Helvetica,
         sans-serif;
 
-      background: #f4f7fb;
-      color: #172033;
+      background:#f4f7fb;
+
+      color:#172033;
     }
 
-    #loading {
-      min-height: 100vh;
+    #loading{
+      min-height:100vh;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display:flex;
 
-      font-size: 17px;
-      color: #071d49;
-      font-weight: bold;
+      align-items:center;
+      justify-content:center;
+
+      font-size:17px;
+
+      color:#071d49;
+
+      font-weight:bold;
     }
 
-    #app {
-      display: none;
-      min-height: 100vh;
+    #app{
+      display:none;
+
+      min-height:100vh;
     }
 
-    .error-screen {
-      min-height: 100vh;
+    .error-screen{
+      min-height:100vh;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display:flex;
 
-      padding: 20px;
+      align-items:center;
 
-      background: #f4f7fb;
+      justify-content:center;
+
+      padding:20px;
+
+      background:#f4f7fb;
     }
 
-    .error-box {
-      width: 100%;
-      max-width: 550px;
+    .error-box{
+      width:100%;
 
-      background: white;
+      max-width:550px;
 
-      padding: 35px;
+      background:white;
 
-      border-radius: 18px;
+      padding:35px;
 
-      text-align: center;
+      border-radius:18px;
+
+      text-align:center;
 
       box-shadow:
         0 10px 40px
         rgba(0,0,0,.08);
     }
 
-    .error-box h2 {
-      color: #c62828;
-      margin-bottom: 15px;
+    .error-box h2{
+      color:#c62828;
+
+      margin-bottom:15px;
     }
 
-    .error-box p {
-      color: #555;
-      line-height: 1.6;
+    .error-box p{
+      color:#555;
+
+      line-height:1.6;
     }
 
-    .error-box button {
-      margin-top: 20px;
+    .error-box button{
+      margin-top:20px;
 
-      padding: 11px 20px;
+      padding:11px 20px;
 
-      border: 0;
-      border-radius: 8px;
+      border:0;
 
-      background: #071d49;
-      color: white;
+      border-radius:8px;
 
-      cursor: pointer;
+      background:#071d49;
+
+      color:white;
+
+      cursor:pointer;
     }
 
     /* SIDEBAR */
 
-    .sidebar {
-      position: fixed;
+    .sidebar{
+      position:fixed;
 
-      top: 0;
-      left: 0;
-      bottom: 0;
+      top:0;
+      left:0;
+      bottom:0;
 
-      width: 260px;
+      width:260px;
 
-      background: #071d49;
+      background:#071d49;
 
-      color: white;
+      color:white;
 
-      padding: 24px 17px;
+      padding:24px 17px;
 
-      overflow-y: auto;
+      overflow-y:auto;
     }
 
-    .brand {
-      text-align: center;
+    .brand{
+      text-align:center;
 
-      padding-bottom: 24px;
-      margin-bottom: 18px;
+      padding-bottom:24px;
+
+      margin-bottom:18px;
 
       border-bottom:
         1px solid
         rgba(255,255,255,.15);
     }
 
-    .brand h2 {
-      font-size: 19px;
-      line-height: 1.35;
+    .brand h2{
+      font-size:19px;
+
+      line-height:1.35;
     }
 
-    .brand p {
-      margin-top: 7px;
+    .brand p{
+      margin-top:7px;
 
-      font-size: 11px;
+      font-size:11px;
 
-      opacity: .7;
+      opacity:.7;
     }
 
-    .menu-title {
+    .menu-title{
       margin:
         18px 10px
         8px;
 
-      font-size: 10px;
+      font-size:10px;
 
-      text-transform: uppercase;
+      text-transform:uppercase;
 
-      letter-spacing: 1px;
+      letter-spacing:1px;
 
-      opacity: .5;
+      opacity:.5;
     }
 
-    .menu button {
-      width: 100%;
+    .menu button{
+      width:100%;
 
-      border: 0;
+      border:0;
 
-      background: transparent;
+      background:transparent;
 
-      color: white;
+      color:white;
 
-      text-align: left;
+      text-align:left;
 
-      padding: 12px 13px;
+      padding:12px 13px;
 
-      border-radius: 8px;
+      border-radius:8px;
 
-      margin-bottom: 3px;
+      margin-bottom:3px;
 
-      cursor: pointer;
+      cursor:pointer;
 
-      font-size: 14px;
+      font-size:14px;
 
-      transition: .2s;
+      transition:.2s;
     }
 
-    .menu button:hover {
+    .menu button:hover{
       background:
         rgba(255,255,255,.1);
     }
 
-    .menu button.active {
-      background: #f5c400;
-      color: #071d49;
-      font-weight: bold;
+    .menu button.active{
+      background:#f5c400;
+
+      color:#071d49;
+
+      font-weight:bold;
     }
 
-    .logout {
+    .logout{
       border-top:
         1px solid
         rgba(255,255,255,.15);
 
-      margin-top: 18px;
+      margin-top:18px;
 
-      padding-top: 18px;
+      padding-top:18px;
     }
 
-    .logout button {
-      background: #d62828;
-      text-align: center;
-      font-weight: bold;
+    .logout button{
+      background:#d62828;
+
+      text-align:center;
+
+      font-weight:bold;
     }
 
     /* MAIN */
 
-    .main {
-      margin-left: 260px;
-      min-height: 100vh;
+    .main{
+      margin-left:260px;
+
+      min-height:100vh;
     }
 
-    .topbar {
-      height: 72px;
+    .topbar{
+      height:72px;
 
-      background: white;
+      background:white;
 
-      padding:
-        0 30px;
+      padding:0 30px;
 
-      display: flex;
+      display:flex;
 
-      justify-content: space-between;
+      justify-content:space-between;
 
-      align-items: center;
+      align-items:center;
 
       box-shadow:
         0 2px 10px
         rgba(0,0,0,.05);
     }
 
-    .topbar h1 {
-      font-size: 23px;
-      color: #071d49;
+    .topbar h1{
+      font-size:23px;
+
+      color:#071d49;
     }
 
-    .admin-info {
-      font-size: 13px;
-      color: #666;
+    .admin-info{
+      font-size:13px;
+
+      color:#666;
     }
 
-    .content {
-      padding: 30px;
+    .content{
+      padding:30px;
     }
 
-    .welcome {
+    .welcome{
       background:
         linear-gradient(
           135deg,
@@ -262,182 +283,197 @@
           #123b80
         );
 
-      color: white;
+      color:white;
 
-      padding: 30px;
+      padding:30px;
 
-      border-radius: 17px;
+      border-radius:17px;
 
-      margin-bottom: 25px;
+      margin-bottom:25px;
     }
 
-    .welcome h2 {
-      font-size: 25px;
-      margin-bottom: 8px;
+    .welcome h2{
+      font-size:25px;
+
+      margin-bottom:8px;
     }
 
-    .welcome p {
-      line-height: 1.6;
-      opacity: .85;
+    .welcome p{
+      line-height:1.6;
+
+      opacity:.85;
     }
 
     /* STATS */
 
-    .stats {
-      display: grid;
+    .stats{
+      display:grid;
 
       grid-template-columns:
-        repeat(4, 1fr);
+        repeat(4,1fr);
 
-      gap: 18px;
+      gap:18px;
 
-      margin-bottom: 25px;
+      margin-bottom:25px;
     }
 
-    .stat-card {
-      background: white;
+    .stat-card{
+      background:white;
 
-      padding: 22px;
+      padding:22px;
 
-      border-radius: 15px;
+      border-radius:15px;
 
       box-shadow:
         0 5px 20px
         rgba(0,0,0,.05);
 
       border-left:
-        5px solid #f5c400;
+        5px solid
+        #f5c400;
     }
 
-    .stat-card h3 {
-      font-size: 12px;
-      color: #777;
-      margin-bottom: 10px;
+    .stat-card h3{
+      font-size:12px;
+
+      color:#777;
+
+      margin-bottom:10px;
     }
 
-    .stat-number {
-      font-size: 30px;
-      font-weight: bold;
-      color: #071d49;
+    .stat-number{
+      font-size:30px;
+
+      font-weight:bold;
+
+      color:#071d49;
     }
 
     /* PANEL */
 
-    .panel {
-      background: white;
+    .panel{
+      background:white;
 
-      padding: 25px;
+      padding:25px;
 
-      border-radius: 16px;
+      border-radius:16px;
 
       box-shadow:
         0 5px 20px
         rgba(0,0,0,.05);
     }
 
-    .panel h2 {
-      color: #071d49;
-      margin-bottom: 10px;
+    .panel h2{
+      color:#071d49;
+
+      margin-bottom:10px;
     }
 
-    .panel p {
-      color: #666;
-      line-height: 1.6;
+    .panel p{
+      color:#666;
+
+      line-height:1.6;
     }
 
-    .quick-menu {
-      display: grid;
+    .quick-menu{
+      display:grid;
 
       grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3,1fr);
 
-      gap: 15px;
+      gap:15px;
 
-      margin-top: 20px;
+      margin-top:20px;
     }
 
-    .quick-menu button {
-      padding: 18px;
+    .quick-menu button{
+      padding:18px;
 
-      background: #f7f9fc;
+      background:#f7f9fc;
 
       border:
-        1px solid #e5e9f0;
+        1px solid
+        #e5e9f0;
 
-      border-radius: 12px;
+      border-radius:12px;
 
-      text-align: left;
+      text-align:left;
 
-      cursor: pointer;
+      cursor:pointer;
 
-      transition: .2s;
+      transition:.2s;
     }
 
-    .quick-menu button:hover {
-      border-color: #f5c400;
-      background: #fffdf0;
-      transform: translateY(-2px);
+    .quick-menu button:hover{
+      border-color:#f5c400;
+
+      background:#fffdf0;
+
+      transform:
+        translateY(-2px);
     }
 
-    .quick-menu strong {
-      display: block;
+    .quick-menu strong{
+      display:block;
 
-      color: #071d49;
+      color:#071d49;
 
-      margin-bottom: 5px;
+      margin-bottom:5px;
     }
 
-    .quick-menu span {
-      font-size: 12px;
-      color: #777;
+    .quick-menu span{
+      font-size:12px;
+
+      color:#777;
     }
 
     /* RESPONSIVE */
 
-    @media (max-width: 900px) {
+    @media(max-width:900px){
 
-      .stats {
+      .stats{
         grid-template-columns:
-          repeat(2, 1fr);
+          repeat(2,1fr);
       }
 
-      .quick-menu {
+      .quick-menu{
         grid-template-columns:
-          repeat(2, 1fr);
+          repeat(2,1fr);
       }
 
     }
 
-    @media (max-width: 650px) {
+    @media(max-width:650px){
 
-      .sidebar {
-        position: relative;
-        width: 100%;
+      .sidebar{
+        position:relative;
+
+        width:100%;
       }
 
-      .main {
-        margin-left: 0;
+      .main{
+        margin-left:0;
       }
 
       .stats,
-      .quick-menu {
-        grid-template-columns: 1fr;
+      .quick-menu{
+        grid-template-columns:1fr;
       }
 
-      .topbar {
-        height: auto;
+      .topbar{
+        height:auto;
 
-        padding: 18px;
+        padding:18px;
 
-        gap: 10px;
+        gap:10px;
       }
 
-      .content {
-        padding: 18px;
+      .content{
+        padding:18px;
       }
 
-      .admin-info {
-        font-size: 11px;
+      .admin-info{
+        font-size:11px;
       }
 
     }
@@ -448,427 +484,427 @@
 
 <body>
 
-  <!-- LOADING -->
 
-  <div id="loading">
-    Memeriksa akses administrator...
-  </div>
+<div id="loading">
+  Memeriksa akses administrator...
+</div>
 
 
-  <!-- ERROR -->
+<div
+  id="errorScreen"
+  style="display:none;"
+>
 
-  <div
-    id="errorScreen"
-    style="display:none;"
-  >
+  <div class="error-screen">
 
-    <div class="error-screen">
+    <div class="error-box">
 
-      <div class="error-box">
+      <h2>
+        Akses Dashboard Ditolak
+      </h2>
 
-        <h2>
-          Akses Dashboard Ditolak
-        </h2>
+      <p id="errorText">
+        Memeriksa...
+      </p>
 
-        <p id="errorText">
-          Memeriksa...
-        </p>
-
-        <button
-          onclick="goLogin()"
-        >
-          Kembali ke Login
-        </button>
-
-      </div>
+      <button
+        onclick="goLogin()"
+      >
+        Kembali ke Login
+      </button>
 
     </div>
 
   </div>
 
+</div>
 
-  <!-- APP -->
 
-  <div id="app">
+<div id="app">
 
-    <!-- SIDEBAR -->
 
-    <aside class="sidebar">
+  <!-- SIDEBAR -->
 
-      <div class="brand">
+  <aside class="sidebar">
+
+
+    <div class="brand">
+
+      <h2>
+        KARANG TARUNA<br>
+        KECAMATAN RAJEG
+      </h2>
+
+      <p>
+        Kabupaten Tangerang · Banten
+      </p>
+
+    </div>
+
+
+    <div class="menu">
+
+
+      <div class="menu-title">
+        Konten Website
+      </div>
+
+
+      <button
+        class="active"
+        onclick="showDashboard()"
+      >
+        🏠 Dashboard
+      </button>
+
+
+      <button
+        onclick="openBerita()"
+      >
+        📰 Kabar Berita
+      </button>
+
+
+      <button
+        onclick="openPengurus()"
+      >
+        👥 Profil Pengurus
+      </button>
+
+
+      <button
+        onclick="openJurnal()"
+      >
+        📚 Jurnal
+      </button>
+
+
+      <!-- PENGUMUMAN SUDAH AKTIF -->
+
+      <button
+        onclick="openPengumuman()"
+      >
+        📢 Pengumuman
+      </button>
+
+
+      <button
+        onclick="comingSoon('Prestasi')"
+      >
+        🏆 Prestasi
+      </button>
+
+
+      <button
+        onclick="comingSoon('Program & Kegiatan')"
+      >
+        📅 Program & Kegiatan
+      </button>
+
+
+      <button
+        onclick="comingSoon('Dokumentasi')"
+      >
+        📸 Dokumentasi
+      </button>
+
+
+      <div class="menu-title">
+        Sistem
+      </div>
+
+
+      <button
+        onclick="comingSoon('Pengaturan')"
+      >
+        ⚙️ Pengaturan
+      </button>
+
+
+      <div class="logout">
+
+        <button
+          onclick="logout()"
+        >
+          Keluar
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+
+    <header class="topbar">
+
+      <h1>
+        Dashboard Admin
+      </h1>
+
+      <div class="admin-info">
+
+        Login sebagai:
+
+        <strong id="adminName">
+          Administrator
+        </strong>
+
+      </div>
+
+    </header>
+
+
+    <section class="content">
+
+
+      <div class="welcome">
 
         <h2>
-          KARANG TARUNA<br>
-          KECAMATAN RAJEG
+          Selamat Datang 👋
         </h2>
 
         <p>
-          Kabupaten Tangerang · Banten
+          Panel administrasi website
+          Karang Taruna Kecamatan Rajeg.
+          Kelola seluruh informasi organisasi
+          melalui panel ini.
         </p>
 
       </div>
 
 
-      <div class="menu">
+      <!-- STATISTICS -->
 
-        <div class="menu-title">
-          Konten Website
+      <div class="stats">
+
+
+        <div class="stat-card">
+
+          <h3>
+            Berita Terbit
+          </h3>
+
+          <div
+            class="stat-number"
+            id="statNews"
+          >
+            -
+          </div>
+
         </div>
 
 
-        <button
-          class="active"
-          onclick="showDashboard()"
-        >
-          🏠 Dashboard
-        </button>
+        <div class="stat-card">
 
+          <h3>
+            Pengurus Aktif
+          </h3>
 
-        <button
-          onclick="openBerita()"
-        >
-          📰 Kabar Berita
-        </button>
+          <div
+            class="stat-number"
+            id="statOfficials"
+          >
+            -
+          </div>
 
-
-        <button
-          onclick="openPengurus()"
-        >
-          👥 Profil Pengurus
-        </button>
-
-
-        <button
-          onclick="openJurnal()"
-        >
-          📚 Jurnal
-        </button>
-
-
-        <button
-          onclick="comingSoon('Pengumuman')"
-        >
-          📢 Pengumuman
-        </button>
-
-
-        <button
-          onclick="comingSoon('Prestasi')"
-        >
-          🏆 Prestasi
-        </button>
-
-
-        <button
-          onclick="comingSoon('Program & Kegiatan')"
-        >
-          📅 Program & Kegiatan
-        </button>
-
-
-        <button
-          onclick="comingSoon('Dokumentasi')"
-        >
-          📸 Dokumentasi
-        </button>
-
-
-        <div class="menu-title">
-          Sistem
         </div>
 
 
-        <button
-          onclick="comingSoon('Pengaturan')"
-        >
-          ⚙️ Pengaturan
-        </button>
+        <div class="stat-card">
+
+          <h3>
+            Program Terbit
+          </h3>
+
+          <div
+            class="stat-number"
+            id="statPrograms"
+          >
+            -
+          </div>
+
+        </div>
 
 
-        <div class="logout">
+        <div class="stat-card">
+
+          <h3>
+            Dokumentasi
+          </h3>
+
+          <div
+            class="stat-number"
+            id="statGallery"
+          >
+            -
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- QUICK MENU -->
+
+      <div class="panel">
+
+        <h2>
+          Kelola Website
+        </h2>
+
+        <p>
+          Pilih menu untuk mengelola
+          konten website Karang Taruna
+          Kecamatan Rajeg.
+        </p>
+
+
+        <div class="quick-menu">
+
+
+          <!-- BERITA -->
 
           <button
-            onclick="logout()"
+            onclick="openBerita()"
           >
-            Keluar
+
+            <strong>
+              📰 Kabar Berita
+            </strong>
+
+            <span>
+              Tambah, edit, hapus dan terbitkan berita.
+            </span>
+
           </button>
+
+
+          <!-- PENGURUS -->
+
+          <button
+            onclick="openPengurus()"
+          >
+
+            <strong>
+              👥 Profil Pengurus
+            </strong>
+
+            <span>
+              Kelola data pengurus.
+            </span>
+
+          </button>
+
+
+          <!-- JURNAL -->
+
+          <button
+            onclick="openJurnal()"
+          >
+
+            <strong>
+              📚 Jurnal
+            </strong>
+
+            <span>
+              Kelola jurnal organisasi.
+            </span>
+
+          </button>
+
+
+          <!-- PENGUMUMAN AKTIF -->
+
+          <button
+            onclick="openPengumuman()"
+          >
+
+            <strong>
+              📢 Pengumuman
+            </strong>
+
+            <span>
+              Kelola pengumuman organisasi.
+            </span>
+
+          </button>
+
+
+          <!-- PRESTASI -->
+
+          <button
+            onclick="comingSoon('Prestasi')"
+          >
+
+            <strong>
+              🏆 Prestasi
+            </strong>
+
+            <span>
+              Kelola prestasi.
+            </span>
+
+          </button>
+
+
+          <!-- PROGRAM -->
+
+          <button
+            onclick="comingSoon('Program & Kegiatan')"
+          >
+
+            <strong>
+              📅 Program & Kegiatan
+            </strong>
+
+            <span>
+              Kelola program dan kegiatan.
+            </span>
+
+          </button>
+
+
+          <!-- DOKUMENTASI -->
+
+          <button
+            onclick="comingSoon('Dokumentasi')"
+          >
+
+            <strong>
+              📸 Dokumentasi
+            </strong>
+
+            <span>
+              Kelola foto dokumentasi.
+            </span>
+
+          </button>
+
 
         </div>
 
       </div>
 
-    </aside>
 
+    </section>
 
-    <!-- MAIN -->
+  </main>
 
-    <main class="main">
-
-
-      <header class="topbar">
-
-        <h1>
-          Dashboard Admin
-        </h1>
-
-        <div class="admin-info">
-
-          Login sebagai:
-
-          <strong id="adminName">
-            Administrator
-          </strong>
-
-        </div>
-
-      </header>
-
-
-      <section class="content">
-
-
-        <div class="welcome">
-
-          <h2>
-            Selamat Datang 👋
-          </h2>
-
-          <p>
-            Panel administrasi website
-            Karang Taruna Kecamatan Rajeg.
-            Kelola seluruh informasi organisasi
-            melalui panel ini.
-          </p>
-
-        </div>
-
-
-        <!-- STATISTICS -->
-
-        <div class="stats">
-
-
-          <div class="stat-card">
-
-            <h3>
-              Berita Terbit
-            </h3>
-
-            <div
-              class="stat-number"
-              id="statNews"
-            >
-              -
-            </div>
-
-          </div>
-
-
-          <div class="stat-card">
-
-            <h3>
-              Pengurus Aktif
-            </h3>
-
-            <div
-              class="stat-number"
-              id="statOfficials"
-            >
-              -
-            </div>
-
-          </div>
-
-
-          <div class="stat-card">
-
-            <h3>
-              Program Terbit
-            </h3>
-
-            <div
-              class="stat-number"
-              id="statPrograms"
-            >
-              -
-            </div>
-
-          </div>
-
-
-          <div class="stat-card">
-
-            <h3>
-              Dokumentasi
-            </h3>
-
-            <div
-              class="stat-number"
-              id="statGallery"
-            >
-              -
-            </div>
-
-          </div>
-
-
-        </div>
-
-
-        <!-- QUICK MENU -->
-
-        <div class="panel">
-
-          <h2>
-            Kelola Website
-          </h2>
-
-          <p>
-            Pilih menu untuk mengelola
-            konten website Karang Taruna
-            Kecamatan Rajeg.
-          </p>
-
-
-          <div class="quick-menu">
-
-
-            <!-- BERITA -->
-
-            <button
-              onclick="openBerita()"
-            >
-
-              <strong>
-                📰 Kabar Berita
-              </strong>
-
-              <span>
-                Tambah, edit, hapus dan
-                terbitkan berita.
-              </span>
-
-            </button>
-
-
-            <!-- PENGURUS -->
-
-            <button
-              onclick="openPengurus()"
-            >
-
-              <strong>
-                👥 Profil Pengurus
-              </strong>
-
-              <span>
-                Kelola data pengurus.
-              </span>
-
-            </button>
-
-
-            <!-- JURNAL -->
-
-            <button
-              onclick="openJurnal()"
-            >
-
-              <strong>
-                📚 Jurnal
-              </strong>
-
-              <span>
-                Kelola jurnal organisasi.
-              </span>
-
-            </button>
-
-
-            <!-- PENGUMUMAN -->
-
-            <button
-              onclick="comingSoon('Pengumuman')"
-            >
-
-              <strong>
-                📢 Pengumuman
-              </strong>
-
-              <span>
-                Kelola pengumuman.
-              </span>
-
-            </button>
-
-
-            <!-- PRESTASI -->
-
-            <button
-              onclick="comingSoon('Prestasi')"
-            >
-
-              <strong>
-                🏆 Prestasi
-              </strong>
-
-              <span>
-                Kelola prestasi.
-              </span>
-
-            </button>
-
-
-            <!-- PROGRAM -->
-
-            <button
-              onclick="comingSoon('Program & Kegiatan')"
-            >
-
-              <strong>
-                📅 Program & Kegiatan
-              </strong>
-
-              <span>
-                Kelola program dan kegiatan.
-              </span>
-
-            </button>
-
-
-            <!-- DOKUMENTASI -->
-
-            <button
-              onclick="comingSoon('Dokumentasi')"
-            >
-
-              <strong>
-                📸 Dokumentasi
-              </strong>
-
-              <span>
-                Kelola foto dokumentasi.
-              </span>
-
-            </button>
-
-
-          </div>
-
-        </div>
-
-
-      </section>
-
-    </main>
-
-  </div>
+</div>
 
 
 <script>
 
 /* =====================================================
-   SUPABASE CONFIG
+   SUPABASE
 ===================================================== */
 
 const SUPABASE_URL =
@@ -878,19 +914,15 @@ const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
 
 
-/* =====================================================
-   CLIENT
-===================================================== */
-
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY,
     {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true
       }
     }
   );
@@ -917,7 +949,7 @@ const errorText =
    ERROR
 ===================================================== */
 
-function showError(message) {
+function showError(message){
 
   loading.style.display =
     "none";
@@ -938,7 +970,7 @@ function showError(message) {
    LOGIN
 ===================================================== */
 
-function goLogin() {
+function goLogin(){
 
   window.location.replace(
     "admin.html"
@@ -951,9 +983,9 @@ function goLogin() {
    SECURITY CHECK
 ===================================================== */
 
-async function checkAdminAccess() {
+async function checkAdminAccess(){
 
-  try {
+  try{
 
     const {
       data,
@@ -964,7 +996,7 @@ async function checkAdminAccess() {
         .getSession();
 
 
-    if (error) {
+    if(error){
 
       throw new Error(
         "Session tidak dapat diperiksa: " +
@@ -978,7 +1010,7 @@ async function checkAdminAccess() {
       data.session;
 
 
-    if (!session) {
+    if(!session){
 
       goLogin();
 
@@ -992,8 +1024,8 @@ async function checkAdminAccess() {
 
 
     const {
-      data: profile,
-      error: profileError
+      data:profile,
+      error:profileError
     } =
       await supabaseClient
         .from("profiles")
@@ -1007,7 +1039,7 @@ async function checkAdminAccess() {
         .maybeSingle();
 
 
-    if (profileError) {
+    if(profileError){
 
       throw new Error(
         "Profil admin tidak dapat dibaca: " +
@@ -1017,7 +1049,7 @@ async function checkAdminAccess() {
     }
 
 
-    if (!profile) {
+    if(!profile){
 
       await supabaseClient
         .auth
@@ -1030,10 +1062,10 @@ async function checkAdminAccess() {
     }
 
 
-    if (
+    if(
       profile.role !== "admin" &&
       profile.role !== "editor"
-    ) {
+    ){
 
       await supabaseClient
         .auth
@@ -1066,7 +1098,8 @@ async function checkAdminAccess() {
     await loadStats();
 
 
-  } catch (error) {
+  }
+  catch(error){
 
     console.error(error);
 
@@ -1083,10 +1116,9 @@ async function checkAdminAccess() {
    STATISTIK
 ===================================================== */
 
-async function loadStats() {
+async function loadStats(){
 
-  try {
-
+  try{
 
     const news =
       await supabaseClient
@@ -1094,8 +1126,8 @@ async function loadStats() {
         .select(
           "id",
           {
-            count: "exact",
-            head: true
+            count:"exact",
+            head:true
           }
         )
         .eq(
@@ -1116,8 +1148,8 @@ async function loadStats() {
         .select(
           "id",
           {
-            count: "exact",
-            head: true
+            count:"exact",
+            head:true
           }
         )
         .eq(
@@ -1138,8 +1170,8 @@ async function loadStats() {
         .select(
           "id",
           {
-            count: "exact",
-            head: true
+            count:"exact",
+            head:true
           }
         )
         .eq(
@@ -1160,8 +1192,8 @@ async function loadStats() {
         .select(
           "id",
           {
-            count: "exact",
-            head: true
+            count:"exact",
+            head:true
           }
         )
         .eq(
@@ -1176,7 +1208,8 @@ async function loadStats() {
       gallery.count ?? 0;
 
 
-  } catch (error) {
+  }
+  catch(error){
 
     console.error(
       "Statistik:",
@@ -1192,7 +1225,7 @@ async function loadStats() {
    DASHBOARD
 ===================================================== */
 
-function showDashboard() {
+function showDashboard(){
 
   window.location.reload();
 
@@ -1200,10 +1233,10 @@ function showDashboard() {
 
 
 /* =====================================================
-   KABAR BERITA
+   BERITA
 ===================================================== */
 
-function openBerita() {
+function openBerita(){
 
   window.location.href =
     "admin-berita.html";
@@ -1212,10 +1245,10 @@ function openBerita() {
 
 
 /* =====================================================
-   PROFIL PENGURUS
+   PENGURUS
 ===================================================== */
 
-function openPengurus() {
+function openPengurus(){
 
   window.location.href =
     "admin-pengurus.html";
@@ -1227,7 +1260,7 @@ function openPengurus() {
    JURNAL
 ===================================================== */
 
-function openJurnal() {
+function openJurnal(){
 
   window.location.href =
     "admin-jurnal.html";
@@ -1236,10 +1269,22 @@ function openJurnal() {
 
 
 /* =====================================================
+   PENGUMUMAN
+===================================================== */
+
+function openPengumuman(){
+
+  window.location.href =
+    "admin-pengumuman.html";
+
+}
+
+
+/* =====================================================
    FITUR LAIN
 ===================================================== */
 
-function comingSoon(name) {
+function comingSoon(name){
 
   alert(
     name +
@@ -1253,7 +1298,7 @@ function comingSoon(name) {
    LOGOUT
 ===================================================== */
 
-async function logout() {
+async function logout(){
 
   const yakin =
     confirm(
@@ -1261,14 +1306,14 @@ async function logout() {
     );
 
 
-  if (!yakin) {
+  if(!yakin){
 
     return;
 
   }
 
 
-  try {
+  try{
 
     const {
       error
@@ -1278,7 +1323,7 @@ async function logout() {
         .signOut();
 
 
-    if (error) {
+    if(error){
 
       console.error(
         "Logout error:",
@@ -1292,8 +1337,8 @@ async function logout() {
       "admin.html"
     );
 
-
-  } catch (error) {
+  }
+  catch(error){
 
     console.error(error);
 
@@ -1318,19 +1363,19 @@ checkAdminAccess();
 ===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
-  function(event, session) {
+  function(event,session){
 
-    if (
+    if(
       event === "SIGNED_OUT" ||
       !session
-    ) {
+    ){
 
-      if (
+      if(
         window.location.pathname
           .includes(
             "admin-dashboard.html"
           )
-      ) {
+      ){
 
         window.location.replace(
           "admin.html"
