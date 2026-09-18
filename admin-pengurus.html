@@ -1,0 +1,2707 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Profil Pengurus | Admin Karang Taruna Rajeg</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --navy:#071b3a;
+      --navy2:#0d2b5c;
+      --yellow:#f5c400;
+      --yellow2:#ffd83d;
+      --white:#ffffff;
+      --bg:#f4f7fb;
+      --text:#172033;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --danger:#dc2626;
+      --success:#15803d;
+      --shadow:0 15px 45px rgba(7,27,58,.10);
+      --radius:18px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:Inter,Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    button,
+    input,
+    textarea,
+    select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    .app{
+      min-height:100vh;
+      display:flex;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+      width:270px;
+      background:linear-gradient(
+        180deg,
+        var(--navy),
+        #041329
+      );
+
+      color:white;
+
+      position:fixed;
+      left:0;
+      top:0;
+      bottom:0;
+
+      z-index:100;
+
+      display:flex;
+      flex-direction:column;
+
+      box-shadow:8px 0 30px rgba(0,0,0,.08);
+    }
+
+    .brand{
+      padding:25px 20px;
+
+      display:flex;
+      align-items:center;
+
+      gap:13px;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+    }
+
+    .brand img{
+      width:52px;
+      height:52px;
+
+      object-fit:contain;
+
+      background:#fff;
+
+      border-radius:14px;
+
+      padding:5px;
+    }
+
+    .brand-title{
+      font-size:14px;
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    .brand-sub{
+      color:#aebbd0;
+      font-size:11px;
+      margin-top:3px;
+    }
+
+    .menu{
+      padding:20px 14px;
+
+      flex:1;
+
+      overflow-y:auto;
+    }
+
+    .menu-title{
+      color:#71809a;
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:1.5px;
+
+      padding:
+        0 12px
+        10px;
+
+      text-transform:uppercase;
+    }
+
+    .menu-item{
+      width:100%;
+
+      border:0;
+
+      background:transparent;
+
+      color:#c8d1df;
+
+      display:flex;
+      align-items:center;
+
+      gap:12px;
+
+      padding:12px;
+
+      border-radius:12px;
+
+      margin-bottom:5px;
+
+      text-align:left;
+
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:
+        rgba(255,255,255,.08);
+
+      color:white;
+    }
+
+    .menu-item.active{
+      background:var(--yellow);
+      color:var(--navy);
+      font-weight:800;
+    }
+
+    .menu-icon{
+      width:28px;
+
+      text-align:center;
+
+      font-size:18px;
+    }
+
+    .sidebar-bottom{
+      padding:15px;
+
+      border-top:
+        1px solid
+        rgba(255,255,255,.08);
+    }
+
+    .user-box{
+      background:
+        rgba(255,255,255,.06);
+
+      border-radius:14px;
+
+      padding:13px;
+
+      margin-bottom:10px;
+    }
+
+    .user-name{
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .user-role{
+      font-size:10px;
+      color:#aebbd0;
+
+      margin-top:3px;
+      text-transform:uppercase;
+    }
+
+    .logout-btn{
+      width:100%;
+
+      border:0;
+
+      background:
+        rgba(220,38,38,.17);
+
+      color:#ffb3b3;
+
+      padding:11px;
+
+      border-radius:10px;
+
+      font-weight:800;
+    }
+
+    .logout-btn:hover{
+      background:#dc2626;
+      color:white;
+    }
+
+    /* MAIN */
+
+    .main{
+      margin-left:270px;
+
+      min-height:100vh;
+
+      width:
+        calc(100% - 270px);
+    }
+
+    .topbar{
+      min-height:76px;
+
+      background:white;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:15px;
+
+      padding:
+        0 30px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .topbar-left h1{
+      color:var(--navy);
+
+      font-size:23px;
+
+      font-weight:800;
+    }
+
+    .topbar-left p{
+      color:var(--muted);
+
+      font-size:11px;
+
+      margin-top:3px;
+    }
+
+    .topbar-right{
+      display:flex;
+
+      align-items:center;
+
+      gap:10px;
+    }
+
+    .back-btn{
+      border:1px solid var(--border);
+
+      background:white;
+
+      color:var(--navy);
+
+      border-radius:10px;
+
+      padding:10px 14px;
+
+      font-size:12px;
+
+      font-weight:700;
+    }
+
+    .back-btn:hover{
+      border-color:var(--yellow);
+      background:#fffdf0;
+    }
+
+    .content{
+      padding:30px;
+    }
+
+    /* GRID */
+
+    .layout{
+      display:grid;
+
+      grid-template-columns:
+        390px
+        minmax(0,1fr);
+
+      gap:22px;
+
+      align-items:start;
+    }
+
+    /* FORM */
+
+    .panel{
+      background:white;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        var(--radius);
+
+      box-shadow:
+        var(--shadow);
+
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:21px 22px;
+
+      border-bottom:
+        1px solid
+        var(--border);
+    }
+
+    .panel-header h2{
+      color:var(--navy);
+
+      font-size:17px;
+
+      font-weight:800;
+    }
+
+    .panel-header p{
+      color:var(--muted);
+
+      font-size:10px;
+
+      margin-top:4px;
+
+      line-height:1.5;
+    }
+
+    .panel-body{
+      padding:22px;
+    }
+
+    .form-group{
+      margin-bottom:16px;
+    }
+
+    .form-group label{
+      display:block;
+
+      color:var(--navy);
+
+      font-size:11px;
+
+      font-weight:800;
+
+      margin-bottom:7px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select{
+      width:100%;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:#fff;
+
+      border-radius:11px;
+
+      outline:none;
+
+      padding:11px 12px;
+
+      font-size:12px;
+
+      color:var(--text);
+
+      transition:.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus{
+      border-color:var(--yellow);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(245,196,0,.13);
+    }
+
+    .form-group textarea{
+      min-height:120px;
+
+      resize:vertical;
+
+      line-height:1.6;
+    }
+
+    .row-2{
+      display:grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:12px;
+    }
+
+    .help{
+      margin-top:5px;
+
+      font-size:9px;
+
+      color:var(--muted);
+
+      line-height:1.45;
+    }
+
+    /* IMAGE */
+
+    .image-upload{
+      border:
+        1px dashed
+        #cfd6e2;
+
+      background:#fafbfd;
+
+      border-radius:14px;
+
+      padding:14px;
+    }
+
+    .image-preview{
+      display:none;
+
+      margin-top:12px;
+    }
+
+    .image-preview img{
+      width:100%;
+
+      height:180px;
+
+      border-radius:12px;
+
+      object-fit:cover;
+
+      border:
+        1px solid
+        var(--border);
+    }
+
+    .current-photo{
+      display:none;
+
+      margin-bottom:12px;
+    }
+
+    .current-photo img{
+      width:100%;
+
+      height:180px;
+
+      object-fit:cover;
+
+      border-radius:12px;
+
+      border:
+        1px solid
+        var(--border);
+    }
+
+    .photo-label{
+      font-size:9px;
+
+      color:var(--muted);
+
+      margin-bottom:6px;
+    }
+
+    /* FORM BUTTON */
+
+    .form-actions{
+      display:flex;
+
+      gap:10px;
+
+      margin-top:20px;
+    }
+
+    .btn{
+      border:0;
+
+      border-radius:11px;
+
+      padding:12px 16px;
+
+      font-size:11px;
+
+      font-weight:800;
+    }
+
+    .btn-primary{
+      flex:1;
+
+      background:var(--yellow);
+
+      color:var(--navy);
+    }
+
+    .btn-primary:hover{
+      background:var(--yellow2);
+    }
+
+    .btn-secondary{
+      background:#eef1f5;
+
+      color:var(--navy);
+    }
+
+    .btn-danger{
+      background:#fee2e2;
+
+      color:#b91c1c;
+    }
+
+    .btn:disabled{
+      opacity:.55;
+
+      cursor:not-allowed;
+    }
+
+    /* LIST */
+
+    .toolbar{
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      gap:12px;
+
+      margin-bottom:15px;
+    }
+
+    .search{
+      width:100%;
+
+      max-width:330px;
+
+      position:relative;
+    }
+
+    .search i{
+      position:absolute;
+
+      left:12px;
+
+      top:50%;
+
+      transform:
+        translateY(-50%);
+
+      color:#9099aa;
+
+      font-size:12px;
+    }
+
+    .search input{
+      width:100%;
+
+      padding:
+        11px
+        12px
+        11px
+        35px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:11px;
+
+      outline:none;
+
+      font-size:11px;
+    }
+
+    .count{
+      color:var(--muted);
+
+      font-size:10px;
+
+      white-space:nowrap;
+    }
+
+    /* CARDS */
+
+    .official-list{
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+      gap:15px;
+    }
+
+    .official-card{
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:16px;
+
+      overflow:hidden;
+
+      background:white;
+
+      transition:.2s;
+    }
+
+    .official-card:hover{
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 30px
+        rgba(7,27,58,.08);
+    }
+
+    .official-photo-wrap{
+      height:190px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--navy),
+          var(--navy2)
+        );
+
+      position:relative;
+
+      overflow:hidden;
+    }
+
+    .official-photo-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .photo-placeholder{
+      width:100%;
+      height:100%;
+
+      display:flex;
+
+      align-items:center;
+      justify-content:center;
+
+      color:rgba(255,255,255,.75);
+
+      font-size:48px;
+    }
+
+    .status-badge{
+      position:absolute;
+
+      top:10px;
+
+      right:10px;
+
+      border-radius:20px;
+
+      padding:5px 9px;
+
+      font-size:9px;
+
+      font-weight:800;
+    }
+
+    .status-active{
+      background:#dcfce7;
+
+      color:#166534;
+    }
+
+    .status-inactive{
+      background:#fee2e2;
+
+      color:#991b1b;
+    }
+
+    .official-body{
+      padding:15px;
+    }
+
+    .official-name{
+      color:var(--navy);
+
+      font-size:14px;
+
+      font-weight:800;
+
+      line-height:1.4;
+    }
+
+    .official-position{
+      display:inline-flex;
+
+      margin-top:7px;
+
+      background:#fff8d8;
+
+      color:#8b6800;
+
+      border-radius:8px;
+
+      padding:5px 8px;
+
+      font-size:9px;
+
+      font-weight:800;
+    }
+
+    .official-period{
+      margin-top:8px;
+
+      color:var(--muted);
+
+      font-size:9px;
+    }
+
+    .official-bio{
+      margin-top:10px;
+
+      color:#667085;
+
+      font-size:10px;
+
+      line-height:1.6;
+
+      display:-webkit-box;
+
+      -webkit-line-clamp:3;
+
+      -webkit-box-orient:vertical;
+
+      overflow:hidden;
+    }
+
+    .official-actions{
+      display:flex;
+
+      gap:8px;
+
+      margin-top:13px;
+
+      padding-top:13px;
+
+      border-top:
+        1px solid
+        var(--border);
+    }
+
+    .action-btn{
+      flex:1;
+
+      border:0;
+
+      border-radius:9px;
+
+      padding:9px;
+
+      font-size:10px;
+
+      font-weight:800;
+    }
+
+    .edit-btn{
+      background:#eef4ff;
+
+      color:#174ea6;
+    }
+
+    .delete-btn{
+      background:#fff0f0;
+
+      color:#b91c1c;
+    }
+
+    /* EMPTY */
+
+    .empty{
+      border:
+        1px dashed
+        var(--border);
+
+      border-radius:15px;
+
+      padding:45px 20px;
+
+      text-align:center;
+
+      color:var(--muted);
+
+      font-size:11px;
+
+      grid-column:1/-1;
+    }
+
+    .empty-icon{
+      font-size:32px;
+
+      margin-bottom:10px;
+
+      opacity:.65;
+    }
+
+    /* TOAST */
+
+    .toast{
+      position:fixed;
+
+      right:22px;
+
+      bottom:22px;
+
+      z-index:500;
+
+      max-width:350px;
+
+      padding:13px 17px;
+
+      border-radius:12px;
+
+      color:white;
+
+      font-size:11px;
+
+      font-weight:700;
+
+      box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.2);
+
+      transform:
+        translateY(25px);
+
+      opacity:0;
+
+      pointer-events:none;
+
+      transition:.25s;
+    }
+
+    .toast.show{
+      transform:
+        translateY(0);
+
+      opacity:1;
+    }
+
+    .toast.success{
+      background:#15803d;
+    }
+
+    .toast.error{
+      background:#dc2626;
+    }
+
+    /* LOADING */
+
+    #loadingScreen{
+      position:fixed;
+
+      inset:0;
+
+      z-index:999;
+
+      background:#f4f7fb;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      color:var(--navy);
+
+      font-size:14px;
+
+      font-weight:800;
+    }
+
+    /* MOBILE */
+
+    .mobile-menu{
+      display:none;
+    }
+
+    @media(max-width:1100px){
+
+      .layout{
+        grid-template-columns:1fr;
+      }
+
+      .official-list{
+        grid-template-columns:
+          repeat(2,minmax(0,1fr));
+      }
+
+    }
+
+    @media(max-width:800px){
+
+      .sidebar{
+        transform:
+          translateX(-100%);
+
+        transition:.25s;
+      }
+
+      .sidebar.open{
+        transform:
+          translateX(0);
+      }
+
+      .main{
+        margin-left:0;
+
+        width:100%;
+      }
+
+      .mobile-menu{
+        display:flex;
+
+        width:42px;
+        height:42px;
+
+        align-items:center;
+        justify-content:center;
+
+        border:0;
+
+        background:var(--navy);
+
+        color:white;
+
+        border-radius:10px;
+      }
+
+      .topbar{
+        padding:
+          0 18px;
+      }
+
+      .topbar-right .back-btn{
+        display:none;
+      }
+
+      .content{
+        padding:18px;
+      }
+
+      .official-list{
+        grid-template-columns:1fr;
+      }
+
+      .row-2{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+    @media(max-width:520px){
+
+      .topbar-left h1{
+        font-size:18px;
+      }
+
+      .topbar-left p{
+        font-size:9px;
+      }
+
+      .toolbar{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .search{
+        max-width:none;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div id="loadingScreen">
+  Memeriksa akses administrator...
+</div>
+
+<div class="app" id="app" style="display:none;">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <img
+        src="logo-karang-taruna2.webp"
+        alt="Logo Karang Taruna"
+      >
+
+      <div>
+
+        <div class="brand-title">
+          KARANG TARUNA<br>
+          KECAMATAN RAJEG
+        </div>
+
+        <div class="brand-sub">
+          Kabupaten Tangerang • Banten
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="menu">
+
+      <div class="menu-title">
+        Konten Website
+      </div>
+
+      <button
+        class="menu-item"
+        onclick="goDashboard()"
+      >
+        <span class="menu-icon">🏠</span>
+        <span>Dashboard</span>
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="goBerita()"
+      >
+        <span class="menu-icon">📰</span>
+        <span>Kabar Berita</span>
+      </button>
+
+      <button
+        class="menu-item active"
+      >
+        <span class="menu-icon">👥</span>
+        <span>Profil Pengurus</span>
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Jurnal')"
+      >
+        <span class="menu-icon">📚</span>
+        <span>Jurnal</span>
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Pengumuman')"
+      >
+        <span class="menu-icon">📢</span>
+        <span>Pengumuman</span>
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Prestasi')"
+      >
+        <span class="menu-icon">🏆</span>
+        <span>Prestasi</span>
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Program & Kegiatan')"
+      >
+        <span class="menu-icon">📅</span>
+        <span>Program & Kegiatan</span>
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="comingSoon('Dokumentasi')"
+      >
+        <span class="menu-icon">📸</span>
+        <span>Dokumentasi</span>
+      </button>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+      <div class="user-box">
+
+        <div
+          class="user-name"
+          id="userName"
+        >
+          Administrator
+        </div>
+
+        <div
+          class="user-role"
+          id="userRole"
+        >
+          admin
+        </div>
+
+      </div>
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        Keluar
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div style="display:flex;align-items:center;gap:12px;">
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+        >
+          ☰
+        </button>
+
+        <div class="topbar-left">
+
+          <h1>
+            Profil Pengurus
+          </h1>
+
+          <p>
+            Kelola data pengurus Karang Taruna Kecamatan Rajeg
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="topbar-right">
+
+        <button
+          class="back-btn"
+          onclick="goDashboard()"
+        >
+          ← Dashboard
+        </button>
+
+      </div>
+
+    </header>
+
+    <section class="content">
+
+      <div class="layout">
+
+        <!-- FORM -->
+
+        <div class="panel">
+
+          <div class="panel-header">
+
+            <h2 id="formTitle">
+              Tambah Pengurus
+            </h2>
+
+            <p>
+              Masukkan data pengurus yang akan ditampilkan di website.
+            </p>
+
+          </div>
+
+          <div class="panel-body">
+
+            <form id="officialForm">
+
+              <input
+                type="hidden"
+                id="officialId"
+              >
+
+              <div class="form-group">
+
+                <label for="name">
+                  Nama Lengkap
+                </label>
+
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="Contoh: Ahmad Fauzi"
+                  required
+                >
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="position">
+                  Jabatan
+                </label>
+
+                <input
+                  type="text"
+                  id="position"
+                  placeholder="Contoh: Ketua"
+                  required
+                >
+
+              </div>
+
+              <div class="row-2">
+
+                <div class="form-group">
+
+                  <label for="period">
+                    Periode
+                  </label>
+
+                  <input
+                    type="text"
+                    id="period"
+                    value="2025-2030"
+                    placeholder="2025-2030"
+                  >
+
+                </div>
+
+                <div class="form-group">
+
+                  <label for="sortOrder">
+                    Urutan Tampil
+                  </label>
+
+                  <input
+                    type="number"
+                    id="sortOrder"
+                    value="1"
+                    min="1"
+                  >
+
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="bio">
+                  Biodata / Keterangan
+                </label>
+
+                <textarea
+                  id="bio"
+                  placeholder="Tulis biodata singkat atau keterangan pengurus..."
+                ></textarea>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="active">
+                  Status
+                </label>
+
+                <select id="active">
+
+                  <option value="true">
+                    Aktif
+                  </option>
+
+                  <option value="false">
+                    Tidak Aktif
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="photoFile">
+                  Foto Pengurus
+                </label>
+
+                <div class="image-upload">
+
+                  <input
+                    type="file"
+                    id="photoFile"
+                    accept="image/jpeg,image/png,image/webp"
+                  >
+
+                  <div class="help">
+                    Format JPG, PNG atau WEBP. Maksimal 5 MB.
+                  </div>
+
+                  <div
+                    class="current-photo"
+                    id="currentPhoto"
+                  >
+
+                    <div class="photo-label">
+                      Foto saat ini
+                    </div>
+
+                    <img
+                      id="currentPhotoImg"
+                      src=""
+                      alt="Foto saat ini"
+                    >
+
+                  </div>
+
+                  <div
+                    class="image-preview"
+                    id="imagePreview"
+                  >
+
+                    <div class="photo-label">
+                      Preview foto baru
+                    </div>
+
+                    <img
+                      id="previewImg"
+                      src=""
+                      alt="Preview"
+                    >
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="form-actions">
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="resetBtn"
+                >
+                  Reset
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="saveBtn"
+                >
+                  Simpan Pengurus
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+        <!-- LIST -->
+
+        <div>
+
+          <div class="toolbar">
+
+            <div class="search">
+
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari nama atau jabatan..."
+              >
+
+            </div>
+
+            <div
+              class="count"
+              id="countText"
+            >
+              0 pengurus
+            </div>
+
+          </div>
+
+          <div
+            class="official-list"
+            id="officialList"
+          >
+            <div class="empty">
+              <div class="empty-icon">
+                👥
+              </div>
+              Memuat data pengurus...
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+<script>
+
+  /* =====================================================
+     SUPABASE
+  ===================================================== */
+
+  const SUPABASE_URL =
+    "https://qemzczsltxbiyxsvpebv.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth:{
+          persistSession:true,
+          autoRefreshToken:true,
+          detectSessionInUrl:true
+        }
+      }
+    );
+
+
+  /* =====================================================
+     STATE
+  ===================================================== */
+
+  let currentUser = null;
+  let currentProfile = null;
+
+  let allOfficials = [];
+
+  let editingId = null;
+
+
+  /* =====================================================
+     INITIALIZE
+  ===================================================== */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+      try{
+
+        await checkAuth();
+
+        setupEvents();
+
+        await loadOfficials();
+
+        document.getElementById(
+          "loadingScreen"
+        ).style.display = "none";
+
+        document.getElementById(
+          "app"
+        ).style.display = "flex";
+
+      }catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+          "loadingScreen"
+        ).textContent =
+          error.message ||
+          "Gagal memuat halaman.";
+
+        setTimeout(
+          () => {
+            window.location.href =
+              "admin.html";
+          },
+          1500
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     AUTH CHECK
+  ===================================================== */
+
+  async function checkAuth(){
+
+    const {
+      data:{
+        session
+      }
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
+
+    if(!session){
+
+      window.location.href =
+        "admin.html";
+
+      return;
+    }
+
+    currentUser =
+      session.user;
+
+    const {
+      data:profile,
+      error
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select(
+          "id, full_name, role"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .maybeSingle();
+
+    if(error){
+
+      throw error;
+    }
+
+    if(
+      !profile ||
+      !["admin","editor"].includes(
+        profile.role
+      )
+    ){
+
+      await supabaseClient
+        .auth
+        .signOut();
+
+      window.location.href =
+        "admin.html";
+
+      return;
+    }
+
+    currentProfile =
+      profile;
+
+    document.getElementById(
+      "userName"
+    ).textContent =
+      profile.full_name ||
+      currentUser.email ||
+      "Administrator";
+
+    document.getElementById(
+      "userRole"
+    ).textContent =
+      profile.role;
+
+  }
+
+
+  /* =====================================================
+     EVENTS
+  ===================================================== */
+
+  function setupEvents(){
+
+    document
+      .getElementById("officialForm")
+      .addEventListener(
+        "submit",
+        saveOfficial
+      );
+
+    document
+      .getElementById("resetBtn")
+      .addEventListener(
+        "click",
+        resetForm
+      );
+
+    document
+      .getElementById("photoFile")
+      .addEventListener(
+        "change",
+        previewPhoto
+      );
+
+    document
+      .getElementById("searchInput")
+      .addEventListener(
+        "input",
+        filterOfficials
+      );
+
+    document
+      .getElementById("logoutBtn")
+      .addEventListener(
+        "click",
+        logout
+      );
+
+    document
+      .getElementById("mobileMenu")
+      .addEventListener(
+        "click",
+        () => {
+
+          document
+            .getElementById("sidebar")
+            .classList.toggle("open");
+
+        }
+      );
+
+  }
+
+
+  /* =====================================================
+     LOAD
+  ===================================================== */
+
+  async function loadOfficials(){
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("officials")
+        .select("*")
+        .order(
+          "sort_order",
+          {
+            ascending:true
+          }
+        )
+        .order(
+          "created_at",
+          {
+            ascending:true
+          }
+        );
+
+    if(error){
+
+      throw error;
+    }
+
+    allOfficials =
+      data || [];
+
+    renderOfficials(
+      allOfficials
+    );
+
+  }
+
+
+  /* =====================================================
+     RENDER
+  ===================================================== */
+
+  function renderOfficials(list){
+
+    const container =
+      document.getElementById(
+        "officialList"
+      );
+
+    document.getElementById(
+      "countText"
+    ).textContent =
+      `${list.length} pengurus`;
+
+    if(!list.length){
+
+      container.innerHTML = `
+        <div class="empty">
+
+          <div class="empty-icon">
+            👥
+          </div>
+
+          <strong>
+            Belum ada data pengurus
+          </strong>
+
+          <div style="margin-top:6px;">
+            Silakan tambahkan pengurus melalui form di sebelah kiri.
+          </div>
+
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML =
+      list.map(item => {
+
+        const image =
+          item.photo_url
+          ?
+          `
+            <img
+              src="${escapeAttribute(
+                item.photo_url
+              )}"
+              alt="${escapeHtml(
+                item.name
+              )}"
+            >
+          `
+          :
+          `
+            <div class="photo-placeholder">
+              <i class="fa-solid fa-user"></i>
+            </div>
+          `;
+
+        const status =
+          item.active
+          ?
+          `
+            <span class="status-badge status-active">
+              AKTIF
+            </span>
+          `
+          :
+          `
+            <span class="status-badge status-inactive">
+              TIDAK AKTIF
+            </span>
+          `;
+
+        return `
+          <article
+            class="official-card"
+          >
+
+            <div class="official-photo-wrap">
+
+              ${image}
+
+              ${status}
+
+            </div>
+
+            <div class="official-body">
+
+              <div class="official-name">
+                ${escapeHtml(
+                  item.name ||
+                  "Tanpa Nama"
+                )}
+              </div>
+
+              <div class="official-position">
+                ${escapeHtml(
+                  item.position ||
+                  "-"
+                )}
+              </div>
+
+              <div class="official-period">
+                <i class="fa-regular fa-calendar"></i>
+                Periode:
+                ${escapeHtml(
+                  item.period ||
+                  "-"
+                )}
+              </div>
+
+              <div class="official-bio">
+                ${escapeHtml(
+                  item.bio ||
+                  "Tidak ada keterangan."
+                )}
+              </div>
+
+              <div class="official-actions">
+
+                <button
+                  class="action-btn edit-btn"
+                  onclick="editOfficial(${item.id})"
+                >
+                  ✏️ Edit
+                </button>
+
+                <button
+                  class="action-btn delete-btn"
+                  onclick="deleteOfficial(${item.id})"
+                >
+                  🗑️ Hapus
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+        `;
+
+      }).join("");
+
+  }
+
+
+  /* =====================================================
+     SAVE
+  ===================================================== */
+
+  async function saveOfficial(event){
+
+    event.preventDefault();
+
+    const name =
+      document
+        .getElementById("name")
+        .value
+        .trim();
+
+    const position =
+      document
+        .getElementById("position")
+        .value
+        .trim();
+
+    const period =
+      document
+        .getElementById("period")
+        .value
+        .trim();
+
+    const bio =
+      document
+        .getElementById("bio")
+        .value
+        .trim();
+
+    const sortOrder =
+      Number(
+        document
+          .getElementById("sortOrder")
+          .value
+      ) || 1;
+
+    const active =
+      document
+        .getElementById("active")
+        .value === "true";
+
+    if(!name){
+
+      showToast(
+        "Nama pengurus wajib diisi.",
+        "error"
+      );
+
+      return;
+    }
+
+    if(!position){
+
+      showToast(
+        "Jabatan wajib diisi.",
+        "error"
+      );
+
+      return;
+    }
+
+    const saveBtn =
+      document.getElementById(
+        "saveBtn"
+      );
+
+    saveBtn.disabled =
+      true;
+
+    saveBtn.textContent =
+      "Menyimpan...";
+
+    try{
+
+      let photoUrl =
+        null;
+
+      /* Ambil foto lama saat edit */
+
+      if(editingId){
+
+        const existing =
+          allOfficials.find(
+            item =>
+              Number(item.id) ===
+              Number(editingId)
+          );
+
+        photoUrl =
+          existing?.photo_url ||
+          null;
+      }
+
+      /* Upload foto baru */
+
+      const file =
+        document
+          .getElementById(
+            "photoFile"
+          )
+          .files[0];
+
+      if(file){
+
+        photoUrl =
+          await uploadPhoto(
+            file
+          );
+      }
+
+      const payload = {
+
+        name,
+
+        position,
+
+        period,
+
+        bio,
+
+        photo_url:
+          photoUrl,
+
+        sort_order:
+          sortOrder,
+
+        active
+
+      };
+
+      /* UPDATE */
+
+      if(editingId){
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("officials")
+            .update(payload)
+            .eq(
+              "id",
+              editingId
+            );
+
+        if(error){
+
+          throw error;
+        }
+
+        showToast(
+          "Data pengurus berhasil diperbarui.",
+          "success"
+        );
+
+      }
+
+      /* INSERT */
+
+      else{
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("officials")
+            .insert(
+              payload
+            );
+
+        if(error){
+
+          throw error;
+        }
+
+        showToast(
+          "Pengurus berhasil ditambahkan.",
+          "success"
+        );
+
+      }
+
+      resetForm();
+
+      await loadOfficials();
+
+    }catch(error){
+
+      console.error(error);
+
+      showToast(
+        error.message ||
+        "Gagal menyimpan data pengurus.",
+        "error"
+      );
+
+    }finally{
+
+      saveBtn.disabled =
+        false;
+
+      saveBtn.textContent =
+        editingId
+        ? "Simpan Perubahan"
+        : "Simpan Pengurus";
+
+    }
+
+  }
+
+
+  /* =====================================================
+     UPLOAD FOTO
+  ===================================================== */
+
+  async function uploadPhoto(file){
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+    if(
+      !allowedTypes.includes(
+        file.type
+      )
+    ){
+
+      throw new Error(
+        "Format foto harus JPG, PNG, atau WEBP."
+      );
+
+    }
+
+    if(
+      file.size >
+      5 * 1024 * 1024
+    ){
+
+      throw new Error(
+        "Ukuran foto maksimal 5 MB."
+      );
+
+    }
+
+    const originalName =
+      file.name
+        .toLowerCase()
+        .replace(
+          /[^a-z0-9.]+/g,
+          "-"
+        )
+        .replace(
+          /^-+|-+$/g,
+          ""
+        );
+
+    const path =
+      "officials/" +
+      Date.now() +
+      "-" +
+      originalName;
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from("Media")
+        .upload(
+          path,
+          file,
+          {
+            cacheControl:"3600",
+            upsert:false
+          }
+        );
+
+    if(error){
+
+      throw error;
+    }
+
+    const {
+      data
+    } =
+      supabaseClient
+        .storage
+        .from("Media")
+        .getPublicUrl(
+          path
+        );
+
+    return data.publicUrl;
+
+  }
+
+
+  /* =====================================================
+     EDIT
+  ===================================================== */
+
+  function editOfficial(id){
+
+    const item =
+      allOfficials.find(
+        official =>
+          Number(official.id) ===
+          Number(id)
+      );
+
+    if(!item){
+
+      showToast(
+        "Data pengurus tidak ditemukan.",
+        "error"
+      );
+
+      return;
+    }
+
+    editingId =
+      item.id;
+
+    document.getElementById(
+      "officialId"
+    ).value =
+      item.id;
+
+    document.getElementById(
+      "name"
+    ).value =
+      item.name || "";
+
+    document.getElementById(
+      "position"
+    ).value =
+      item.position || "";
+
+    document.getElementById(
+      "period"
+    ).value =
+      item.period || "";
+
+    document.getElementById(
+      "bio"
+    ).value =
+      item.bio || "";
+
+    document.getElementById(
+      "sortOrder"
+    ).value =
+      item.sort_order || 1;
+
+    document.getElementById(
+      "active"
+    ).value =
+      item.active
+      ? "true"
+      : "false";
+
+    document.getElementById(
+      "formTitle"
+    ).textContent =
+      "Edit Pengurus";
+
+    document.getElementById(
+      "saveBtn"
+    ).textContent =
+      "Simpan Perubahan";
+
+    document.getElementById(
+      "photoFile"
+    ).value = "";
+
+    document.getElementById(
+      "imagePreview"
+    ).style.display =
+      "none";
+
+    const currentPhoto =
+      document.getElementById(
+        "currentPhoto"
+      );
+
+    if(item.photo_url){
+
+      currentPhoto.style.display =
+        "block";
+
+      document.getElementById(
+        "currentPhotoImg"
+      ).src =
+        item.photo_url;
+
+    }else{
+
+      currentPhoto.style.display =
+        "none";
+
+    }
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+
+  /* =====================================================
+     DELETE
+  ===================================================== */
+
+  async function deleteOfficial(id){
+
+    const item =
+      allOfficials.find(
+        official =>
+          Number(official.id) ===
+          Number(id)
+      );
+
+    if(!item){
+
+      return;
+    }
+
+    const confirmed =
+      confirm(
+        `Hapus pengurus "${item.name}"?\n\nData yang sudah dihapus tidak dapat dikembalikan.`
+      );
+
+    if(!confirmed){
+
+      return;
+    }
+
+    try{
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("officials")
+          .delete()
+          .eq(
+            "id",
+            id
+          );
+
+      if(error){
+
+        throw error;
+      }
+
+      showToast(
+        "Pengurus berhasil dihapus.",
+        "success"
+      );
+
+      if(
+        Number(editingId) ===
+        Number(id)
+      ){
+
+        resetForm();
+
+      }
+
+      await loadOfficials();
+
+    }catch(error){
+
+      console.error(error);
+
+      showToast(
+        error.message ||
+        "Gagal menghapus pengurus.",
+        "error"
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     FILTER
+  ===================================================== */
+
+  function filterOfficials(){
+
+    const keyword =
+      document
+        .getElementById(
+          "searchInput"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+    if(!keyword){
+
+      renderOfficials(
+        allOfficials
+      );
+
+      return;
+    }
+
+    const filtered =
+      allOfficials.filter(
+        item => {
+
+          const name =
+            (
+              item.name ||
+              ""
+            )
+            .toLowerCase();
+
+          const position =
+            (
+              item.position ||
+              ""
+            )
+            .toLowerCase();
+
+          const period =
+            (
+              item.period ||
+              ""
+            )
+            .toLowerCase();
+
+          return (
+            name.includes(keyword) ||
+            position.includes(keyword) ||
+            period.includes(keyword)
+          );
+
+        }
+      );
+
+    renderOfficials(
+      filtered
+    );
+
+  }
+
+
+  /* =====================================================
+     PREVIEW
+  ===================================================== */
+
+  function previewPhoto(event){
+
+    const file =
+      event.target.files[0];
+
+    const preview =
+      document.getElementById(
+        "imagePreview"
+      );
+
+    const img =
+      document.getElementById(
+        "previewImg"
+      );
+
+    if(!file){
+
+      preview.style.display =
+        "none";
+
+      return;
+    }
+
+    const reader =
+      new FileReader();
+
+    reader.onload =
+      function(e){
+
+        img.src =
+          e.target.result;
+
+        preview.style.display =
+          "block";
+
+      };
+
+    reader.readAsDataURL(
+      file
+    );
+
+  }
+
+
+  /* =====================================================
+     RESET
+  ===================================================== */
+
+  function resetForm(){
+
+    editingId =
+      null;
+
+    document
+      .getElementById(
+        "officialForm"
+      )
+      .reset();
+
+    document.getElementById(
+      "officialId"
+    ).value = "";
+
+    document.getElementById(
+      "period"
+    ).value =
+      "2025-2030";
+
+    document.getElementById(
+      "sortOrder"
+    ).value =
+      "1";
+
+    document.getElementById(
+      "active"
+    ).value =
+      "true";
+
+    document.getElementById(
+      "formTitle"
+    ).textContent =
+      "Tambah Pengurus";
+
+    document.getElementById(
+      "saveBtn"
+    ).textContent =
+      "Simpan Pengurus";
+
+    document.getElementById(
+      "imagePreview"
+    ).style.display =
+      "none";
+
+    document.getElementById(
+      "currentPhoto"
+    ).style.display =
+      "none";
+
+  }
+
+
+  /* =====================================================
+     NAVIGATION
+  ===================================================== */
+
+  function goDashboard(){
+
+    window.location.href =
+      "admin-dashboard.html";
+
+  }
+
+  function goBerita(){
+
+    window.location.href =
+      "admin-berita.html";
+
+  }
+
+  function comingSoon(name){
+
+    showToast(
+      `${name} sedang dalam tahap pengembangan.`,
+      "success"
+    );
+
+  }
+
+
+  /* =====================================================
+     LOGOUT
+  ===================================================== */
+
+  async function logout(){
+
+    const confirmed =
+      confirm(
+        "Yakin ingin keluar dari panel administrasi?"
+      );
+
+    if(!confirmed){
+
+      return;
+    }
+
+    await supabaseClient
+      .auth
+      .signOut();
+
+    window.location.href =
+      "admin.html";
+
+  }
+
+
+  /* =====================================================
+     TOAST
+  ===================================================== */
+
+  let toastTimer;
+
+  function showToast(
+    message,
+    type="success"
+  ){
+
+    const toast =
+      document.getElementById(
+        "toast"
+      );
+
+    toast.textContent =
+      message;
+
+    toast.className =
+      `toast show ${type}`;
+
+    clearTimeout(
+      toastTimer
+    );
+
+    toastTimer =
+      setTimeout(
+        () => {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        3500
+      );
+
+  }
+
+
+  /* =====================================================
+     ESCAPE
+  ===================================================== */
+
+  function escapeHtml(value){
+
+    return String(
+      value ?? ""
+    )
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+  function escapeAttribute(value){
+
+    return String(
+      value ?? ""
+    )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+</script>
+
+</body>
+</html>
