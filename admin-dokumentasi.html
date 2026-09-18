@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dokumentasi - Karang Taruna Kecamatan Rajeg</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f5f7fb;
+      color:#172033;
+    }
+
+    header{
+      background:#071b3a;
+      color:#fff;
+      padding:18px 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      position:sticky;
+      top:0;
+      z-index:100;
+      box-shadow:0 4px 18px rgba(0,0,0,.12);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .brand img{
+      width:52px;
+      height:52px;
+      object-fit:contain;
+      background:#fff;
+      border-radius:12px;
+      padding:5px;
+    }
+
+    .brand h1{
+      font-size:18px;
+      margin-bottom:3px;
+    }
+
+    .brand p{
+      font-size:12px;
+      color:#d8e2f2;
+    }
+
+    .header-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:none;
+      border-radius:10px;
+      padding:11px 16px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:14px;
+      transition:.2s;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-primary{
+      background:#f4c400;
+      color:#071b3a;
+    }
+
+    .btn-secondary{
+      background:#e8edf5;
+      color:#172033;
+    }
+
+    .btn-danger{
+      background:#dc3545;
+      color:#fff;
+    }
+
+    .btn-success{
+      background:#198754;
+      color:#fff;
+    }
+
+    .container{
+      width:min(1200px, calc(100% - 30px));
+      margin:30px auto;
+    }
+
+    .page-title{
+      margin-bottom:22px;
+    }
+
+    .page-title h2{
+      font-size:28px;
+      color:#071b3a;
+      margin-bottom:7px;
+    }
+
+    .page-title p{
+      color:#687386;
+      font-size:14px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-bottom:22px;
+    }
+
+    .stat-card{
+      background:#fff;
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 6px 24px rgba(7,27,58,.07);
+      border:1px solid #edf0f5;
+    }
+
+    .stat-label{
+      color:#6b7280;
+      font-size:13px;
+      margin-bottom:7px;
+    }
+
+    .stat-number{
+      font-size:28px;
+      font-weight:800;
+      color:#071b3a;
+    }
+
+    .main-grid{
+      display:grid;
+      grid-template-columns:380px 1fr;
+      gap:22px;
+      align-items:start;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 6px 24px rgba(7,27,58,.07);
+      border:1px solid #edf0f5;
+    }
+
+    .card h3{
+      margin-bottom:18px;
+      color:#071b3a;
+      font-size:19px;
+    }
+
+    .form-group{
+      margin-bottom:15px;
+    }
+
+    .form-group label{
+      display:block;
+      margin-bottom:7px;
+      font-size:13px;
+      font-weight:700;
+      color:#263248;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select{
+      width:100%;
+      padding:12px 13px;
+      border:1px solid #dbe1ea;
+      border-radius:10px;
+      outline:none;
+      font-size:14px;
+      background:#fff;
+      transition:.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus{
+      border-color:#f4c400;
+      box-shadow:0 0 0 3px rgba(244,196,0,.15);
+    }
+
+    .form-group textarea{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    .form-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .checkbox-group{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:12px 0 18px;
+      font-size:14px;
+    }
+
+    .checkbox-group input{
+      width:18px;
+      height:18px;
+      accent-color:#071b3a;
+    }
+
+    .preview{
+      margin-top:8px;
+      border:1px dashed #cfd6e1;
+      border-radius:12px;
+      overflow:hidden;
+      display:none;
+      background:#f8fafc;
+    }
+
+    .preview img{
+      width:100%;
+      max-height:220px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .preview-label{
+      padding:9px 11px;
+      font-size:12px;
+      color:#657083;
+    }
+
+    .form-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .toolbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+
+    .search{
+      flex:1;
+      min-width:220px;
+    }
+
+    .search input{
+      width:100%;
+      padding:12px 13px;
+      border:1px solid #dbe1ea;
+      border-radius:10px;
+      outline:none;
+      font-size:14px;
+    }
+
+    .list{
+      display:grid;
+      gap:15px;
+    }
+
+    .item{
+      border:1px solid #e7ebf1;
+      border-radius:16px;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:220px 1fr;
+      background:#fff;
+    }
+
+    .item-image{
+      width:100%;
+      height:100%;
+      min-height:170px;
+      background:#eef2f7;
+    }
+
+    .item-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .no-image{
+      width:100%;
+      height:100%;
+      min-height:170px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#7b8799;
+      font-size:13px;
+    }
+
+    .item-content{
+      padding:17px;
+    }
+
+    .item-title{
+      font-size:18px;
+      font-weight:800;
+      color:#071b3a;
+      margin-bottom:7px;
+    }
+
+    .item-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:9px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .badge-blue{
+      background:#e8f1ff;
+      color:#1761c7;
+    }
+
+    .badge-green{
+      background:#e7f8ef;
+      color:#198754;
+    }
+
+    .badge-yellow{
+      background:#fff7d6;
+      color:#856404;
+    }
+
+    .badge-red{
+      background:#fdebed;
+      color:#c82333;
+    }
+
+    .item-description{
+      color:#626d7e;
+      font-size:13px;
+      line-height:1.6;
+      margin-bottom:13px;
+    }
+
+    .item-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .item-actions .btn{
+      padding:9px 12px;
+      font-size:12px;
+    }
+
+    .empty{
+      text-align:center;
+      padding:40px 20px;
+      color:#7b8799;
+      border:1px dashed #ccd4df;
+      border-radius:15px;
+    }
+
+    .loading{
+      text-align:center;
+      padding:28px;
+      color:#667085;
+    }
+
+    .alert{
+      padding:13px 15px;
+      border-radius:10px;
+      margin-bottom:16px;
+      display:none;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .alert.success{
+      background:#eaf8ef;
+      color:#177245;
+      border:1px solid #bfe7cf;
+    }
+
+    .alert.error{
+      background:#fff0f1;
+      color:#b4232f;
+      border:1px solid #f1b9bf;
+    }
+
+    .file-note{
+      font-size:12px;
+      color:#758196;
+      margin-top:6px;
+      line-height:1.5;
+    }
+
+    @media(max-width:950px){
+      .main-grid{
+        grid-template-columns:1fr;
+      }
+
+      .stats{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    @media(max-width:700px){
+      header{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .form-row{
+        grid-template-columns:1fr;
+      }
+
+      .item{
+        grid-template-columns:1fr;
+      }
+
+      .item-image{
+        min-height:210px;
+      }
+
+      .container{
+        width:min(100% - 20px,1200px);
+        margin:20px auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <img
+      src="https://karangtarunarajeg35-beep.github.io/Karangtarunarajeg/logo-karang-taruna2.webp"
+      alt="Logo Karang Taruna"
+    >
+
+    <div>
+      <h1>Admin Dokumentasi</h1>
+      <p>Karang Taruna Kecamatan Rajeg</p>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <button class="btn btn-secondary" onclick="goDashboard()">Dashboard</button>
+    <button class="btn btn-danger" onclick="logout()">Keluar</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-title">
+    <h2>Dokumentasi Kegiatan</h2>
+    <p>Kelola foto dokumentasi kegiatan Karang Taruna Kecamatan Rajeg.</p>
+  </div>
+
+  <div id="alertBox" class="alert"></div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-label">Total Dokumentasi</div>
+      <div class="stat-number" id="totalCount">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Sudah Terbit</div>
+      <div class="stat-number" id="publishedCount">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Draft</div>
+      <div class="stat-number" id="draftCount">0</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+
+    <!-- FORM -->
+    <div class="card">
+      <h3 id="formTitle">Tambah Dokumentasi</h3>
+
+      <form id="galleryForm">
+
+        <input type="hidden" id="editId">
+
+        <div class="form-group">
+          <label for="title">Judul Dokumentasi</label>
+          <input
+            type="text"
+            id="title"
+            placeholder="Contoh: Bakti Sosial Karang Taruna Rajeg"
+            required
+          >
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="eventDate">Tanggal Kegiatan</label>
+            <input type="date" id="eventDate">
+          </div>
+
+          <div class="form-group">
+            <label for="published">Status</label>
+            <select id="published">
+              <option value="true">Terbit</option>
+              <option value="false">Draft</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="description">Deskripsi</label>
+          <textarea
+            id="description"
+            placeholder="Tuliskan keterangan singkat mengenai dokumentasi..."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="image">Foto Dokumentasi</label>
+
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+          >
+
+          <div class="file-note">
+            Format gambar JPG, JPEG, PNG atau WEBP.
+          </div>
+
+          <div class="preview" id="previewBox">
+            <img id="previewImage" src="" alt="Preview">
+            <div class="preview-label">Preview foto</div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="saveBtn">
+            Simpan Dokumentasi
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="resetForm()"
+          >
+            Batal / Reset
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- LIST -->
+    <div class="card">
+      <div class="toolbar">
+
+        <div>
+          <h3 style="margin-bottom:4px;">Daftar Dokumentasi</h3>
+          <div style="font-size:12px;color:#7a8597;">
+            Data dokumentasi yang tersimpan di database.
+          </div>
+        </div>
+
+        <div class="search">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari dokumentasi..."
+          >
+        </div>
+
+      </div>
+
+      <div id="galleryList" class="list">
+        <div class="loading">Memuat dokumentasi...</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  const SUPABASE_URL =
+    "https://qemzczsltxbiyxsvpebv.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+  let galleryData = [];
+
+  async function checkAuth(){
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if(!session){
+      window.location.href = "admin.html";
+      return false;
+    }
+
+    const { data: profile, error } = await supabaseClient
+      .from("profiles")
+      .select("id,full_name,role")
+      .eq("id", session.user.id)
+      .single();
+
+    if(
+      error ||
+      !profile ||
+      !["admin","editor"].includes(profile.role)
+    ){
+      await supabaseClient.auth.signOut();
+      window.location.href = "admin.html";
+      return false;
+    }
+
+    return true;
+  }
+
+  async function loadGallery(){
+
+    const list = document.getElementById("galleryList");
+
+    list.innerHTML =
+      '<div class="loading">Memuat dokumentasi...</div>';
+
+    const { data, error } = await supabaseClient
+      .from("gallery")
+      .select("*")
+      .order("event_date", { ascending:false })
+      .order("created_at", { ascending:false });
+
+    if(error){
+
+      list.innerHTML =
+        '<div class="empty">Gagal memuat dokumentasi.</div>';
+
+      showAlert(
+        "Gagal memuat dokumentasi: " + error.message,
+        "error"
+      );
+
+      return;
+    }
+
+    galleryData = data || [];
+
+    renderGallery(galleryData);
+    updateStats();
+  }
+
+  function renderGallery(data){
+
+    const list = document.getElementById("galleryList");
+
+    if(!data.length){
+
+      list.innerHTML = `
+        <div class="empty">
+          Belum ada dokumentasi.
+        </div>
+      `;
+
+      return;
+    }
+
+    list.innerHTML = data.map(item => {
+
+      const date = item.event_date
+        ? formatDate(item.event_date)
+        : "Tanggal belum diisi";
+
+      const statusBadge = item.published
+        ? `<span class="badge badge-green">TERBIT</span>`
+        : `<span class="badge badge-red">DRAFT</span>`;
+
+      const imageHtml = item.image_url
+        ? `
+          <div class="item-image">
+            <img
+              src="${escapeHtml(item.image_url)}"
+              alt="${escapeHtml(item.title || "Dokumentasi")}"
+            >
+          </div>
+        `
+        : `
+          <div class="item-image">
+            <div class="no-image">
+              Tidak ada foto
+            </div>
+          </div>
+        `;
+
+      return `
+        <div class="item">
+
+          ${imageHtml}
+
+          <div class="item-content">
+
+            <div class="item-title">
+              ${escapeHtml(item.title || "Tanpa judul")}
+            </div>
+
+            <div class="item-meta">
+
+              ${statusBadge}
+
+              <span class="badge badge-blue">
+                ${date}
+              </span>
+
+            </div>
+
+            <div class="item-description">
+              ${escapeHtml(
+                item.description || "Tidak ada deskripsi."
+              )}
+            </div>
+
+            <div class="item-actions">
+
+              <button
+                class="btn btn-secondary"
+                onclick="editGallery(${item.id})"
+              >
+                Edit
+              </button>
+
+              <button
+                class="btn btn-danger"
+                onclick="deleteGallery(${item.id})"
+              >
+                Hapus
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+  }
+
+  function updateStats(){
+
+    const total = galleryData.length;
+
+    const published =
+      galleryData.filter(item => item.published).length;
+
+    const draft =
+      galleryData.filter(item => !item.published).length;
+
+    document.getElementById("totalCount").textContent = total;
+    document.getElementById("publishedCount").textContent = published;
+    document.getElementById("draftCount").textContent = draft;
+  }
+
+  document
+    .getElementById("searchInput")
+    .addEventListener("input", function(){
+
+      const keyword =
+        this.value.toLowerCase().trim();
+
+      const filtered = galleryData.filter(item => {
+
+        const title =
+          (item.title || "").toLowerCase();
+
+        const description =
+          (item.description || "").toLowerCase();
+
+        return (
+          title.includes(keyword) ||
+          description.includes(keyword)
+        );
+
+      });
+
+      renderGallery(filtered);
+    });
+
+  document
+    .getElementById("image")
+    .addEventListener("change", function(){
+
+      const file = this.files[0];
+
+      const previewBox =
+        document.getElementById("previewBox");
+
+      const previewImage =
+        document.getElementById("previewImage");
+
+      if(!file){
+
+        previewBox.style.display = "none";
+        previewImage.src = "";
+        return;
+      }
+
+      const url =
+        URL.createObjectURL(file);
+
+      previewImage.src = url;
+      previewBox.style.display = "block";
+    });
+
+  document
+    .getElementById("galleryForm")
+    .addEventListener("submit", async function(e){
+
+      e.preventDefault();
+
+      const saveBtn =
+        document.getElementById("saveBtn");
+
+      const editId =
+        document.getElementById("editId").value;
+
+      const title =
+        document.getElementById("title").value.trim();
+
+      const description =
+        document.getElementById("description").value.trim();
+
+      const eventDate =
+        document.getElementById("eventDate").value || null;
+
+      const published =
+        document.getElementById("published").value === "true";
+
+      const imageInput =
+        document.getElementById("image");
+
+      if(!title){
+
+        showAlert(
+          "Judul dokumentasi wajib diisi.",
+          "error"
+        );
+
+        return;
+      }
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Menyimpan...";
+
+      try{
+
+        let imageUrl = null;
+
+        if(editId){
+
+          const oldData =
+            galleryData.find(
+              item => String(item.id) === String(editId)
+            );
+
+          if(oldData){
+            imageUrl = oldData.image_url || null;
+          }
+
+        }
+
+        if(imageInput.files.length > 0){
+
+          const file =
+            imageInput.files[0];
+
+          const ext =
+            file.name.split(".").pop().toLowerCase();
+
+          const fileName =
+            `gallery/${Date.now()}-${Math.random().toString(36).substring(2,10)}.${ext}`;
+
+          const { error: uploadError } =
+            await supabaseClient
+              .storage
+              .from("Media")
+              .upload(fileName, file, {
+                cacheControl: "3600",
+                upsert: false
+              });
+
+          if(uploadError){
+            throw uploadError;
+          }
+
+          const { data: publicData } =
+            supabaseClient
+              .storage
+              .from("Media")
+              .getPublicUrl(fileName);
+
+          imageUrl =
+            publicData.publicUrl;
+        }
+
+        const payload = {
+          title,
+          description: description || null,
+          image_url: imageUrl,
+          event_date: eventDate,
+          published
+        };
+
+        let error;
+
+        if(editId){
+
+          const result =
+            await supabaseClient
+              .from("gallery")
+              .update(payload)
+              .eq("id", editId);
+
+          error = result.error;
+
+        }else{
+
+          const result =
+            await supabaseClient
+              .from("gallery")
+              .insert(payload);
+
+          error = result.error;
+        }
+
+        if(error){
+          throw error;
+        }
+
+        showAlert(
+          editId
+            ? "Dokumentasi berhasil diperbarui."
+            : "Dokumentasi berhasil ditambahkan.",
+          "success"
+        );
+
+        resetForm();
+        await loadGallery();
+
+      }catch(error){
+
+        console.error(error);
+
+        showAlert(
+          "Gagal menyimpan dokumentasi: " +
+          error.message,
+          "error"
+        );
+
+      }finally{
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Simpan Dokumentasi";
+      }
+
+    });
+
+  function editGallery(id){
+
+    const item =
+      galleryData.find(
+        row => Number(row.id) === Number(id)
+      );
+
+    if(!item) return;
+
+    document.getElementById("editId").value =
+      item.id;
+
+    document.getElementById("title").value =
+      item.title || "";
+
+    document.getElementById("description").value =
+      item.description || "";
+
+    document.getElementById("eventDate").value =
+      item.event_date || "";
+
+    document.getElementById("published").value =
+      item.published ? "true" : "false";
+
+    document.getElementById("formTitle").textContent =
+      "Edit Dokumentasi";
+
+    if(item.image_url){
+
+      document.getElementById("previewImage").src =
+        item.image_url;
+
+      document.getElementById("previewBox").style.display =
+        "block";
+
+    }else{
+
+      document.getElementById("previewBox").style.display =
+        "none";
+    }
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  }
+
+  async function deleteGallery(id){
+
+    const item =
+      galleryData.find(
+        row => Number(row.id) === Number(id)
+      );
+
+    if(!item) return;
+
+    const confirmDelete =
+      confirm(
+        `Hapus dokumentasi "${item.title}"?`
+      );
+
+    if(!confirmDelete) return;
+
+    try{
+
+      const { error } =
+        await supabaseClient
+          .from("gallery")
+          .delete()
+          .eq("id", id);
+
+      if(error){
+        throw error;
+      }
+
+      showAlert(
+        "Dokumentasi berhasil dihapus.",
+        "success"
+      );
+
+      await loadGallery();
+
+    }catch(error){
+
+      console.error(error);
+
+      showAlert(
+        "Gagal menghapus dokumentasi: " +
+        error.message,
+        "error"
+      );
+    }
+  }
+
+  function resetForm(){
+
+    document
+      .getElementById("galleryForm")
+      .reset();
+
+    document.getElementById("editId").value = "";
+
+    document.getElementById("formTitle").textContent =
+      "Tambah Dokumentasi";
+
+    document.getElementById("published").value =
+      "true";
+
+    document.getElementById("previewImage").src =
+      "";
+
+    document.getElementById("previewBox").style.display =
+      "none";
+  }
+
+  function showAlert(message, type){
+
+    const box =
+      document.getElementById("alertBox");
+
+    box.textContent = message;
+
+    box.className =
+      "alert " + type;
+
+    box.style.display = "block";
+
+    setTimeout(() => {
+      box.style.display = "none";
+    }, 4500);
+  }
+
+  function formatDate(dateString){
+
+    if(!dateString) return "-";
+
+    const date =
+      new Date(dateString);
+
+    return date.toLocaleDateString(
+      "id-ID",
+      {
+        day:"2-digit",
+        month:"long",
+        year:"numeric"
+      }
+    );
+  }
+
+  function escapeHtml(value){
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "admin.html";
+  }
+
+  function goDashboard(){
+
+    window.location.href =
+      "admin-dashboard.html";
+  }
+
+  (async function(){
+
+    const authenticated =
+      await checkAuth();
+
+    if(authenticated){
+
+      await loadGallery();
+    }
+
+  })();
+</script>
+
+</body>
+</html>
