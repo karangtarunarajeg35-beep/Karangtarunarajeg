@@ -3,492 +3,346 @@
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>
-    Dashboard Admin - Karang Taruna Rajeg
-  </title>
-
-  <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-  ></script>
-
-  <style>
-
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
-    body{
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      background:#f4f7fb;
-
-      color:#172033;
-    }
-
-    #loading{
-      min-height:100vh;
-
-      display:flex;
-
-      align-items:center;
-      justify-content:center;
-
-      font-size:17px;
-
-      color:#071d49;
-
-      font-weight:bold;
-    }
-
-    #app{
-      display:none;
-
-      min-height:100vh;
-    }
-
-    .error-screen{
-      min-height:100vh;
-
-      display:flex;
-
-      align-items:center;
-
-      justify-content:center;
-
-      padding:20px;
-
-      background:#f4f7fb;
-    }
-
-    .error-box{
-      width:100%;
-
-      max-width:550px;
-
-      background:white;
-
-      padding:35px;
-
-      border-radius:18px;
-
-      text-align:center;
-
-      box-shadow:
-        0 10px 40px
-        rgba(0,0,0,.08);
-    }
-
-    .error-box h2{
-      color:#c62828;
-
-      margin-bottom:15px;
-    }
-
-    .error-box p{
-      color:#555;
-
-      line-height:1.6;
-    }
-
-    .error-box button{
-      margin-top:20px;
-
-      padding:11px 20px;
-
-      border:0;
-
-      border-radius:8px;
-
-      background:#071d49;
-
-      color:white;
-
-      cursor:pointer;
-    }
-
-    /* SIDEBAR */
-
-    .sidebar{
-      position:fixed;
-
-      top:0;
-      left:0;
-      bottom:0;
-
-      width:260px;
-
-      background:#071d49;
-
-      color:white;
-
-      padding:24px 17px;
-
-      overflow-y:auto;
-    }
-
-    .brand{
-      text-align:center;
-
-      padding-bottom:24px;
-
-      margin-bottom:18px;
-
-      border-bottom:
-        1px solid
-        rgba(255,255,255,.15);
-    }
-
-    .brand h2{
-      font-size:19px;
-
-      line-height:1.35;
-    }
-
-    .brand p{
-      margin-top:7px;
-
-      font-size:11px;
-
-      opacity:.7;
-    }
-
-    .menu-title{
-      margin:
-        18px 10px
-        8px;
-
-      font-size:10px;
-
-      text-transform:uppercase;
-
-      letter-spacing:1px;
-
-      opacity:.5;
-    }
-
-    .menu button{
-      width:100%;
-
-      border:0;
-
-      background:transparent;
-
-      color:white;
-
-      text-align:left;
-
-      padding:12px 13px;
-
-      border-radius:8px;
-
-      margin-bottom:3px;
-
-      cursor:pointer;
-
-      font-size:14px;
-
-      transition:.2s;
-    }
-
-    .menu button:hover{
-      background:
-        rgba(255,255,255,.1);
-    }
-
-    .menu button.active{
-      background:#f5c400;
-
-      color:#071d49;
-
-      font-weight:bold;
-    }
-
-    .logout{
-      border-top:
-        1px solid
-        rgba(255,255,255,.15);
-
-      margin-top:18px;
-
-      padding-top:18px;
-    }
-
-    .logout button{
-      background:#d62828;
-
-      text-align:center;
-
-      font-weight:bold;
-    }
-
-    /* MAIN */
-
-    .main{
-      margin-left:260px;
-
-      min-height:100vh;
-    }
-
-    .topbar{
-      height:72px;
-
-      background:white;
-
-      padding:0 30px;
-
-      display:flex;
-
-      justify-content:space-between;
-
-      align-items:center;
-
-      box-shadow:
-        0 2px 10px
-        rgba(0,0,0,.05);
-    }
-
-    .topbar h1{
-      font-size:23px;
-
-      color:#071d49;
-    }
-
-    .admin-info{
-      font-size:13px;
-
-      color:#666;
-    }
-
-    .content{
-      padding:30px;
-    }
-
-    .welcome{
-      background:
-        linear-gradient(
-          135deg,
-          #071d49,
-          #123b80
-        );
-
-      color:white;
-
-      padding:30px;
-
-      border-radius:17px;
-
-      margin-bottom:25px;
-    }
-
-    .welcome h2{
-      font-size:25px;
-
-      margin-bottom:8px;
-    }
-
-    .welcome p{
-      line-height:1.6;
-
-      opacity:.85;
-    }
-
-    /* STATS */
-
-    .stats{
-      display:grid;
-
-      grid-template-columns:
-        repeat(4,1fr);
-
-      gap:18px;
-
-      margin-bottom:25px;
-    }
-
-    .stat-card{
-      background:white;
-
-      padding:22px;
-
-      border-radius:15px;
-
-      box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.05);
-
-      border-left:
-        5px solid
-        #f5c400;
-    }
-
-    .stat-card h3{
-      font-size:12px;
-
-      color:#777;
-
-      margin-bottom:10px;
-    }
-
-    .stat-number{
-      font-size:30px;
-
-      font-weight:bold;
-
-      color:#071d49;
-    }
-
-    /* PANEL */
-
-    .panel{
-      background:white;
-
-      padding:25px;
-
-      border-radius:16px;
-
-      box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.05);
-    }
-
-    .panel h2{
-      color:#071d49;
-
-      margin-bottom:10px;
-    }
-
-    .panel p{
-      color:#666;
-
-      line-height:1.6;
-    }
-
-    .quick-menu{
-      display:grid;
-
-      grid-template-columns:
-        repeat(3,1fr);
-
-      gap:15px;
-
-      margin-top:20px;
-    }
-
-    .quick-menu button{
-      padding:18px;
-
-      background:#f7f9fc;
-
-      border:
-        1px solid
-        #e5e9f0;
-
-      border-radius:12px;
-
-      text-align:left;
-
-      cursor:pointer;
-
-      transition:.2s;
-    }
-
-    .quick-menu button:hover{
-      border-color:#f5c400;
-
-      background:#fffdf0;
-
-      transform:
-        translateY(-2px);
-    }
-
-    .quick-menu strong{
-      display:block;
-
-      color:#071d49;
-
-      margin-bottom:5px;
-    }
-
-    .quick-menu span{
-      font-size:12px;
-
-      color:#777;
-    }
-
-    /* RESPONSIVE */
-
-    @media(max-width:900px){
-
-      .stats{
-        grid-template-columns:
-          repeat(2,1fr);
-      }
-
-      .quick-menu{
-        grid-template-columns:
-          repeat(2,1fr);
-      }
-
-    }
-
-    @media(max-width:650px){
-
-      .sidebar{
-        position:relative;
-
-        width:100%;
-      }
-
-      .main{
-        margin-left:0;
-      }
-
-      .stats,
-      .quick-menu{
-        grid-template-columns:1fr;
-      }
-
-      .topbar{
-        height:auto;
-
-        padding:18px;
-
-        gap:10px;
-      }
-
-      .content{
-        padding:18px;
-      }
-
-      .admin-info{
-        font-size:11px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Dashboard Admin - Karang Taruna Rajeg
+</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+
+#loading{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#071d49;
+  font-size:17px;
+  font-weight:bold;
+}
+
+#app{
+  display:none;
+  min-height:100vh;
+}
+
+.error-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.error-box{
+  background:white;
+  max-width:550px;
+  width:100%;
+  padding:35px;
+  text-align:center;
+  border-radius:18px;
+  box-shadow:0 10px 40px rgba(0,0,0,.08);
+}
+
+.error-box h2{
+  color:#c62828;
+  margin-bottom:15px;
+}
+
+.error-box p{
+  color:#555;
+  line-height:1.6;
+}
+
+.error-box button{
+  margin-top:20px;
+  padding:11px 20px;
+  border:0;
+  border-radius:8px;
+  background:#071d49;
+  color:white;
+  cursor:pointer;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:260px;
+  background:#071d49;
+  color:white;
+  padding:24px 17px;
+  overflow-y:auto;
+}
+
+.brand{
+  text-align:center;
+  padding-bottom:24px;
+  margin-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.brand h2{
+  font-size:19px;
+  line-height:1.35;
+}
+
+.brand p{
+  margin-top:7px;
+  font-size:11px;
+  opacity:.7;
+}
+
+.menu-title{
+  margin:18px 10px 8px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  opacity:.5;
+}
+
+.menu button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:white;
+  text-align:left;
+  padding:12px 13px;
+  border-radius:8px;
+  margin-bottom:3px;
+  cursor:pointer;
+  font-size:14px;
+  transition:.2s;
+}
+
+.menu button:hover{
+  background:rgba(255,255,255,.1);
+}
+
+.menu button.active{
+  background:#f5c400;
+  color:#071d49;
+  font-weight:bold;
+}
+
+.logout{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:18px;
+  padding-top:18px;
+}
+
+.logout button{
+  background:#d62828;
+  text-align:center;
+  font-weight:bold;
+}
+
+/* MAIN */
+
+.main{
+  margin-left:260px;
+  min-height:100vh;
+}
+
+.topbar{
+  height:72px;
+  background:white;
+  padding:0 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.topbar h1{
+  font-size:23px;
+  color:#071d49;
+}
+
+.admin-info{
+  font-size:13px;
+  color:#666;
+}
+
+.content{
+  padding:30px;
+}
+
+.welcome{
+  background:linear-gradient(135deg,#071d49,#123b80);
+  color:white;
+  padding:30px;
+  border-radius:17px;
+  margin-bottom:25px;
+}
+
+.welcome h2{
+  font-size:25px;
+  margin-bottom:8px;
+}
+
+.welcome p{
+  line-height:1.6;
+  opacity:.85;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.stat-card{
+  background:white;
+  padding:22px;
+  border-radius:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+  border-left:5px solid #f5c400;
+}
+
+.stat-card h3{
+  font-size:12px;
+  color:#777;
+  margin-bottom:10px;
+}
+
+.stat-number{
+  font-size:30px;
+  font-weight:bold;
+  color:#071d49;
+}
+
+/* PANEL */
+
+.panel{
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.panel h2{
+  color:#071d49;
+  margin-bottom:10px;
+}
+
+.panel p{
+  color:#666;
+  line-height:1.6;
+}
+
+.quick-menu{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.quick-menu button{
+  padding:18px;
+  background:#f7f9fc;
+  border:1px solid #e5e9f0;
+  border-radius:12px;
+  text-align:left;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.quick-menu button:hover{
+  border-color:#f5c400;
+  background:#fffdf0;
+  transform:translateY(-2px);
+}
+
+.quick-menu strong{
+  display:block;
+  color:#071d49;
+  margin-bottom:5px;
+}
+
+.quick-menu span{
+  font-size:12px;
+  color:#777;
+}
+
+@media(max-width:900px){
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .quick-menu{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:650px){
+
+  .sidebar{
+    position:relative;
+    width:100%;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .stats,
+  .quick-menu{
+    grid-template-columns:1fr;
+  }
+
+  .topbar{
+    height:auto;
+    padding:18px;
+    gap:10px;
+  }
+
+  .content{
+    padding:18px;
+  }
+
+  .admin-info{
+    font-size:11px;
+  }
+
+}
+
+</style>
 
 </head>
 
 <body>
 
-
 <div id="loading">
   Memeriksa akses administrator...
 </div>
-
 
 <div
   id="errorScreen"
@@ -507,9 +361,7 @@
         Memeriksa...
       </p>
 
-      <button
-        onclick="goLogin()"
-      >
+      <button onclick="goLogin()">
         Kembali ke Login
       </button>
 
@@ -519,14 +371,9 @@
 
 </div>
 
-
 <div id="app">
 
-
-  <!-- SIDEBAR -->
-
   <aside class="sidebar">
-
 
     <div class="brand">
 
@@ -541,14 +388,11 @@
 
     </div>
 
-
     <div class="menu">
-
 
       <div class="menu-title">
         Konten Website
       </div>
-
 
       <button
         class="active"
@@ -557,90 +401,57 @@
         🏠 Dashboard
       </button>
 
-
-      <button
-        onclick="openBerita()"
-      >
+      <button onclick="openBerita()">
         📰 Kabar Berita
       </button>
 
-
-      <button
-        onclick="openPengurus()"
-      >
+      <button onclick="openPengurus()">
         👥 Profil Pengurus
       </button>
 
-
-      <button
-        onclick="openJurnal()"
-      >
+      <button onclick="openJurnal()">
         📚 Jurnal
       </button>
 
-
-      <!-- PENGUMUMAN SUDAH AKTIF -->
-
-      <button
-        onclick="openPengumuman()"
-      >
+      <button onclick="openPengumuman()">
         📢 Pengumuman
       </button>
 
+      <!-- PRESTASI AKTIF -->
 
-      <button
-        onclick="comingSoon('Prestasi')"
-      >
+      <button onclick="openPrestasi()">
         🏆 Prestasi
       </button>
 
-
-      <button
-        onclick="comingSoon('Program & Kegiatan')"
-      >
+      <button onclick="comingSoon('Program & Kegiatan')">
         📅 Program & Kegiatan
       </button>
 
-
-      <button
-        onclick="comingSoon('Dokumentasi')"
-      >
+      <button onclick="comingSoon('Dokumentasi')">
         📸 Dokumentasi
       </button>
-
 
       <div class="menu-title">
         Sistem
       </div>
 
-
-      <button
-        onclick="comingSoon('Pengaturan')"
-      >
+      <button onclick="comingSoon('Pengaturan')">
         ⚙️ Pengaturan
       </button>
 
-
       <div class="logout">
 
-        <button
-          onclick="logout()"
-        >
+        <button onclick="logout()">
           Keluar
         </button>
 
       </div>
 
-
     </div>
 
   </aside>
 
-
-  <!-- MAIN -->
-
   <main class="main">
-
 
     <header class="topbar">
 
@@ -660,9 +471,7 @@
 
     </header>
 
-
     <section class="content">
-
 
       <div class="welcome">
 
@@ -679,11 +488,7 @@
 
       </div>
 
-
-      <!-- STATISTICS -->
-
       <div class="stats">
-
 
         <div class="stat-card">
 
@@ -700,7 +505,6 @@
 
         </div>
 
-
         <div class="stat-card">
 
           <h3>
@@ -715,7 +519,6 @@
           </div>
 
         </div>
-
 
         <div class="stat-card">
 
@@ -732,7 +535,6 @@
 
         </div>
 
-
         <div class="stat-card">
 
           <h3>
@@ -748,11 +550,7 @@
 
         </div>
 
-
       </div>
-
-
-      <!-- QUICK MENU -->
 
       <div class="panel">
 
@@ -766,15 +564,9 @@
           Kecamatan Rajeg.
         </p>
 
-
         <div class="quick-menu">
 
-
-          <!-- BERITA -->
-
-          <button
-            onclick="openBerita()"
-          >
+          <button onclick="openBerita()">
 
             <strong>
               📰 Kabar Berita
@@ -786,12 +578,7 @@
 
           </button>
 
-
-          <!-- PENGURUS -->
-
-          <button
-            onclick="openPengurus()"
-          >
+          <button onclick="openPengurus()">
 
             <strong>
               👥 Profil Pengurus
@@ -803,12 +590,7 @@
 
           </button>
 
-
-          <!-- JURNAL -->
-
-          <button
-            onclick="openJurnal()"
-          >
+          <button onclick="openJurnal()">
 
             <strong>
               📚 Jurnal
@@ -820,12 +602,7 @@
 
           </button>
 
-
-          <!-- PENGUMUMAN AKTIF -->
-
-          <button
-            onclick="openPengumuman()"
-          >
+          <button onclick="openPengumuman()">
 
             <strong>
               📢 Pengumuman
@@ -837,29 +614,21 @@
 
           </button>
 
+          <!-- PRESTASI AKTIF -->
 
-          <!-- PRESTASI -->
-
-          <button
-            onclick="comingSoon('Prestasi')"
-          >
+          <button onclick="openPrestasi()">
 
             <strong>
               🏆 Prestasi
             </strong>
 
             <span>
-              Kelola prestasi.
+              Kelola pencapaian dan penghargaan.
             </span>
 
           </button>
 
-
-          <!-- PROGRAM -->
-
-          <button
-            onclick="comingSoon('Program & Kegiatan')"
-          >
+          <button onclick="comingSoon('Program & Kegiatan')">
 
             <strong>
               📅 Program & Kegiatan
@@ -871,12 +640,7 @@
 
           </button>
 
-
-          <!-- DOKUMENTASI -->
-
-          <button
-            onclick="comingSoon('Dokumentasi')"
-          >
+          <button onclick="comingSoon('Dokumentasi')">
 
             <strong>
               📸 Dokumentasi
@@ -888,11 +652,9 @@
 
           </button>
 
-
         </div>
 
       </div>
-
 
     </section>
 
@@ -900,19 +662,13 @@
 
 </div>
 
-
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
   "https://qemzczsltxbiyxsvpebv.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_AngscFwHvEYlm4oPa-vhVA_DkvBSJmm";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -928,10 +684,6 @@ const supabaseClient =
   );
 
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
 const loading =
   document.getElementById("loading");
 
@@ -944,10 +696,6 @@ const errorScreen =
 const errorText =
   document.getElementById("errorText");
 
-
-/* =====================================================
-   ERROR
-===================================================== */
 
 function showError(message){
 
@@ -966,10 +714,6 @@ function showError(message){
 }
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
-
 function goLogin(){
 
   window.location.replace(
@@ -978,10 +722,6 @@ function goLogin(){
 
 }
 
-
-/* =====================================================
-   SECURITY CHECK
-===================================================== */
 
 async function checkAdminAccess(){
 
@@ -1097,7 +837,6 @@ async function checkAdminAccess(){
 
     await loadStats();
 
-
   }
   catch(error){
 
@@ -1111,10 +850,6 @@ async function checkAdminAccess(){
 
 }
 
-
-/* =====================================================
-   STATISTIK
-===================================================== */
 
 async function loadStats(){
 
@@ -1207,7 +942,6 @@ async function loadStats(){
     ).textContent =
       gallery.count ?? 0;
 
-
   }
   catch(error){
 
@@ -1221,20 +955,12 @@ async function loadStats(){
 }
 
 
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
 function showDashboard(){
 
   window.location.reload();
 
 }
 
-
-/* =====================================================
-   BERITA
-===================================================== */
 
 function openBerita(){
 
@@ -1244,10 +970,6 @@ function openBerita(){
 }
 
 
-/* =====================================================
-   PENGURUS
-===================================================== */
-
 function openPengurus(){
 
   window.location.href =
@@ -1255,10 +977,6 @@ function openPengurus(){
 
 }
 
-
-/* =====================================================
-   JURNAL
-===================================================== */
 
 function openJurnal(){
 
@@ -1268,10 +986,6 @@ function openJurnal(){
 }
 
 
-/* =====================================================
-   PENGUMUMAN
-===================================================== */
-
 function openPengumuman(){
 
   window.location.href =
@@ -1280,9 +994,13 @@ function openPengumuman(){
 }
 
 
-/* =====================================================
-   FITUR LAIN
-===================================================== */
+function openPrestasi(){
+
+  window.location.href =
+    "admin-prestasi.html";
+
+}
+
 
 function comingSoon(name){
 
@@ -1293,10 +1011,6 @@ function comingSoon(name){
 
 }
 
-
-/* =====================================================
-   LOGOUT
-===================================================== */
 
 async function logout(){
 
@@ -1315,32 +1029,12 @@ async function logout(){
 
   try{
 
-    const {
-      error
-    } =
-      await supabaseClient
-        .auth
-        .signOut();
-
-
-    if(error){
-
-      console.error(
-        "Logout error:",
-        error
-      );
-
-    }
-
-
-    window.location.replace(
-      "admin.html"
-    );
+    await supabaseClient
+      .auth
+      .signOut();
 
   }
-  catch(error){
-
-    console.error(error);
+  finally{
 
     window.location.replace(
       "admin.html"
@@ -1351,16 +1045,8 @@ async function logout(){
 }
 
 
-/* =====================================================
-   RUN
-===================================================== */
-
 checkAdminAccess();
 
-
-/* =====================================================
-   SESSION MONITOR
-===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
   function(event,session){
